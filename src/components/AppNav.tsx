@@ -1,58 +1,100 @@
 import { Link } from '@tanstack/react-router'
-import { BarChart3, Globe, BookOpen, Map, Lightbulb, Upload } from 'lucide-react'
+import {
+  LayoutDashboard,
+  Workflow,
+  ShieldAlert,
+  Wrench,
+  MoveUpRight,
+  FileText,
+  Users,
+  LineChart,
+  FolderKanban,
+  CircleDot,
+} from 'lucide-react'
 
-const navItems = [
-  { to: '/', label: 'Overview', icon: BarChart3, exact: true },
-  { to: '/cases', label: 'Case Explorer', icon: Globe, exact: false },
-  { to: '/tools', label: 'BF Tools', icon: BookOpen, exact: false },
-  { to: '/expansion', label: 'Expansion Options', icon: Map, exact: false },
-  { to: '/recommend', label: 'Recommendation Engine', icon: Lightbulb, exact: false },
+const primaryItems = [
+  { to: '/', label: 'Overview', icon: LayoutDashboard, exact: true },
+]
+
+const decisionFlowItems = [
+  { to: '/recommend', label: 'Decision Flow', icon: Workflow },
+  { to: '/cases', label: 'Barrier Assessment', icon: ShieldAlert },
+  { to: '/tools', label: 'Financial Tool Recommendation', icon: Wrench },
+  { to: '/expansion', label: 'Expansion Option', icon: MoveUpRight },
+]
+
+const supportingDataItems = [
+  { label: 'Project Profile', icon: FolderKanban },
+  { label: 'Stakeholders', icon: Users },
+  { label: 'Market Context', icon: LineChart },
+  { label: 'Documents', icon: FileText },
 ]
 
 export function AppNav() {
   return (
-    <header className="sticky top-0 z-30 bg-white border-b border-gray-100 shadow-sm">
-      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14">
-          {/* Brand */}
-          <div className="flex items-center gap-3">
-            <div className="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center">
-              <BarChart3 className="w-4 h-4 text-white" />
-            </div>
-            <div>
-              <span className="text-sm font-bold text-gray-900 hidden sm:block">Blended Finance Scorecard</span>
-              <span className="text-sm font-bold text-gray-900 sm:hidden">BF Scorecard</span>
-            </div>
-            <span className="hidden md:block text-xs bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full font-medium">
-              Decision Support Platform
-            </span>
-          </div>
+    <aside className="w-[280px] bg-[#06264a] text-white flex flex-col h-screen sticky top-0">
+      <div className="px-5 py-7 border-b border-white/10">
+        <p className="text-xl font-bold leading-tight">Blended Finance</p>
+        <p className="text-sm text-blue-100/80">Decision Dashboard</p>
+      </div>
 
-          {/* Nav */}
-          <nav className="flex items-center gap-1">
-            {navItems.map((item) => (
+      <nav className="flex-1 overflow-y-auto px-4 py-5 space-y-6">
+        <div className="space-y-2">
+          {primaryItems.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              activeOptions={{ exact: item.exact }}
+              className="flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-semibold text-blue-100 hover:bg-white/10 transition-colors [&.active]:bg-[#0f4a88]"
+            >
+              <item.icon className="w-4 h-4" />
+              {item.label}
+            </Link>
+          ))}
+        </div>
+
+        <div>
+          <p className="text-[11px] font-semibold tracking-[0.08em] text-blue-200/70 px-3 mb-2">DECISION FLOW</p>
+          <div className="space-y-2">
+            {decisionFlowItems.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
-                activeOptions={{ exact: item.exact }}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors [&.active]:bg-blue-50 [&.active]:text-blue-700"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-blue-100 hover:bg-white/10 transition-colors [&.active]:bg-white/15"
               >
-                <item.icon className="w-3.5 h-3.5" />
-                <span className="hidden md:block">{item.label}</span>
+                <item.icon className="w-4 h-4" />
+                {item.label}
               </Link>
             ))}
-
-            {/* Upload placeholder */}
-            <button
-              onClick={() => alert('Excel upload coming soon — connect xlsx parser here')}
-              className="ml-2 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-gray-500 border border-gray-200 hover:border-blue-400 hover:text-blue-600 transition-colors"
-            >
-              <Upload className="w-3.5 h-3.5" />
-              <span className="hidden md:block">Import Excel</span>
-            </button>
-          </nav>
+          </div>
         </div>
+
+        <div>
+          <p className="text-[11px] font-semibold tracking-[0.08em] text-blue-200/70 px-3 mb-2">SUPPORTING DATA</p>
+          <div className="space-y-2">
+            {supportingDataItems.map((item) => (
+              <button
+                key={item.label}
+                type="button"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-blue-100/90 hover:bg-white/10 transition-colors"
+              >
+                <item.icon className="w-4 h-4" />
+                <span className="text-left">{item.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </nav>
+
+      <div className="m-4 rounded-2xl border border-white/20 bg-white/5 p-4 space-y-2">
+        <div className="inline-flex items-center gap-2 rounded-full bg-amber-100/20 px-2.5 py-1 text-xs font-semibold text-amber-200">
+          <CircleDot className="w-3 h-3 fill-current" />
+          Proceed with caution
+        </div>
+        <p className="text-sm text-blue-100">Owner</p>
+        <p className="text-sm font-semibold">Investment Team</p>
+        <p className="text-xs text-blue-200">Review Date · 20 Jun 2024</p>
       </div>
-    </header>
+    </aside>
   )
 }

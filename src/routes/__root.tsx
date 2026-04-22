@@ -20,7 +20,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body className="bg-gray-50 min-h-screen">
+      <body className="bg-[#eef2f7] min-h-screen text-[#10233f]">
         {children}
         <Scripts />
       </body>
@@ -30,9 +30,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 
 function RootLayout() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen flex">
       <AppNav />
-      <main className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-1 px-5 py-4 overflow-x-hidden">
         <Outlet />
       </main>
     </div>
