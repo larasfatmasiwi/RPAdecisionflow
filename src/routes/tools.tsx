@@ -1,15 +1,56 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
-import { mockTools } from '@/data/mockData'
+import { useMemo, useState } from 'react'
+import { mockCases, mockTools } from '@/data/mockData'
 import { ReferenceCard } from '@/components/ui/ReferenceCard'
 import { BookOpen, Search } from 'lucide-react'
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+} from 'chart.js'
+import { Radar } from 'react-chartjs-2'
+
+ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend)
 
 export const Route = createFileRoute('/tools')({
   component: ToolsPage,
 })
 
+const scoreCards = [
+  { label: 'Barrier Fit Score', score: '4.5 / 5', color: 'bg-emerald-500' },
+  { label: 'Mobilization Potential', score: '3.8 / 5', color: 'bg-blue-500' },
+  { label: 'Financial Additionality', score: '3.5 / 5', color: 'bg-violet-500' },
+  { label: 'Implementation Feasibility', score: '4.2 / 5', color: 'bg-cyan-500' },
+  { label: 'Scalability', score: '3.9 / 5', color: 'bg-amber-500' },
+  { label: 'Regulatory Feasibility', score: '4.0 / 5', color: 'bg-emerald-500' },
+]
+
+const blendedFinanceIndicators = [
+  'Barrier fit',
+  'Mobilization potential',
+  'Financial additionality',
+  'Development additionality',
+  'Concessionality discipline',
+  'Implementation feasibility',
+  'Results / impact measurability',
+]
+
+const blendedFinanceScoresByCountry: Record<string, number[]> = {
+  Kenya: [8, 7, 7, 8, 6, 7, 8],
+  Nigeria: [7, 8, 8, 7, 6, 6, 7],
+  Bangladesh: [9, 7, 8, 8, 7, 7, 9],
+  Colombia: [8, 6, 7, 9, 7, 7, 8],
+  Vietnam: [7, 8, 7, 7, 6, 8, 7],
+  Ghana: [8, 7, 8, 8, 7, 7, 8],
+}
+
 function ToolsPage() {
   const [search, setSearch] = useState('')
+  const [country, setCountry] = useState('Kenya')
 
   const filtered = mockTools.filter(
     (t) =>
@@ -19,16 +60,78 @@ function ToolsPage() {
       t.bestWhen.toLowerCase().includes(search.toLowerCase())
   )
 
+  const radarData = useMemo(
+    () => ({
+      labels: blendedFinanceIndicators,
+      datasets: [
+        {
+          label: `${country} score (1-10)`,
+          data: blendedFinanceScoresByCountry[country] ?? [6, 6, 6, 6, 6, 6, 6],
+          backgroundColor: 'rgba(37, 99, 235, 0.2)',
+          borderColor: 'rgba(37, 99, 235, 1)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgba(37, 99, 235, 1)',
+        },
+      ],
+    }),
+    [country]
+  )
+
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Blended Finance Tools Reference</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Blended Finance Tool Recommendation</h1>
         <p className="text-sm text-gray-500 mt-1">
-          Reference library of {mockTools.length} blended finance instruments. Click any card to expand details.
+          Recommendation snapshot and reference library of {mockTools.length} blended finance instruments. Click any card to expand details.
         </p>
       </div>
 
-      {/* Search */}
+      <section className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 space-y-3">
+        <div className="flex flex-wrap gap-3 items-end">
+          <label className="flex flex-col gap-1 min-w-[240px]">
+            <span className="text-xs font-semibold text-gray-500">Country for deep analysis</span>
+            <select
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              className="h-10 rounded-lg border border-gray-200 px-3 text-sm text-gray-700 bg-white"
+            >
+              {mockCases.map((c) => (
+                <option key={c.id} value={c.country}>{c.country}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+
+        <h2 className="text-sm font-semibold text-gray-700">Country Indicator Radar (1–10)</h2>
+        <div className="h-[360px]">
+          <Radar
+            data={radarData}
+            options={{
+              maintainAspectRatio: false,
+              scales: {
+                r: {
+                  min: 1,
+                  max: 10,
+                  ticks: { stepSize: 1 },
+                },
+              },
+            }}
+          />
+        </div>
+      </section>
+
+      <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-3">
+        {scoreCards.map((card) => (
+          <article key={card.label} className="rounded-2xl border border-slate-200 bg-white p-4">
+            <p className="text-sm font-semibold text-slate-700">{card.label}</p>
+            <p className="text-4xl font-bold text-slate-900 mt-2">{card.score}</p>
+            <div className="mt-4 h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
+              <div className={`h-full rounded-full ${card.color}`} style={{ width: `${Number(card.score[0]) * 20}%` }} />
+            </div>
+          </article>
+        ))}
+      </section>
+
       <div className="relative max-w-md">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
         <input

@@ -1,15 +1,46 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
-import { mockExpansionOptions } from '@/data/mockData'
+import { useMemo, useState } from 'react'
+import { mockCases, mockExpansionOptions } from '@/data/mockData'
 import { ReferenceCard } from '@/components/ui/ReferenceCard'
 import { Map, Search } from 'lucide-react'
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+} from 'chart.js'
+import { Radar } from 'react-chartjs-2'
+
+ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend)
 
 export const Route = createFileRoute('/expansion')({
   component: ExpansionPage,
 })
 
+const expansionIndicators = [
+  'Speed',
+  'Cost',
+  'Local Ownership',
+  'Scalability',
+  'Capacity Building',
+  'Regulatory Feasibility',
+]
+
+const expansionScoresByCountry: Record<string, number[]> = {
+  Kenya: [8, 7, 8, 8, 7, 7],
+  Nigeria: [7, 6, 7, 8, 6, 6],
+  Bangladesh: [6, 7, 8, 7, 8, 7],
+  Colombia: [7, 6, 9, 7, 8, 7],
+  Vietnam: [8, 8, 7, 8, 7, 8],
+  Ghana: [7, 7, 8, 7, 8, 7],
+}
+
 function ExpansionPage() {
   const [search, setSearch] = useState('')
+  const [country, setCountry] = useState('Kenya')
 
   const filtered = mockExpansionOptions.filter(
     (e) =>
@@ -19,16 +50,64 @@ function ExpansionPage() {
       e.bestWhen.toLowerCase().includes(search.toLowerCase())
   )
 
+  const radarData = useMemo(
+    () => ({
+      labels: expansionIndicators,
+      datasets: [
+        {
+          label: `${country} score (1-10)`,
+          data: expansionScoresByCountry[country] ?? [6, 6, 6, 6, 6, 6],
+          backgroundColor: 'rgba(16, 185, 129, 0.2)',
+          borderColor: 'rgba(16, 185, 129, 1)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgba(16, 185, 129, 1)',
+        },
+      ],
+    }),
+    [country]
+  )
+
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Global Expansion Options Reference</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Global Expansion Option Recommendation</h1>
         <p className="text-sm text-gray-500 mt-1">
           Reference library of {mockExpansionOptions.length} global scale strategies. Click any card to expand details.
         </p>
       </div>
 
-      {/* Search */}
+      <section className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 space-y-3">
+        <label className="flex flex-col gap-1 max-w-sm">
+          <span className="text-xs font-semibold text-gray-500">Country for deep analysis</span>
+          <select
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            className="h-10 rounded-lg border border-gray-200 px-3 text-sm text-gray-700 bg-white"
+          >
+            {mockCases.map((c) => (
+              <option key={c.id} value={c.country}>{c.country}</option>
+            ))}
+          </select>
+        </label>
+
+        <h2 className="text-sm font-semibold text-gray-700">Country Indicator Radar (1–10)</h2>
+        <div className="h-[360px]">
+          <Radar
+            data={radarData}
+            options={{
+              maintainAspectRatio: false,
+              scales: {
+                r: {
+                  min: 1,
+                  max: 10,
+                  ticks: { stepSize: 1 },
+                },
+              },
+            }}
+          />
+        </div>
+      </section>
+
       <div className="relative max-w-md">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
         <input
