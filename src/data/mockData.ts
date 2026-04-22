@@ -11,111 +11,41 @@ import type {
 export const mockCases: CountryCase[] = [
   {
     id: 'case-001',
-    country: 'Kenya',
-    sdgTarget: 'SDG 7 (Affordable and Clean Energy), NDC 2030',
+    country: 'Japan',
+    sdgTarget: 'SDG 3 (Good Health and Well-Being)',
     countryChallenges:
-      'Limited rural electrification, high cost of grid extension, low household income constraining ability to pay, dependence on fossil fuels.',
+      'Aging population, shrinking working-age population, rising healthcare and long-term care costs, and growing pressure on the care workforce.',
     backgroundProblem:
-      'Kenya has over 5 million households without electricity access. The national grid expansion is slow and costly. Off-grid solar and mini-grid solutions exist but face commercial viability barriers.',
+      'Japan is one of the world’s most aged societies. In 2023, 29.1% of the population was aged 65+, while the working-age population fell to 59.5%. The total fertility rate was 1.20 in 2023, and the total population was about 123.75 million in 2024 and continues to decline. This creates pressure on care systems because more older people need care while fewer workers are available to provide it. By 2040, Japan may need 690,000 additional nursing-care workers according to MHLW. Japan also spends 11.5% of GDP on health, above the OECD average, while social security spending exceeded 36% of national expenditure in FY2023.',
     existingProject:
-      'Kenya Off-Grid Solar Access Project (KOSAP) backed by World Bank; M-KOPA Solar pay-as-you-go model.',
+      'Toyota City “Zutto Genki!” Project / long-term care prevention Social Impact Bond (SIB) initiative.',
     developmentRationale:
-      'Scaling distributed renewable energy can leapfrog grid limitations, reduce energy poverty, and meet NDC commitments at lower cost.',
+      'Japan is responding through community-based integrated care that combines healthcare, long-term care, prevention, housing, and daily-life support. Toyota City’s “Zutto Genki!” Project is relevant because it uses a preventive-care model to support healthy ageing, increase social participation, and potentially reduce future long-term care costs.',
     expectedResults:
-      'Electrification of 300,000 additional rural households; reduction of 500,000 tCO2e annually; creation of 5,000 green jobs.',
+      'Create cost savings for long-term healthcare through preventive care and stronger social participation among older residents.',
     safeguards:
-      'Environmental and social due diligence per IFC Performance Standards; gender inclusion requirements; consumer protection for PAYG models.',
-    sources: 'World Bank, GOGLA, Kenya Ministry of Energy 2023 Report',
+      'Government involvement to support elderly healthcare policy and broader quality considerations around public delivery, accountability, and social inclusion.',
+    sources:
+      'https://www.stat.go.jp/english/data/jinsui/2023np/index.html\nhttps://www.mhlw.go.jp/content/10807000/001303599.pdf\nhttps://www.city.toyota.aichi.jp/_res/projects/default_project/_page_/001/044/582/r0604/01.pdf\nhttps://www.oecd.org/content/dam/oecd/en/publications/reports/2025/07/health-at-a-glance-2023_39bcb58d/japan_0b0de6bb/1b4f5f1d-en.pdf\nhttps://www.oecd.org/content/dam/oecd/en/publications/reports/2024/01/oecd-economic-surveys-japan-2024_9289b572/41e807f9-en.pdf\nhttps://www.mhlw.go.jp/content/10500000/000591805.pdf\nhttps://www.city.toyota.aichi.jp/_res/projects/default_project/page/001/058/887/02.pdf\nhttps://www.clair.or.jp/j/library/docs/2021he-toyota.pdf',
   },
   {
     id: 'case-002',
-    country: 'Nigeria',
-    sdgTarget: 'SDG 9 (Industry, Innovation), SDG 8 (Decent Work)',
+    country: 'Indonesia',
+    sdgTarget: 'SDG 7 (Affordable and Clean Energy)',
     countryChallenges:
-      'High SME financing gap, weak credit infrastructure, FX volatility, high perceived risk by international investors.',
+      'Need for cleaner power supply to meet rising demand, financing gaps for small clean-energy projects, and continued difficulty making smaller renewable projects bankable on commercial terms.',
     backgroundProblem:
-      'Nigerian SMEs face a $158B financing gap. Banks require collateral most SMEs cannot provide. International investors are deterred by naira depreciation risk.',
+      'Indonesia’s challenge is no longer mainly basic electricity access, as national electrification had already reached 99.83% in 2024. The larger issue is meeting rising power demand with cleaner supply. Electricity sales reached 303.4 TWh in 2024 and demand is projected to reach around 445 TWh by 2030 under current planning trajectories. Some regions still need special attention, including East Nusa Tenggara, Maluku, and Papua. This creates a financing gap for small clean-energy projects that are developmentally important but often too small, risky, or weakly structured for normal commercial debt.',
     existingProject:
-      'IFC SME Ventures Nigeria; Development Bank of Nigeria (DBN) on-lending facility.',
+      'SDG Indonesia One blended-finance platform and the Pandanduri Mini-Hydro Power Plant project.',
     developmentRationale:
-      'SME growth is the backbone of employment and GDP diversification. Blended finance can de-risk lending to underserved segments.',
+      'Catalytic capital matters because many clean-energy projects remain commercially difficult even when developmentally valuable. SDG Indonesia One was designed as a blended-finance platform to combine public and private capital and support sustainable infrastructure. Pandanduri is a strong example because it had a clear financing gap, identified catalytic support, named donors and lenders, and measurable implementation progress.',
     expectedResults:
-      '50,000 SMEs financed; $2B in private capital mobilized; 200,000 jobs supported.',
+      'Support progress toward clean-energy expansion, including the 75 GW clean-energy ambition referenced in the worksheet.',
     safeguards:
-      'Anti-money laundering compliance; labor standards per ILO conventions; environmental risk screening.',
-    sources: 'IFC SME Finance Report 2023, CBN Policy Framework',
-  },
-  {
-    id: 'case-003',
-    country: 'Bangladesh',
-    sdgTarget: 'SDG 13 (Climate Action), SDG 11 (Sustainable Cities)',
-    countryChallenges:
-      'Extreme climate vulnerability, frequent flooding, limited municipal finance capacity, high debt levels restricting government investment.',
-    backgroundProblem:
-      'Bangladesh faces $2.4B annual climate adaptation gap. Municipal governments lack capacity to issue green bonds or access capital markets. Infrastructure projects are long-payback by nature.',
-    existingProject:
-      'Bangladesh Climate Change Trust Fund; ADB Urban Climate Change Resilience Trust Fund.',
-    developmentRationale:
-      'Urban climate resilience investments protect 10 million city dwellers from flood risk and reduce long-run fiscal exposure.',
-    expectedResults:
-      '15 coastal cities with upgraded drainage systems; 2 million people protected from annual flooding; $500M in adaptation infrastructure financed.',
-    safeguards:
-      'Involuntary resettlement framework per World Bank OP 4.12; climate risk screening; community consultation.',
-    sources: 'UNDP Climate Finance Report, Bangladesh NDC 2022',
-  },
-  {
-    id: 'case-004',
-    country: 'Colombia',
-    sdgTarget: 'SDG 15 (Life on Land), SDG 1 (No Poverty)',
-    countryChallenges:
-      'Deforestation driven by agricultural expansion, land tenure insecurity in post-conflict zones, limited ability to monetize ecosystem services.',
-    backgroundProblem:
-      'Colombia loses 170,000 ha of forest annually. Smallholder farmers lack alternatives to slash-and-burn agriculture. Carbon markets are underdeveloped and difficult to access.',
-    existingProject:
-      'Amazon Conservation Association programs; REDD+ projects in Choco region; GEF Sustainable Landscapes project.',
-    developmentRationale:
-      'Payments for ecosystem services and sustainable land-use financing can create durable income for farmers while protecting biodiversity.',
-    expectedResults:
-      '500,000 ha of forest conserved; 10,000 smallholder families with alternative livelihoods; 15M tCO2e sequestered.',
-    safeguards:
-      'Free, prior and informed consent of indigenous communities; land rights due diligence; biodiversity impact assessment.',
-    sources: 'World Bank BioCarbon Fund, Colombia Forest Finance Roadmap 2023',
-  },
-  {
-    id: 'case-005',
-    country: 'Vietnam',
-    sdgTarget: 'SDG 2 (Zero Hunger), SDG 12 (Responsible Production)',
-    countryChallenges:
-      'Agriculture sector modernization lagging, fragmented smallholder farms, lack of cold chain infrastructure, post-harvest losses of 20–30%.',
-    backgroundProblem:
-      "Vietnam's agri-food value chains are poorly integrated. Smallholders have limited market access and face price volatility. Investors see high operational risk in rural areas.",
-    existingProject:
-      'FAO-IFAD AgriValueChain project; ADB Mekong Agriculture Program.',
-    developmentRationale:
-      'Strengthening agri-value chains with cold chain investment and digital agriculture platforms can unlock $5B in annual food waste savings.',
-    expectedResults:
-      '200,000 smallholders integrated in modern value chains; post-harvest losses reduced by 40%; $1.5B private agri-investment mobilized.',
-    safeguards:
-      'Food safety standards; gender equity targets (50% women beneficiaries); environmental water use standards.',
-    sources: 'IFAD Vietnam Country Program, Ministry of Agriculture 2024',
-  },
-  {
-    id: 'case-006',
-    country: 'Ghana',
-    sdgTarget: 'SDG 3 (Good Health), SDG 10 (Reduced Inequalities)',
-    countryChallenges:
-      'Healthcare financing gap, underdeveloped health insurance penetration, weak health infrastructure outside urban areas, reliance on out-of-pocket payments.',
-    backgroundProblem:
-      "Ghana's NHIS covers only 35% of the population. Rural health facilities are understaffed and under-equipped. Private investment is deterred by uncertain revenue streams and weak insurance infrastructure.",
-    existingProject:
-      'IFC Health in Africa Initiative; Global Fund HIV/TB programs.',
-    developmentRationale:
-      'Outcome-based financing tied to health insurance enrollment and outcomes metrics can attract social impact investors while improving coverage.',
-    expectedResults:
-      '2 million additional NHIS enrollees; 50 rural health facilities upgraded; $300M in health sector investment mobilized.',
-    safeguards:
-      'Equity of access standards; data privacy for patient outcomes; gender sensitivity in health services.',
-    sources: 'WHO Ghana Health Account, IFC Health Finance Report 2023',
+      'Quality considerations center on project bankability, donor and lender coordination, and disciplined use of catalytic support so concessional funding closes real viability gaps without over-subsidizing projects.',
+    sources:
+      'https://www.esdm.go.id/assets/media/content/content-handbook-of-energy-and-economic-statistics-of-indonesia-2024.pdf\nhttps://www.esdm.go.id/en/berita-unit/directorate-general-of-electricity/ruptl-2021-2030-diterbitkan-porsi-ebt-diperbesar\nhttps://web.pln.co.id/statics/uploads/2025/06/b967d-ruptl-pln-2025-2034-pub-.pdf\nhttps://energyandcleanair.org/wp/wp-content/uploads/2025/09/CREA_EN-IDN-Briefing-Indonesias-RUPTL-2025-2034_-Fossils-first-renewables-later.pdf\nhttps://ember-energy.org/latest-insights/indonesias-expansion-of-clean-power-can-spur-growth-and-equality/\nhttps://www.esdm.go.id/en/media-center/news-archives/bigger-share-given-to-renewables-in-2021-2030-electricity-procurement-plan\nhttps://www.ptsmi.co.id/statement-on-climate-change-issue\nhttps://www.ptsmi.co.id/cfind/source/files/sustainable-funding/sustainalytics-second-party-opinion-on-pt-smis-sustainable-funding-framework.pdf\nhttps://www.ptsmi.co.id/uk-climate-minister-reviews-pandanduri-micro-hydroelectric-power-plant-appreciates-collaboration-with-pt-smi',
   },
 ]
 
@@ -124,86 +54,119 @@ export const mockIntermediaries: Intermediary[] = [
   {
     id: 'int-001',
     linkedCaseId: 'case-001',
-    intermediary: 'Kenya Bankers Association (KBA)',
-    type: 'Financial Sector Association',
-    whyRelevant: 'Aggregates member banks, can drive green lending standards and on-lending programs.',
-    role: 'Coordination, Standards Setting',
+    intermediary: 'Dream Incubator (DI)',
+    type: 'Private Sector / SIB Structuring Firm',
+    whyRelevant:
+      'Japanese strategy and business-investment firm that actively promoted Social Impact Bonds in Japan and worked with Toyota City on the care-prevention SIB initiative.',
+    role: 'SIB Structuring and Project Design',
     geography: 'National',
     relationshipStatus: 'Existing',
-    linkedCountry: 'Kenya',
-    linkedBarrier: 'Early-Stage Readiness',
+    linkedCountry: 'Japan',
+    linkedBarrier: 'Outcome is social and hard to monetize',
   },
   {
     id: 'int-002',
     linkedCaseId: 'case-001',
-    intermediary: 'M-KOPA Solar',
-    type: 'Private Sector – PAYG Solar',
-    whyRelevant: 'Proven PAYG distribution model with 1M+ customer base; can absorb wholesale capital.',
-    role: 'Last-Mile Distribution, Capital Deployment',
+    intermediary: 'Next Rise Social Impact Action LLC (NRS)',
+    type: 'Implementation Intermediary / Operating Entity',
+    whyRelevant:
+      'Operating entity contracted by Toyota City to run and promote the project’s social-participation services from July 1, 2021 to June 30, 2026.',
+    role: 'Implementation and Service Delivery Management',
     geography: 'National',
     relationshipStatus: 'Existing',
-    linkedCountry: 'Kenya',
-    linkedBarrier: 'Weak Economics / Long Payback',
+    linkedCountry: 'Japan',
+    linkedBarrier: 'Weak local implementing capacity',
   },
   {
     id: 'int-003',
-    linkedCaseId: 'case-002',
-    intermediary: 'Development Bank of Nigeria (DBN)',
-    type: 'Development Finance Institution',
-    whyRelevant: 'Mandated to on-lend to SMEs through commercial banks; trusted intermediary with government backing.',
-    role: 'On-Lending Facility, Credit Guarantee',
+    linkedCaseId: 'case-001',
+    intermediary: 'JAGES (Japan Gerontological Evaluation Study)',
+    type: 'Research and Evaluation Institution',
+    whyRelevant:
+      'Provides evidence and evaluation support that helps make preventive-care outcomes more credible and measurable in the Toyota City case.',
+    role: 'Evidence Generation and Impact Measurement',
     geography: 'National',
     relationshipStatus: 'Existing',
-    linkedCountry: 'Nigeria',
-    linkedBarrier: 'FX / Currency Risk',
+    linkedCountry: 'Japan',
+    linkedBarrier: 'Outcome is social and hard to monetize',
   },
   {
     id: 'int-004',
-    linkedCaseId: 'case-003',
-    intermediary: 'City Region Climate Finance Alliance (CRCA)',
-    type: 'Multi-Lateral Platform',
-    whyRelevant: 'Specializes in municipal green finance; can bridge subnational governments with climate funds.',
-    role: 'Technical Advisory, Capital Mobilization',
-    geography: 'Regional',
+    linkedCaseId: 'case-001',
+    intermediary: 'SIIF (Japan Social Innovation and Investment Foundation)',
+    type: 'Foundation / Ecosystem Builder',
+    whyRelevant:
+      'Strong ecosystem intermediary in Japan’s impact-investing and social-finance landscape, with emphasis on impact measurement and field building.',
+    role: 'Ecosystem Building and Impact Finance Support',
+    geography: 'National',
     relationshipStatus: 'Potential',
-    linkedCountry: 'Bangladesh',
-    linkedBarrier: 'Weak Economics / Long Payback',
+    linkedCountry: 'Japan',
+    linkedBarrier: 'Outcome is social and hard to monetize',
   },
   {
     id: 'int-005',
-    linkedCaseId: 'case-004',
-    intermediary: 'Fondo Accion (Colombia)',
-    type: 'Environmental NGO / Finance Intermediary',
-    whyRelevant: 'Deep relationships with Amazonian communities; experience with REDD+ and carbon projects.',
-    role: 'Community Liaison, Carbon Project Developer',
-    geography: 'Regional',
+    linkedCaseId: 'case-001',
+    intermediary: 'Next Rise Social Impact Fund / DI Social Impact Capital',
+    type: 'Impact Fund / Capital Intermediary',
+    whyRelevant:
+      'Represents the capital intermediation layer behind the SIB ecosystem and shows how institutional capital can support outcome-based projects in Japan.',
+    role: 'Capital Intermediation and Fund Deployment',
+    geography: 'National',
     relationshipStatus: 'Existing',
-    linkedCountry: 'Colombia',
-    linkedBarrier: 'Social Outcome Monetization',
+    linkedCountry: 'Japan',
+    linkedBarrier: 'Returns too low / payback too long',
   },
   {
     id: 'int-006',
-    linkedCaseId: 'case-005',
-    intermediary: 'Vietnam Bank for Agriculture and Rural Development (Agribank)',
-    type: 'State Development Bank',
-    whyRelevant: 'Largest rural lending network; 50M customers; can deploy agricultural value-chain credit.',
-    role: 'Credit Delivery, Rural Banking',
+    linkedCaseId: 'case-002',
+    intermediary: 'PT Sarana Multi Infrastruktur (PT SMI)',
+    type: 'State-Owned Development Finance Institution',
+    whyRelevant:
+      'Anchor of SDG Indonesia One and the primary platform intermediary for blended-finance transactions in Indonesia.',
+    role: 'Platform Structuring, Lending, and Blended Finance Management',
     geography: 'National',
-    relationshipStatus: 'Potential',
-    linkedCountry: 'Vietnam',
-    linkedBarrier: 'Investor Downside Risk',
+    relationshipStatus: 'Existing',
+    linkedCountry: 'Indonesia',
+    linkedBarrier: 'Returns too low / payback too long',
   },
   {
     id: 'int-007',
-    linkedCaseId: 'case-006',
-    intermediary: 'National Health Insurance Authority (NHIA Ghana)',
-    type: 'Government Agency',
-    whyRelevant: 'Controls NHIS enrollment and premium collection; outcomes data holder; outcome payments processor.',
-    role: 'Outcome Verification, Payment Agent',
+    linkedCaseId: 'case-002',
+    intermediary: 'MENTARI',
+    type: 'Donor-Funded Clean Energy Support Programme',
+    whyRelevant:
+      'Provides targeted catalytic grant support to improve financial viability and unlock PT SMI financing for small renewable-energy projects.',
+    role: 'Catalytic Grant Support and De-Risking',
     geography: 'National',
     relationshipStatus: 'Existing',
-    linkedCountry: 'Ghana',
-    linkedBarrier: 'Social Outcome Monetization',
+    linkedCountry: 'Indonesia',
+    linkedBarrier: 'Returns too low / payback too long',
+  },
+  {
+    id: 'int-008',
+    linkedCaseId: 'case-002',
+    intermediary: 'EU support to SDG Indonesia One',
+    type: 'Donor / Technical Assistance Partner',
+    whyRelevant:
+      'Provides grants and technical assistance to improve project preparation and bankability for small renewable-energy projects.',
+    role: 'Project Preparation and Capacity Building',
+    geography: 'Regional',
+    relationshipStatus: 'Existing',
+    linkedCountry: 'Indonesia',
+    linkedBarrier: 'Project too early-stage / not investable',
+  },
+  {
+    id: 'int-009',
+    linkedCaseId: 'case-002',
+    intermediary: 'PT Brantas Energi / PT SMI / MENTARI',
+    type: 'Project-Level Blended Finance Consortium',
+    whyRelevant:
+      'Together they demonstrate how sponsor capital, concessional grant support, and development finance can be combined to move a small hydro project toward completion.',
+    role: 'Project Financing, Grant Support, and Demonstration of Blended Finance in Practice',
+    geography: 'National',
+    relationshipStatus: 'Existing',
+    linkedCountry: 'Indonesia',
+    linkedBarrier: 'Private investors fear downside loss',
   },
 ]
 
@@ -212,68 +175,34 @@ export const mockBarriers: BarrierAssessment[] = [
   {
     id: 'barrier-001',
     linkedCaseId: 'case-001',
-    primaryBarrier: 'Early-Stage Readiness',
-    barrierDescription: 'Off-grid solar projects lack bankable project structures, technical studies, and regulatory licenses to attract private capital.',
-    observableSigns: 'Pipeline projects not reaching financial close; developers citing due diligence gaps; high transaction costs relative to deal size.',
-    projectStage: 'Concept',
-    recommendedTool: 'Technical Assistance / Grants',
-    toolRationale: 'TA grants fund feasibility studies, project structuring, and regulatory navigation at early stages where commercial capital is unavailable.',
-    source: 'GOGLA Barriers Study 2022',
+    primaryBarrier: 'Outcome is social and hard to monetize',
+    barrierDescription:
+      'The Toyota City project creates value mainly as public and social benefit rather than direct commercial revenue. Its financial logic depends on proving that preventive-care interventions can reduce future long-term care expenditure, even though the causal chain is long and benefits accrue over time.',
+    observableSigns:
+      'Monetization depends on avoided public costs rather than user-paid revenue; long result chain; time lag before savings appear; participant uptake and retention must be actively managed; implementation capacity was strained during COVID-19.',
+    projectStage:
+      'Social systems / service delivery stage; already in active implementation with midterm evaluation and evidence-building toward scale.',
+    recommendedTool: 'Outcome-Based Incentives',
+    toolRationale:
+      'The Excel score matrix identifies outcome-based incentives as the best-fitting tool because the project is already designed as a SIB and its core strength lies in result-based payment tied to verifiable outcomes. Technical assistance may still matter as a supporting tool, but it is not the core instrument.',
+    source:
+      'Step 3 worksheet evidence and Step 4 score matrix / interpretation note for Long-term care prevention (Toyota City / Zutto Genki).',
   },
   {
     id: 'barrier-002',
     linkedCaseId: 'case-002',
-    primaryBarrier: 'FX / Currency Risk',
-    barrierDescription: 'Naira depreciation (40%+ over 3 years) creates mismatch between USD-denominated investment returns and local currency revenues.',
-    observableSigns: 'Foreign investors withdrawing from Nigeria; wide spread on naira/dollar hedging instruments; capital flight signals.',
-    projectStage: 'Pipeline',
-    recommendedTool: 'Hedging / Local Currency Facility',
-    toolRationale: 'Currency hedging facilities absorb FX mismatch, allowing investors to take local-currency exposure without bearing full FX risk.',
-    source: 'TCX Fund Annual Report, IFC FX Hedging Note 2023',
-  },
-  {
-    id: 'barrier-003',
-    linkedCaseId: 'case-003',
-    primaryBarrier: 'Weak Economics / Long Payback',
-    barrierDescription: 'Urban climate adaptation infrastructure has 20–40 year payback periods, negative commercial IRR, and relies on public or concessional capital.',
-    observableSigns: 'No private bids on adaptation tenders; municipalities unable to service market-rate debt; deals stall at financing structure stage.',
-    projectStage: 'Preparation',
+    primaryBarrier: 'Returns too low / payback too long',
+    barrierDescription:
+      'Pandanduri is no longer mainly an early-stage investability problem. The main issue at its current stage is whether a small renewable-energy asset with limited scale can generate returns that are attractive enough, and sufficiently protected against downside risks, for private capital without continued concessional support.',
+    observableSigns:
+      'Project relied on a blended structure including PT SMI financing, a MENTARI-supported viability-gap grant, and sponsor capital; economics appear insufficient on purely ordinary commercial terms; residual concerns remain around operating performance, hydrology, maintenance, offtake reliability, and refinancing conditions.',
+    projectStage:
+      'Late construction / pre-operation stage; financing / operationalization stage where long payback and risk-adjusted return are the main issues.',
     recommendedTool: 'Concessional Loan',
-    toolRationale: 'Concessional loans reduce the cost of capital to levels compatible with long-payback infrastructure, enabling project viability.',
-    source: 'CDKN Climate Finance Gap Report, ADB Infrastructure Note',
-  },
-  {
-    id: 'barrier-004',
-    linkedCaseId: 'case-004',
-    primaryBarrier: 'Social Outcome Monetization',
-    barrierDescription: 'Forest carbon credits are difficult to verify, price, and sell from smallholder settings; ecosystem services markets are nascent.',
-    observableSigns: 'Projects generating credits below verification threshold; low price discovery; investors unable to model returns from ecosystem payments.',
-    projectStage: 'Concept',
-    recommendedTool: 'Outcome-Based Incentives',
-    toolRationale: 'Results-based finance ties payments to verified outcomes (tonnes sequestered, deforestation avoided), creating credible revenue streams.',
-    source: 'Verra VCS Standard, GEF Outcome-Based Finance Review',
-  },
-  {
-    id: 'barrier-005',
-    linkedCaseId: 'case-005',
-    primaryBarrier: 'Investor Downside Risk',
-    barrierDescription: 'Private investors face high operational risk in rural agri-value chains: weather risk, smallholder default, infrastructure gaps, and market volatility.',
-    observableSigns: 'Risk premiums priced above 20%; refusal to fund first-loss tranche; exits from agriculture portfolio in Southeast Asia.',
-    projectStage: 'Pipeline',
-    recommendedTool: 'First-Loss / Junior Capital',
-    toolRationale: 'First-loss capital absorbs initial losses, reducing senior investor risk to levels compatible with commercial return expectations.',
-    source: 'CGAP Blended Finance for Agriculture, IFAD Rural Finance Report',
-  },
-  {
-    id: 'barrier-006',
-    linkedCaseId: 'case-006',
-    primaryBarrier: 'Social Outcome Monetization',
-    barrierDescription: 'Health outcome metrics are difficult to attribute, measure, and price. Revenue uncertainty deters private health investors.',
-    observableSigns: 'No social impact bonds closed in health sector; outcome payers reluctant to commit; verification costs high relative to deal size.',
-    projectStage: 'Preparation',
-    recommendedTool: 'Outcome-Based Incentives',
-    toolRationale: 'Development Impact Bonds or Social Outcomes Contracts tie investor returns to measured health outcomes, enabling outcome payers to commit capital.',
-    source: 'Social Finance UK, Brookings Blended Finance Health Review',
+    toolRationale:
+      'The Excel score matrix identifies concessional loan as the best-fitting tool because the catalytic function is to close the viability gap so that PT SMI debt can come in. A guarantee may be a secondary option, but it is not the best-fitting core instrument.',
+    source:
+      'Step 3 worksheet evidence and Step 4 score matrix / interpretation note for Pandanduri mini-hydro.',
   },
 ]
 
@@ -282,157 +211,126 @@ export const mockTools: BlendedFinanceToolRef[] = [
   {
     tool: 'Technical Assistance / Grants',
     description:
-      'Non-reimbursable funding provided to prepare projects for investment, strengthen capacity, and reduce transaction costs at the early stage.',
+      'Grant or TA support for feasibility, structuring, transaction preparation, sponsor strengthening, and pipeline development.',
     bestWhen:
-      'Projects are not yet bankable; feasibility studies needed; regulatory barriers require navigation; developer capacity is limited.',
+      'Projects are still early-stage, not yet bankable, or need readiness support.',
     strengths: [
-      'Removes barriers without distorting markets',
-      'Catalytic: unlocks larger downstream investment',
-      'Flexible use across sectors',
-      'Can fund policy reform support',
+      'Strong fit for early-stage opportunities',
+      'Improves project readiness and sponsor capacity',
+      'Flexible and adaptable across sectors',
     ],
     weaknesses: [
-      'Does not provide risk capital',
-      'High administrative burden for small grants',
-      'Impact attribution is difficult',
-      'Grant dependency risk if not time-limited',
+      'Does not always mobilize capital quickly',
+      'Financial impact is indirect at first',
+      'Can be too soft if the real barrier is already beyond readiness',
     ],
-    riskMethodologies: [
-      'Project Preparation Facility assessment',
-      'PIDG EARP (Effective Assistance Review Process)',
-      'IFC E&S due diligence framework',
-    ],
-    source: 'PIDG, GCF Readiness Handbook, World Bank PPCR',
+    riskMethodologies: ['Regulatory risk', 'Expected loss'],
+    source:
+      'https://www.oecd.org/content/dam/oecd/en/events/2022/5/cefim_blended-finance-guidance-for-clean-energy---2nd-workshop/Guidance-note-OECD-DAC-Principle-2.pdf',
   },
   {
     tool: 'Guarantee / Risk-Sharing',
     description:
-      'A guarantee is a contingent liability that covers a portion of investor loss in default scenarios, reducing downside risk and attracting private lenders.',
+      'Instrument that absorbs part of losses or default risk to protect lenders or investors.',
     bestWhen:
-      'Commercial investors are deterred by perceived (but not actual) credit risk; first-time market entry; risk pricing is distorted by information asymmetry.',
+      'Investors are interested but remain constrained by downside risk.',
     strengths: [
-      'High leverage: $1 of guarantee can unlock $5–$10 of private capital',
-      'Does not require upfront cash outlay',
-      'Builds track record for future unguaranteed transactions',
-      'Market-making: normalizes credit assessment',
+      'Strong mobilization potential',
+      'Can crowd in lenders effectively',
+      'Targets risk perception directly',
     ],
     weaknesses: [
-      'Contingent liability can crystallize at scale',
-      'Complex structuring and legal documentation',
-      'May distort credit pricing if not time-limited',
-      'Can create moral hazard for lenders',
+      'Poor fit if the project is still immature',
+      'Can be over-engineered',
+      'Requires clear governance, pricing, and claims discipline',
     ],
-    riskMethodologies: [
-      'Expected Loss (EL) model',
-      'Basel II internal ratings-based approach',
-      'USAID DCA portfolio risk modeling',
-      'IFC Guarantee Risk Framework',
-    ],
-    source: 'USAID DCA, IFC Guarantee Products, MIGA Risk Handbook',
+    riskMethodologies: ['Expected loss'],
+    source:
+      'https://www.oecd.org/content/dam/oecd/en/publications/reports/2021/06/the-role-of-guarantees-in-blended-finance_cef700a2/730e1498-en.pdf',
   },
   {
     tool: 'First-Loss / Junior Capital',
     description:
-      'First-loss tranches absorb initial losses before senior investors are affected, protecting upside for commercial investors and improving risk-adjusted returns.',
+      'Capital layer that takes the first losses to protect senior investors.',
     bestWhen:
-      'Layered capital structures are needed; investors face high downside uncertainty; projects in early-stage markets with limited credit history.',
+      'The project is viable but still too risky for commercial capital on its own.',
     strengths: [
-      'Directly improves risk-return for senior investors',
-      'Enables participation of risk-averse institutional investors',
-      'Structurally transparent and well-understood',
-      'Signals credibility of deal sponsor',
+      'Strong risk absorption',
+      'Can unlock more senior capital',
+      'Useful for difficult blended structures',
     ],
     weaknesses: [
-      'First-loss provider bears concentrated risk',
-      'Sizing the first-loss tranche requires sophisticated modeling',
-      'Can be perceived as subsidizing poor projects',
-      'Limited availability of DFI first-loss appetite',
+      'High risk for catalytic funders',
+      'Can over-subsidize if barrier diagnosis is wrong',
+      'Structuring can be complex',
     ],
-    riskMethodologies: [
-      'Tranche sizing models (Expected Loss / Unexpected Loss)',
-      'Cascade waterfall analysis',
-      'Convergence Fund structuring approach',
-      'TIIP First-Loss Risk Sizing Guide',
-    ],
-    source: 'Convergence Finance, Tideline, EMPEA Blended Finance Survey',
+    riskMethodologies: ['Expected loss', 'Value-at-risk'],
+    source:
+      'https://www.oecd.org/content/dam/oecd/en/publications/reports/2021/08/evaluating-blended-finance-instruments-and-mechanisms_c995f112/f1574c10-en.pdf',
   },
   {
     tool: 'Concessional Loan',
     description:
-      'Below-market-rate loans from DFIs or development banks provided to improve project economics and reduce the weighted average cost of capital.',
+      'Below-market financing that improves economics, tenor, or affordability.',
     bestWhen:
-      'Projects have positive development impact but negative or marginal commercial IRR; infrastructure with long payback periods; countries with high sovereign risk premium.',
+      'Returns are too low, payback is too long, or affordability is the main constraint.',
     strengths: [
-      'Directly improves project economics (lowers WACC)',
-      'Compatible with sovereign and municipal borrowers',
-      'Can be structured alongside commercial debt',
-      'Widely understood and accepted instrument',
+      'Helps improve financial viability',
+      'Useful for affordability and tenor gaps',
+      'Can support scale-up once a project is ready',
     ],
     weaknesses: [
-      'Distortion risk if not priced at minimum concessionality',
-      'Scarce resource: limited DFI concessional windows',
-      'May crowd out market-rate lenders',
-      'Complex negotiations around conditionalities',
+      'Can distort markets if too concessional',
+      'Needs strong discipline on subsidy sizing',
+      'Not ideal if the real problem is still readiness',
     ],
     riskMethodologies: [
-      'MDB Minimum Concessionality Calculator',
-      'Debt sustainability analysis (IMF/World Bank DSA)',
-      'OECD DAC ODA concessionality measurement',
-      'IDA Grant-Loan blend frameworks',
+      'Expected loss',
+      'Discounted cash flow',
+      'Public-private partnership risk allocation',
     ],
-    source: 'MDB Minimum Concessionality Framework, OECD DAC Guidance',
+    source:
+      'https://www.oecd.org/content/dam/oecd/en/publications/reports/2021/08/evaluating-blended-finance-instruments-and-mechanisms_c995f112/f1574c10-en.pdf',
   },
   {
     tool: 'Hedging / Local Currency Facility',
     description:
-      'Currency risk mitigation instruments (forwards, swaps, guarantees) that allow investors to take local-currency exposure without bearing full FX risk.',
+      'Instrument that reduces FX risk or provides local-currency financing.',
     bestWhen:
-      'FX mismatch between investor currency and project revenue currency; high FX volatility; absence of local hedging markets.',
+      'The project has local-currency revenues but hard-currency liabilities.',
     strengths: [
-      'Eliminates a major deterrent for foreign investors',
-      'Enables local-currency denominated debt',
-      'Reduces refinancing risk for project sponsors',
-      'Can be pooled for cost efficiency',
+      'Highly targeted to FX barriers',
+      'Protects borrowers and investors from volatility',
+      'Can make otherwise viable deals financeable',
     ],
     weaknesses: [
-      'High cost in volatile currency environments',
-      'Limited product availability in frontier markets',
-      'Requires sophisticated counterparties',
-      'Systemic risk if macro environment deteriorates',
+      'Technical and potentially costly',
+      'Does not solve weak pipeline or poor governance',
+      'May be unavailable in some markets',
     ],
-    riskMethodologies: [
-      'Value-at-Risk (VaR) for currency exposure',
-      'TCX pricing model',
-      'MFX Solutions hedge ratio assessment',
-      'Cross-currency swap valuation frameworks',
-    ],
-    source: 'TCX Fund, MFX Solutions, Currency Exchange Fund',
+    riskMethodologies: ['Political risk'],
+    source:
+      'https://www.oecd.org/content/dam/oecd/en/publications/reports/2025/02/unlocking-local-currency-financing-in-emerging-markets-and-developing-economies_af15df6a/bc84fde7-en.pdf',
   },
   {
     tool: 'Outcome-Based Incentives',
     description:
-      'Payment mechanisms tied to pre-agreed, verified outcomes (social, environmental, developmental), attracting investors who receive returns upon outcome achievement.',
+      'Payment structure where disbursement is tied to verified results rather than only inputs.',
     bestWhen:
-      'Outcome metrics are measurable and verifiable; outcome payers (governments, donors) can commit; projects generate social/environmental returns difficult to monetize commercially.',
+      'Outcomes are highly social and difficult to monetize through normal revenue.',
     strengths: [
-      'Directly aligns financial returns with development impact',
-      'Builds evidence base for policy reform',
-      'Attracts impact investors and philanthropic capital',
-      'Reduces payment risk for service providers',
+      'Strong accountability and measurement logic',
+      'Useful for social systems and public-good outcomes',
+      'Can align funding with verified results',
     ],
     weaknesses: [
-      'Complex outcome measurement and verification',
-      'High transaction costs for small deals',
-      'Requires willing and creditworthy outcome payers',
-      'Attribution challenges in complex ecosystems',
+      'Complex to structure',
+      'Requires a credible evaluator and clear outcome payer',
+      'Often involves long time lags before outcomes are verified',
     ],
-    riskMethodologies: [
-      'Social Return on Investment (SROI) analysis',
-      'Theory of Change verification frameworks',
-      'MRL (Monitoring, Reporting, Verification) standards',
-      'Development Impact Bond structuring guide',
-    ],
-    source: 'Social Finance UK, Brookings DIB Report, UNDP SDG Finance',
+    riskMethodologies: ['Rating agency methodologies'],
+    source:
+      'https://www.oecd.org/content/dam/oecd/en/publications/reports/2021/08/evaluating-blended-finance-instruments-and-mechanisms_c995f112/f1574c10-en.pdf',
   },
 ]
 
@@ -441,107 +339,97 @@ export const mockExpansionOptions: ExpansionOptionRef[] = [
   {
     model: 'Deepen Local',
     description:
-      'Expand depth and quality of an existing program within the same country or region, increasing reach, impact, and sustainability without geographic expansion.',
+      'Enhance the capacity of existing local fiscal sponsors and help build regional fiscal sponsorship capability.',
     bestWhen:
-      'Strong local foundation exists; untapped demand in same geography; local partnerships are robust; regulatory environment is favorable.',
+      'A capable local partner already exists and RPA wants to strengthen legitimacy, ownership, and ecosystem depth in one geography.',
     pros: [
-      'Lower risk and cost than new market entry',
-      'Builds on existing relationships and learnings',
-      'Faster to scale with proven model',
-      'Strengthens local ownership and sustainability',
+      'Strongest local ownership where capable partners already exist',
+      'Builds local legitimacy and ecosystem strength',
+      'Good fit for community-based social programs',
     ],
     cons: [
-      'Geographic concentration risk',
-      'Market saturation limit',
-      'May require new capital sources to deepen',
-      'Political or regulatory change can affect scale',
+      'Depends on finding capable existing local sponsors',
+      'Coverage may stay limited to one or a few jurisdictions',
     ],
     implementationImplications:
-      'Requires strengthening existing intermediary relationships, investing in monitoring and evaluation, and potentially restructuring financing to support larger volume.',
+      'Best suited to contexts where RPA wants to work through and strengthen existing local institutions rather than build new structures from scratch.',
   },
   {
     model: 'Local Repurposing',
     description:
-      'Adapt and repurpose an existing program or financial structure for a different but related use case within the same country or sector.',
+      'Support local re-granters to add or adapt fiscal sponsorship functions.',
     bestWhen:
-      'Existing platform has untapped capability; adjacent needs are unmet; regulatory approvals are transferable; team has relevant expertise.',
+      'Existing local institutions have adjacent capabilities that can be adapted into fiscal sponsorship or similar support functions.',
     pros: [
-      'Leverages existing infrastructure and approvals',
-      'Cost-efficient expansion pathway',
-      'Diversifies use of existing investment',
-      'Can respond to evolving market needs',
+      'Builds local capacity from existing institutions',
+      'More local agency than a purely foreign-led model',
+      'Can fit places with grantmaking actors but weak sponsorship infrastructure',
     ],
     cons: [
-      'Scope creep risk',
-      'May dilute core program focus',
-      'New risks may be introduced from different use case',
-      'Requires stakeholder alignment on scope change',
+      'Takes time to adapt systems and governance',
+      'May require talent development and process redesign',
+      'Geographic coverage can remain limited',
     ],
     implementationImplications:
-      'Requires legal assessment for scope change, new stakeholder mapping, and updated theory of change documentation.',
+      'Requires adaptation of existing systems, governance, and staffing, with moderate speed and moderate local ownership.',
   },
   {
     model: 'New Build',
     description:
-      'Design and deploy a new program or financial structure in a new country or market from the ground up, applying lessons from existing programs.',
+      'Create new fiscal sponsorship capacity from scratch in the target geography.',
     bestWhen:
-      'Proven model exists in comparable markets; demand is demonstrated; capable local partners can be identified; adequate preparation time is available.',
+      'RPA wants maximum control and long-term institution building, and can tolerate the highest setup time and cost.',
     pros: [
-      'Full optimization for new context',
-      'No legacy constraints',
-      'Can incorporate latest learning and technology',
-      'Strong developmental signal for new market',
+      'Maximum control over mission design and local structure',
+      'Strong long-term capacity-building potential',
+      'Can be tailored to high-priority geographies',
     ],
     cons: [
-      'Highest cost and time investment',
-      'Full regulatory and partnership setup required',
-      'Longer time to impact',
-      'Execution risk in unfamiliar environment',
+      'Slowest route to launch',
+      'Highest cost and systems burden',
+      'Hardest execution risk in legal, operational, and staffing terms',
     ],
     implementationImplications:
-      'Requires full project development cycle: country assessment, partner identification, regulatory engagement, structure design, and capital raise.',
+      'Most suitable where long-term institution building is the priority and RPA has enough time, budget, and execution capacity.',
   },
   {
     model: 'Local Hybrid',
     description:
-      'Combine elements of an existing program with new components to create a hybrid approach tailored to the local market, blending replication and innovation.',
+      'Set up a local organization with local governance and regranting capability, while using RPA / fiscal-sponsor support contractually to accelerate execution.',
     bestWhen:
-      'Local market has unique features that prevent direct replication; partial adaptation can preserve efficiencies; local partner has strong domain knowledge.',
+      'RPA wants stronger local legitimacy than a pure hybrid while still using its own support model to speed execution.',
     pros: [
-      'Balances speed with market fit',
-      'Leverages proven components while adapting to context',
-      'Can attract both local and international capital',
-      'Risk mitigation through proven track record',
+      'Balances local legitimacy with faster execution support',
+      'Strong for knowledge transfer and institution building',
+      'Closer to local communities than a pure external model',
     ],
     cons: [
-      'Complexity of managing hybrid structure',
-      'Higher design cost than pure replication',
-      'Potential for incoherence if design is not disciplined',
-      'Governance of hybrid structures can be challenging',
+      'Still requires some local entity-building from scratch',
+      'Not as fast or cheap as a pure hybrid',
+      'Coverage may remain selective at first',
     ],
     implementationImplications:
-      'Requires clear delineation of which components are replicated and which are locally designed, with explicit governance for each.',
+      'Useful when RPA needs a balance between local governance, speed, and practical operating support.',
   },
   {
     model: 'Hybrid',
     description:
-      'A multi-country or cross-regional structure that combines global capital with local execution, using a platform or fund structure to achieve scale.',
+      "Operate through RPA's existing 501(c)(3) / external platform while adding local advisory and operational capacity in the target geography.",
     bestWhen:
-      'Multiple markets share similar characteristics; regional capital markets can be accessed; platform economics justify multi-country overhead; systemic change is the goal.',
+      'RPA wants the fastest and most resource-efficient route to test or support a new geography while retaining some local advisory capacity.',
     pros: [
-      'Maximum scale potential',
-      'Platform economics reduce per-deal costs',
-      'Attracts larger institutional investors',
-      'Enables knowledge transfer across markets',
+      'Fastest practical launch route',
+      'Lower setup cost and stronger resource efficiency',
+      'Easier to scale across multiple places',
+      'Useful when testing a new geography first',
     ],
     cons: [
-      'High setup and management cost',
-      'Governance complexity across jurisdictions',
-      'Risk of weakening local ownership',
-      'Long lead time to first deployment',
+      'Weaker local ownership than locally anchored models',
+      'Can create Global North perception risk',
+      'Requires deliberate safeguards to keep local leadership meaningful',
     ],
     implementationImplications:
-      'Requires platform-level governance design, multi-country legal setup, regional hub strategy, and DFI anchor investor commitment.',
+      'Most suitable for rapid market testing or multi-country expansion where speed and cost efficiency matter more than maximum local ownership.',
   },
 ]
 
@@ -549,38 +437,18 @@ export const mockExpansionOptions: ExpansionOptionRef[] = [
 export const mockExpansionRecommendations: ExpansionRecommendation[] = [
   {
     linkedCaseId: 'case-001',
-    recommendedModel: 'Deepen Local',
-    rationale: 'Kenya has established PAYG solar market with proven models (M-KOPA). The priority is to deepen reach to underserved counties rather than expand to new geographies prematurely.',
-    feasibilityNotes: 'Strong regulatory framework (Energy Act 2019); existing intermediaries; government support through KOSAP. Main risk is political economy of KPLC grid competition.',
+    recommendedModel: 'Local Hybrid',
+    rationale:
+      'The Step 5 score matrix identifies Local Hybrid as the best fit for Japan. It best balances local governance and legitimacy with RPA support that can accelerate setup, evaluation discipline, and operating design for preventive-care work.',
+    feasibilityNotes:
+      'Japan scores Local Hybrid highest overall at 7.33. The worksheet notes that it keeps local legitimacy strong while still allowing RPA to support execution in a highly regulated, trust-based social-sector context.',
   },
   {
     linkedCaseId: 'case-002',
-    recommendedModel: 'Local Hybrid',
-    rationale: 'Nigeria requires locally adapted FX hedging combined with existing DFI on-lending platforms. A new build would miss existing DBN infrastructure; pure replication ignores FX uniqueness.',
-    feasibilityNotes: 'CBN cooperation required for FX facility structuring. DBN willing partner. IFC precedent in similar markets. USD/NGN basis swap market exists but thin.',
-  },
-  {
-    linkedCaseId: 'case-003',
-    recommendedModel: 'New Build',
-    rationale: 'Bangladesh municipal finance market is nascent. A new specialized municipal green finance facility is required, drawing on ADB and AIIB precedents in comparable Asian markets.',
-    feasibilityNotes: 'ADB anchor investor likely. Government committed via NDC. Municipal capacity building required before deployment. 24–36 month development timeline expected.',
-  },
-  {
-    linkedCaseId: 'case-004',
-    recommendedModel: 'Local Repurposing',
-    rationale: 'Existing REDD+ infrastructure and Fondo Accion relationships can be repurposed to deliver outcomes-based biodiversity credits, adding revenue stream to conservation programs.',
-    feasibilityNotes: 'Verra standard applicable. Carbon market pricing volatile. Buyer demand from corporate net-zero commitments growing. Legal clarity on carbon rights needed.',
-  },
-  {
-    linkedCaseId: 'case-005',
     recommendedModel: 'Hybrid',
-    rationale: 'Vietnam agri-value chain opportunity is part of broader ASEAN food system transformation. A regional multi-country platform (Vietnam + Thailand + Indonesia) achieves greater institutional investor appeal.',
-    feasibilityNotes: 'ADB ASEAN Infrastructure Fund as potential anchor. Agribank partnership in Vietnam confirmed interest. ASEAN regional integration agreements support cross-border structure.',
-  },
-  {
-    linkedCaseId: 'case-006',
-    recommendedModel: 'Deepen Local',
-    rationale: 'Ghana health sector is best served by deepening the NHIS-linked outcomes model before replicating regionally. Evidence base needs strengthening before expansion.',
-    feasibilityNotes: 'NHIA cooperation confirmed. Social Finance UK as technical partner candidate. Global Fund interested as outcome payer. 18-month pilot recommended before full-scale DIB.',
+    rationale:
+      'The Step 5 score matrix identifies Hybrid as the best fit for Indonesia. It is the fastest and most resource-efficient way to test and support a broader infrastructure and blended-finance pipeline while still adding local advisory and operational capacity.',
+    feasibilityNotes:
+      'Indonesia scores Hybrid highest overall at 7.17. The worksheet notes that this route is best for entering a market where practical execution and cross-project scalability matter immediately, even though local ownership is somewhat weaker than more locally anchored options.',
   },
 ]
