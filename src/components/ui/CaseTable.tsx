@@ -28,6 +28,8 @@ export function CaseTable({ cases, onSelect }: CaseTableProps) {
             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">SDG Target</th>
             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Key Challenge</th>
             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden lg:table-cell">Existing Project</th>
+            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden xl:table-cell">Intermediary</th>
+            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden xl:table-cell">Role</th>
             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Stage</th>
             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Barrier</th>
             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden xl:table-cell">BF Tool</th>
@@ -49,6 +51,12 @@ export function CaseTable({ cases, onSelect }: CaseTableProps) {
               </td>
               <td className="px-4 py-3 text-gray-500 hidden lg:table-cell max-w-[180px]">
                 <span className="line-clamp-1">{fc.case.existingProject}</span>
+              </td>
+              <td className="px-4 py-3 hidden xl:table-cell text-gray-600 max-w-[180px]">
+                <span className="line-clamp-2">{fc.intermediaries[0]?.intermediary ?? '—'}</span>
+              </td>
+              <td className="px-4 py-3 hidden xl:table-cell text-gray-600 max-w-[180px]">
+                <span className="line-clamp-2">{fc.intermediaries[0]?.role ?? '—'}</span>
               </td>
               <td className="px-4 py-3">
                 <Badge label={fc.barrier.projectStage} variant="stage" />

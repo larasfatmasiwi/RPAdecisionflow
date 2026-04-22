@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useMemo, useState } from 'react'
-import { mockTools } from '@/data/mockData'
+import { mockCases, mockTools } from '@/data/mockData'
 import { ReferenceCard } from '@/components/ui/ReferenceCard'
 import { BookOpen, Search } from 'lucide-react'
 import {
@@ -29,17 +29,28 @@ const scoreCards = [
   { label: 'Regulatory Feasibility', score: '4.0 / 5', color: 'bg-emerald-500' },
 ]
 
-const toolScores: Record<string, number> = {
-  'Technical Assistance / Grants': 8,
-  'Guarantee / Risk-Sharing': 7,
-  'First-Loss / Junior Capital': 9,
-  'Concessional Loan': 8,
-  'Hedging / Local Currency Facility': 6,
-  'Outcome-Based Incentives': 7,
+const blendedFinanceIndicators = [
+  'Barrier fit',
+  'Mobilization potential',
+  'Financial additionality',
+  'Development additionality',
+  'Concessionality discipline',
+  'Implementation feasibility',
+  'Results / impact measurability',
+]
+
+const blendedFinanceScoresByCountry: Record<string, number[]> = {
+  Kenya: [8, 7, 7, 8, 6, 7, 8],
+  Nigeria: [7, 8, 8, 7, 6, 6, 7],
+  Bangladesh: [9, 7, 8, 8, 7, 7, 9],
+  Colombia: [8, 6, 7, 9, 7, 7, 8],
+  Vietnam: [7, 8, 7, 7, 6, 8, 7],
+  Ghana: [8, 7, 8, 8, 7, 7, 8],
 }
 
 function ToolsPage() {
   const [search, setSearch] = useState('')
+  const [country, setCountry] = useState('Kenya')
 
   const filtered = mockTools.filter(
     (t) =>
@@ -51,11 +62,11 @@ function ToolsPage() {
 
   const radarData = useMemo(
     () => ({
-      labels: mockTools.map((tool) => tool.tool),
+      labels: blendedFinanceIndicators,
       datasets: [
         {
-          label: 'Score (1-10)',
-          data: mockTools.map((tool) => toolScores[tool.tool] ?? 5),
+          label: `${country} score (1-10)`,
+          data: blendedFinanceScoresByCountry[country] ?? [6, 6, 6, 6, 6, 6, 6],
           backgroundColor: 'rgba(37, 99, 235, 0.2)',
           borderColor: 'rgba(37, 99, 235, 1)',
           borderWidth: 2,
@@ -63,7 +74,7 @@ function ToolsPage() {
         },
       ],
     }),
-    []
+    [country]
   )
 
   return (
@@ -75,9 +86,24 @@ function ToolsPage() {
         </p>
       </div>
 
-      <section className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
-        <h2 className="text-sm font-semibold text-gray-700 mb-3">Tool Scoring Radar (1–10)</h2>
-        <div className="h-[340px]">
+      <section className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 space-y-3">
+        <div className="flex flex-wrap gap-3 items-end">
+          <label className="flex flex-col gap-1 min-w-[240px]">
+            <span className="text-xs font-semibold text-gray-500">Country for deep analysis</span>
+            <select
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              className="h-10 rounded-lg border border-gray-200 px-3 text-sm text-gray-700 bg-white"
+            >
+              {mockCases.map((c) => (
+                <option key={c.id} value={c.country}>{c.country}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+
+        <h2 className="text-sm font-semibold text-gray-700">Country Indicator Radar (1–10)</h2>
+        <div className="h-[360px]">
           <Radar
             data={radarData}
             options={{

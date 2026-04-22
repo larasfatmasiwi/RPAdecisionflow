@@ -186,10 +186,10 @@ function Meta({
 }) {
   return (
     <div className="min-w-0">
-      <p className="text-xs font-semibold text-slate-500">{label}</p>
-      <div className={`mt-1 inline-flex items-center gap-2 rounded-lg px-2 py-1 text-sm font-semibold ${warning ? 'bg-amber-50 text-amber-700' : 'bg-emerald-50 text-emerald-700'}`}>
+      <p className="text-xs font-semibold text-slate-500 leading-5">{label}</p>
+      <div className={`mt-1 min-h-10 w-full flex items-start gap-2 rounded-lg px-2 py-2 text-xs font-semibold leading-5 ${warning ? 'bg-amber-50 text-amber-700' : 'bg-emerald-50 text-emerald-700'}`}>
         <Icon className="w-4 h-4" />
-        <span className="truncate">{value}</span>
+        <span className="break-words">{value}</span>
       </div>
     </div>
   )

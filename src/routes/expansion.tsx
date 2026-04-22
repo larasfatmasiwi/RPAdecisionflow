@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useMemo, useState } from 'react'
-import { mockExpansionOptions } from '@/data/mockData'
+import { mockCases, mockExpansionOptions } from '@/data/mockData'
 import { ReferenceCard } from '@/components/ui/ReferenceCard'
 import { Map, Search } from 'lucide-react'
 import {
@@ -20,16 +20,27 @@ export const Route = createFileRoute('/expansion')({
   component: ExpansionPage,
 })
 
-const expansionScores: Record<string, number> = {
-  'Deepen Local': 7,
-  'Local Repurposing': 6,
-  'New Build': 8,
-  'Local Hybrid': 9,
-  Hybrid: 8,
+const expansionIndicators = [
+  'Speed',
+  'Cost',
+  'Local Ownership',
+  'Scalability',
+  'Capacity Building',
+  'Regulatory Feasibility',
+]
+
+const expansionScoresByCountry: Record<string, number[]> = {
+  Kenya: [8, 7, 8, 8, 7, 7],
+  Nigeria: [7, 6, 7, 8, 6, 6],
+  Bangladesh: [6, 7, 8, 7, 8, 7],
+  Colombia: [7, 6, 9, 7, 8, 7],
+  Vietnam: [8, 8, 7, 8, 7, 8],
+  Ghana: [7, 7, 8, 7, 8, 7],
 }
 
 function ExpansionPage() {
   const [search, setSearch] = useState('')
+  const [country, setCountry] = useState('Kenya')
 
   const filtered = mockExpansionOptions.filter(
     (e) =>
@@ -41,11 +52,11 @@ function ExpansionPage() {
 
   const radarData = useMemo(
     () => ({
-      labels: mockExpansionOptions.map((option) => option.model),
+      labels: expansionIndicators,
       datasets: [
         {
-          label: 'Score (1-10)',
-          data: mockExpansionOptions.map((option) => expansionScores[option.model] ?? 5),
+          label: `${country} score (1-10)`,
+          data: expansionScoresByCountry[country] ?? [6, 6, 6, 6, 6, 6],
           backgroundColor: 'rgba(16, 185, 129, 0.2)',
           borderColor: 'rgba(16, 185, 129, 1)',
           borderWidth: 2,
@@ -53,7 +64,7 @@ function ExpansionPage() {
         },
       ],
     }),
-    []
+    [country]
   )
 
   return (
@@ -65,9 +76,22 @@ function ExpansionPage() {
         </p>
       </div>
 
-      <section className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
-        <h2 className="text-sm font-semibold text-gray-700 mb-3">Expansion Model Scoring Radar (1–10)</h2>
-        <div className="h-[340px]">
+      <section className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 space-y-3">
+        <label className="flex flex-col gap-1 max-w-sm">
+          <span className="text-xs font-semibold text-gray-500">Country for deep analysis</span>
+          <select
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            className="h-10 rounded-lg border border-gray-200 px-3 text-sm text-gray-700 bg-white"
+          >
+            {mockCases.map((c) => (
+              <option key={c.id} value={c.country}>{c.country}</option>
+            ))}
+          </select>
+        </label>
+
+        <h2 className="text-sm font-semibold text-gray-700">Country Indicator Radar (1–10)</h2>
+        <div className="h-[360px]">
           <Radar
             data={radarData}
             options={{

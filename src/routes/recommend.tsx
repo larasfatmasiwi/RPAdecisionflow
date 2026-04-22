@@ -36,6 +36,15 @@ const sampleBarrier = mockBarriers.find((item) => item.linkedCaseId === sampleCa
 const sampleTool = mockTools.find((item) => item.tool === sampleBarrier?.recommendedTool) ?? mockTools[0]
 const sampleExpansion = mockExpansionOptions[0]
 
+
+const processSteps = [
+  { title: 'Step 1', description: 'Identify and define the development challenge', answer: 'Yes', decision: 'Proceed' },
+  { title: 'Step 2', description: 'Map the intermediaries already addressing the issue', answer: 'Yes', decision: 'Proceed' },
+  { title: 'Step 3', description: 'Diagnose the project stage and barriers', answer: 'Yes', decision: 'Proceed' },
+  { title: 'Step 4', description: 'Recommend a blended finance tool and risk', answer: 'Yes', decision: 'Proceed' },
+  { title: 'Step 5', description: 'Recommend a global expansion option for RPA', answer: 'Yes', decision: 'Proceed' },
+] as const
+
 const stepData: Record<string, Record<string, string>> = {
   Step1: {
     country: sampleCase.country,
@@ -93,6 +102,22 @@ function RecommendPage() {
           Step-by-step decision inputs are shown first, followed by the recommendation engine output.
         </p>
       </div>
+
+      <section className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
+        <h2 className="text-sm font-semibold text-gray-700 mb-4">Decision Flow Diagram</h2>
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+          {processSteps.map((step) => (
+            <article key={step.title} className="rounded-lg border border-slate-200 bg-slate-50 p-3 space-y-2">
+              <p className="text-xs font-bold text-slate-700">{step.title}</p>
+              <p className="text-xs text-slate-600 min-h-[56px]">{step.description}</p>
+              <div className="flex items-center justify-between gap-2 text-[11px]">
+                <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-semibold">{step.answer}</span>
+                <span className="px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 font-semibold">{step.decision}</span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {fieldGroups.map((group) => {
