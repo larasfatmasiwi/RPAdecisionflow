@@ -8,6 +8,15 @@ export const Route = createFileRoute('/tools')({
   component: ToolsPage,
 })
 
+const scoreCards = [
+  { label: 'Barrier Fit Score', score: '4.5 / 5', color: 'bg-emerald-500' },
+  { label: 'Mobilization Potential', score: '3.8 / 5', color: 'bg-blue-500' },
+  { label: 'Financial Additionality', score: '3.5 / 5', color: 'bg-violet-500' },
+  { label: 'Implementation Feasibility', score: '4.2 / 5', color: 'bg-cyan-500' },
+  { label: 'Scalability', score: '3.9 / 5', color: 'bg-amber-500' },
+  { label: 'Regulatory Feasibility', score: '4.0 / 5', color: 'bg-emerald-500' },
+]
+
 function ToolsPage() {
   const [search, setSearch] = useState('')
 
@@ -22,13 +31,24 @@ function ToolsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Blended Finance Tools Reference</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Blended Finance Tool Recommendation</h1>
         <p className="text-sm text-gray-500 mt-1">
-          Reference library of {mockTools.length} blended finance instruments. Click any card to expand details.
+          Recommendation snapshot and reference library of {mockTools.length} blended finance instruments. Click any card to expand details.
         </p>
       </div>
 
-      {/* Search */}
+      <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-3">
+        {scoreCards.map((card) => (
+          <article key={card.label} className="rounded-2xl border border-slate-200 bg-white p-4">
+            <p className="text-sm font-semibold text-slate-700">{card.label}</p>
+            <p className="text-4xl font-bold text-slate-900 mt-2">{card.score}</p>
+            <div className="mt-4 h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
+              <div className={`h-full rounded-full ${card.color}`} style={{ width: `${Number(card.score[0]) * 20}%` }} />
+            </div>
+          </article>
+        ))}
+      </section>
+
       <div className="relative max-w-md">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
         <input
