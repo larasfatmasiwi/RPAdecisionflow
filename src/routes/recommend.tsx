@@ -142,6 +142,26 @@ function RecommendPage() {
           <RuleRow barrier="Capacity Gap" tool="Technical Assistance / Grants" />
         </div>
       </div>
+
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {fieldGroups.map((group) => {
+          const key = group.title.replace(' ', '')
+          const data = stepData[key]
+          return (
+            <article key={group.title} className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
+              <h3 className="text-sm font-bold text-gray-900 mb-3">{group.title} Fields</h3>
+              <div className="space-y-2">
+                {group.fields.map((field) => (
+                  <div key={field} className="rounded-lg border border-gray-100 bg-gray-50 px-3 py-2">
+                    <p className="text-[11px] uppercase tracking-wide text-gray-500">{field}</p>
+                    <p className="text-xs text-gray-700 mt-1 break-words">{data?.[field] || '—'}</p>
+                  </div>
+                ))}
+              </div>
+            </article>
+          )
+        })}
+      </section>
     </div>
   )
 }
