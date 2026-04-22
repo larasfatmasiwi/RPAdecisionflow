@@ -1,8 +1,20 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { mockTools } from '@/data/mockData'
 import { ReferenceCard } from '@/components/ui/ReferenceCard'
 import { BookOpen, Search } from 'lucide-react'
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+} from 'chart.js'
+import { Radar } from 'react-chartjs-2'
+
+ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend)
 
 export const Route = createFileRoute('/tools')({
   component: ToolsPage,
@@ -17,6 +29,15 @@ const scoreCards = [
   { label: 'Regulatory Feasibility', score: '4.0 / 5', color: 'bg-emerald-500' },
 ]
 
+const toolScores: Record<string, number> = {
+  'Technical Assistance / Grants': 8,
+  'Guarantee / Risk-Sharing': 7,
+  'First-Loss / Junior Capital': 9,
+  'Concessional Loan': 8,
+  'Hedging / Local Currency Facility': 6,
+  'Outcome-Based Incentives': 7,
+}
+
 function ToolsPage() {
   const [search, setSearch] = useState('')
 
@@ -28,6 +49,23 @@ function ToolsPage() {
       t.bestWhen.toLowerCase().includes(search.toLowerCase())
   )
 
+  const radarData = useMemo(
+    () => ({
+      labels: mockTools.map((tool) => tool.tool),
+      datasets: [
+        {
+          label: 'Score (1-10)',
+          data: mockTools.map((tool) => toolScores[tool.tool] ?? 5),
+          backgroundColor: 'rgba(37, 99, 235, 0.2)',
+          borderColor: 'rgba(37, 99, 235, 1)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgba(37, 99, 235, 1)',
+        },
+      ],
+    }),
+    []
+  )
+
   return (
     <div className="space-y-6">
       <div>
@@ -36,6 +74,25 @@ function ToolsPage() {
           Recommendation snapshot and reference library of {mockTools.length} blended finance instruments. Click any card to expand details.
         </p>
       </div>
+
+      <section className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
+        <h2 className="text-sm font-semibold text-gray-700 mb-3">Tool Scoring Radar (1–10)</h2>
+        <div className="h-[340px]">
+          <Radar
+            data={radarData}
+            options={{
+              maintainAspectRatio: false,
+              scales: {
+                r: {
+                  min: 1,
+                  max: 10,
+                  ticks: { stepSize: 1 },
+                },
+              },
+            }}
+          />
+        </div>
+      </section>
 
       <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-3">
         {scoreCards.map((card) => (

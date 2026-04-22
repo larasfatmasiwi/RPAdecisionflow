@@ -16,7 +16,7 @@ const decisionFlowItems = [
   { to: '/recommend', label: 'Decision Flow', icon: Workflow },
   { to: '/cases', label: 'Barrier Assessment', icon: ShieldAlert },
   { to: '/tools', label: 'Blended Finance Tool Recommendation', icon: Wrench },
-  { to: '/expansion', label: 'Expansion Option', icon: MoveUpRight },
+  { to: '/expansion', label: 'Global Expansion Option Recommendation', icon: MoveUpRight },
 ]
 
 export function AppNav() {
