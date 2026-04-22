@@ -48,7 +48,7 @@ const flowColumns = [
 ]
 
 function OverviewPage() {
-  const [country, setCountry] = useState('Kenya')
+  const [country, setCountry] = useState('Indonesia')
 
   const selected = useMemo(() => {
     const countryCase = mockCases.find((c) => c.country === country)

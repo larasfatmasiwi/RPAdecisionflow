@@ -40,17 +40,13 @@ const blendedFinanceIndicators = [
 ]
 
 const blendedFinanceScoresByCountry: Record<string, number[]> = {
-  Kenya: [8, 7, 7, 8, 6, 7, 8],
-  Nigeria: [7, 8, 8, 7, 6, 6, 7],
-  Bangladesh: [9, 7, 8, 8, 7, 7, 9],
-  Colombia: [8, 6, 7, 9, 7, 7, 8],
-  Vietnam: [7, 8, 7, 7, 6, 8, 7],
-  Ghana: [8, 7, 8, 8, 7, 7, 8],
+  Indonesia: [10, 8, 9, 8, 8, 8, 7],
+  Japan: [10, 7, 8, 9, 8, 7, 10],
 }
 
 function ToolsPage() {
   const [search, setSearch] = useState('')
-  const [country, setCountry] = useState('Kenya')
+  const [country, setCountry] = useState('Indonesia')
 
   const filtered = mockTools.filter(
     (t) =>

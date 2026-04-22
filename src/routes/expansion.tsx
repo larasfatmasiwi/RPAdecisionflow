@@ -30,17 +30,13 @@ const expansionIndicators = [
 ]
 
 const expansionScoresByCountry: Record<string, number[]> = {
-  Kenya: [8, 7, 8, 8, 7, 7],
-  Nigeria: [7, 6, 7, 8, 6, 6],
-  Bangladesh: [6, 7, 8, 7, 8, 7],
-  Colombia: [7, 6, 9, 7, 8, 7],
-  Vietnam: [8, 8, 7, 8, 7, 8],
-  Ghana: [7, 7, 8, 7, 8, 7],
+  Indonesia: [8, 8, 6, 8, 6, 7],
+  Japan: [7, 6, 9, 6, 8, 8],
 }
 
 function ExpansionPage() {
   const [search, setSearch] = useState('')
-  const [country, setCountry] = useState('Kenya')
+  const [country, setCountry] = useState('Indonesia')
 
   const filtered = mockExpansionOptions.filter(
     (e) =>
