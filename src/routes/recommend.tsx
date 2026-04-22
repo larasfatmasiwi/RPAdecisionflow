@@ -36,15 +36,6 @@ const sampleBarrier = mockBarriers.find((item) => item.linkedCaseId === sampleCa
 const sampleTool = mockTools.find((item) => item.tool === sampleBarrier?.recommendedTool) ?? mockTools[0]
 const sampleExpansion = mockExpansionOptions[0]
 
-
-const processSteps = [
-  { title: 'Step 1', description: 'Identify and define the development challenge', answer: 'Yes', decision: 'Proceed' },
-  { title: 'Step 2', description: 'Map the intermediaries already addressing the issue', answer: 'Yes', decision: 'Proceed' },
-  { title: 'Step 3', description: 'Diagnose the project stage and barriers', answer: 'Yes', decision: 'Proceed' },
-  { title: 'Step 4', description: 'Recommend a blended finance tool and risk', answer: 'Yes', decision: 'Proceed' },
-  { title: 'Step 5', description: 'Recommend a global expansion option for RPA', answer: 'Yes', decision: 'Proceed' },
-] as const
-
 const stepData: Record<string, Record<string, string>> = {
   Step1: {
     country: sampleCase.country,
@@ -99,23 +90,14 @@ function RecommendPage() {
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Decision Flow</h1>
         <p className="text-sm text-gray-500 mt-1">
-          Step-by-step decision inputs are shown first, followed by the recommendation engine output.
+          Recreated process diagram for the full decision flow logic.
         </p>
       </div>
 
       <section className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
-        <h2 className="text-sm font-semibold text-gray-700 mb-4">Decision Flow Diagram</h2>
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
-          {processSteps.map((step) => (
-            <article key={step.title} className="rounded-lg border border-slate-200 bg-slate-50 p-3 space-y-2">
-              <p className="text-xs font-bold text-slate-700">{step.title}</p>
-              <p className="text-xs text-slate-600 min-h-[56px]">{step.description}</p>
-              <div className="flex items-center justify-between gap-2 text-[11px]">
-                <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-semibold">{step.answer}</span>
-                <span className="px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 font-semibold">{step.decision}</span>
-              </div>
-            </article>
-          ))}
+        <h2 className="text-sm font-semibold text-gray-700 mb-3">Decision Flow Diagram</h2>
+        <div className="overflow-x-auto rounded-lg border border-slate-200 bg-[#efeff7]">
+          <FlowChartSvg />
         </div>
       </section>
 
@@ -188,6 +170,113 @@ function RecommendPage() {
         })}
       </section>
     </div>
+  )
+}
+
+function FlowChartSvg() {
+  return (
+    <svg viewBox="0 0 2350 310" className="w-[2350px] h-[310px] text-[10px] fill-none">
+      <defs>
+        <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" fill="#6b7280" />
+        </marker>
+      </defs>
+
+      <circle cx="35" cy="155" r="20" fill="#97f0be" stroke="#6b7280" />
+      <text x="35" y="158" textAnchor="middle" fill="#111827">Start</text>
+
+      <Box x={80} y={140} w={130} h={30} label="Step 1: Context Intake" />
+      <Path d="M55 155 L80 155" />
+      <Box x={260} y={140} w={180} h={30} label="Country + SDG + challenge details" skew />
+      <Path d="M210 155 L260 155" />
+      <Diamond x={500} y={155} w={95} h={42} label="Data valid?" />
+      <Path d="M440 155 L452 155" />
+      <Circle x={595} y={105} r={22} label="No" pink />
+      <Path d="M548 136 L577 114" />
+      <Box x={630} y={140} w={150} h={30} label="Step 2: Intermediaries" />
+      <Path d="M548 174 L630 155" label="Yes" />
+      <Box x={820} y={140} w={180} h={30} label="Map actors + roles + linkage" skew />
+      <Path d="M780 155 L820 155" />
+
+      <Diamond x={1060} y={155} w={95} h={42} label="Barrier?" />
+      <Path d="M1000 155 L1012 155" />
+      <Circle x={1155} y={105} r={22} label="No" pink />
+      <Path d="M1108 136 L1137 114" />
+      <Box x={1190} y={140} w={150} h={30} label="Step 3: Diagnosis" />
+      <Path d="M1108 174 L1190 155" label="Yes" />
+
+      <Diamond x={1400} y={155} w={95} h={42} label="Tool fit?" />
+      <Path d="M1340 155 L1352 155" />
+      <Box x={1540} y={40} w={130} h={30} label="TA / Grants" />
+      <Box x={1540} y={85} w={130} h={30} label="Guarantee" />
+      <Box x={1540} y={130} w={130} h={30} label="First-loss" />
+      <Box x={1540} y={175} w={130} h={30} label="Concessional Loan" />
+      <Box x={1540} y={220} w={130} h={30} label="Hedging" />
+      <Box x={1540} y={265} w={130} h={30} label="Outcome Incentive" />
+      <Path d="M1495 155 L1540 55" label="Barrier A" />
+      <Path d="M1495 155 L1540 100" label="Barrier B" />
+      <Path d="M1495 155 L1540 145" label="Barrier C" />
+      <Path d="M1495 155 L1540 190" label="Barrier D" />
+      <Path d="M1495 155 L1540 235" label="Barrier E" />
+      <Path d="M1495 155 L1540 280" label="Barrier F" />
+
+      <Box x={1710} y={140} w={160} h={30} label="Step 4: Tool + risk output" />
+      <Path d="M1670 145 L1710 155" />
+      <Box x={1910} y={140} w={190} h={30} label="Step 5: Global expansion option" skew />
+      <Path d="M1870 155 L1910 155" />
+      <Diamond x={2145} y={155} w={95} h={42} label="Proceed?" />
+      <Path d="M2100 155 L2097 155" />
+
+      <Circle x={2245} y={100} r={22} label="Review" yellow />
+      <Path d="M2193 136 L2227 111" label="No" />
+      <circle cx="2320" cy="155" r="20" fill="#97f0be" stroke="#6b7280" />
+      <text x="2320" y="158" textAnchor="middle" fill="#111827">End</text>
+      <Path d="M2193 174 L2300 155" label="Yes" />
+    </svg>
+  )
+}
+
+function Box({ x, y, w, h, label, skew = false }: { x: number; y: number; w: number; h: number; label: string; skew?: boolean }) {
+  const points = skew
+    ? `${x + 10},${y} ${x + w},${y} ${x + w - 10},${y + h} ${x},${y + h}`
+    : undefined
+
+  return (
+    <g>
+      {skew ? (
+        <polygon points={points} fill="#edc49d" stroke="#6b7280" />
+      ) : (
+        <rect x={x} y={y} width={w} height={h} rx={3} fill="#edc49d" stroke="#6b7280" />
+      )}
+      <text x={x + w / 2} y={y + h / 2 + 3} textAnchor="middle" fill="#111827">{label}</text>
+    </g>
+  )
+}
+
+function Diamond({ x, y, w, h, label }: { x: number; y: number; w: number; h: number; label: string }) {
+  const halfW = w / 2
+  const halfH = h / 2
+  const points = `${x},${y - halfH} ${x + halfW},${y} ${x},${y + halfH} ${x - halfW},${y}`
+  return (
+    <g>
+      <polygon points={points} fill="#f7f0a8" stroke="#6b7280" />
+      <text x={x} y={y + 3} textAnchor="middle" fill="#111827">{label}</text>
+    </g>
+  )
+}
+
+function Circle({ x, y, r, label, pink = false, yellow = false }: { x: number; y: number; r: number; label: string; pink?: boolean; yellow?: boolean }) {
+  return (
+    <g>
+      <circle cx={x} cy={y} r={r} fill={pink ? '#f6c1c7' : yellow ? '#f7ef99' : '#bff4cd'} stroke="#6b7280" />
+      <text x={x} y={y + 3} textAnchor="middle" fill="#111827">{label}</text>
+    </g>
+  )
+}
+
+function Path({ d }: { d: string; label?: string }) {
+  return (
+    <path d={d} stroke="#6b7280" strokeWidth="1.2" markerEnd="url(#arrow)" />
   )
 }
 
