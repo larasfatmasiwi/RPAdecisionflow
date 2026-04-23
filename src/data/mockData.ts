@@ -22,7 +22,7 @@ export const mockCases: CountryCase[] = [
     developmentRationale:
       'Japan is responding through community-based integrated care that combines healthcare, long-term care, prevention, housing, and daily-life support. Toyota City’s “Zutto Genki!” Project is relevant because it uses a preventive-care model to support healthy ageing, increase social participation, and potentially reduce future long-term care costs.',
     expectedResults:
-      'Create cost savings for long-term healthcare through preventive care and stronger social participation among older residents.',
+      'Create cost savings for long-term healthcare through preventive care and stronger social participation among older residents. According to the 11-year prospective cohort study of healthy Japanese older adults, compared with non-participants, respondents who took part in hobby groups or sports activities once a week incurred lower costs for LTCI services (approximately US$3.5 and US$6.1 thousand, respectively, per person), even after demographic variables and health status at baseline were controlled',
     safeguards:
       'Government involvement to support elderly healthcare policy and broader quality considerations around public delivery, accountability, and social inclusion.',
     sources:
