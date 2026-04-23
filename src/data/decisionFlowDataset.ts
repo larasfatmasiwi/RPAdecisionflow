@@ -99,7 +99,7 @@ export const countryProfiles: CountryProfile[] = [
   {
     country: 'Indonesia',
     sdgTarget: 'SDG 7 - Affordable and clean energy',
-    challenge: 'Clean energy for villages',
+    challenge: 'Clean energy transition',
     background: [
       'National electrification reached 99.83% in 2024; challenge has shifted to cleaner supply growth.',
       'Electricity sales reached 303.4 TWh in 2024, with demand around 445 TWh by 2030 in current trajectories.',
