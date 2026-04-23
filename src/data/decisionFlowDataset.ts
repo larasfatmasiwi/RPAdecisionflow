@@ -110,7 +110,7 @@ export const countryProfiles: CountryProfile[] = [
       'Catalytic capital is needed to close viability gaps for small renewables.',
       'SDG Indonesia One blends public-private capital and Pandanduri shows a concrete case with measurable implementation progress.',
     ],
-    expectedResults: ['Reach 75 GW clean energy by 2040.'],
+    expectedResults: ['Support progress toward clean-energy expansion. Pandanduri able to reach renewable energy capacity of 2 x 290 kW. Indonesia will be able to reach 75 GW of clean energy by 2040.'],
     safeguards: [
       'Project-level ESG due diligence and transparent viability-gap allocation.',
       'Stakeholder alignment between PT SMI, donors, and local sponsors.',
