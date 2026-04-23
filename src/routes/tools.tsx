@@ -288,7 +288,7 @@ function ToolsPage() {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
+      {/* <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
         {scoreCards.map((card) => (
           <article key={card.label} className="rounded-2xl border border-slate-200 bg-white p-4">
             <p className="text-sm font-semibold text-slate-700">{card.label}</p>
@@ -298,7 +298,7 @@ function ToolsPage() {
             </div>
           </article>
         ))}
-      </section>
+      </section> */}
 
       <div className="relative max-w-md">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
