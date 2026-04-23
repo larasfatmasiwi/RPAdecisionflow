@@ -1,3 +1,4 @@
+import { useState, type ReactNode } from 'react'
 import { HeadContent, Scripts, createRootRoute, Outlet } from '@tanstack/react-router'
 import { AppNav } from '@/components/AppNav'
 import '../styles.css'
@@ -14,7 +15,7 @@ export const Route = createRootRoute({
   component: RootLayout,
 })
 
-function RootDocument({ children }: { children: React.ReactNode }) {
+function RootDocument({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -29,9 +30,36 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 }
 
 function RootLayout() {
+  const [navOpen, setNavOpen] = useState<boolean | null>(null)
+
+  const toggleNav = () => {
+    setNavOpen((current) => {
+      if (current !== null) {
+        return !current
+      }
+
+      const isDesktop = window.matchMedia('(min-width: 768px)').matches
+      return !isDesktop
+    })
+  }
+
+  const closeNavOnMobile = () => {
+    if (!window.matchMedia('(min-width: 768px)').matches) {
+      setNavOpen(false)
+    }
+  }
+
   return (
     <div className="min-h-screen flex">
-      <AppNav />
+      <AppNav isOpen={navOpen} onToggle={toggleNav} onNavigate={closeNavOnMobile} />
+      {navOpen && (
+        <button
+          type="button"
+          className="fixed inset-0 z-30 bg-slate-950/35 md:hidden"
+          aria-label="Close navigation overlay"
+          onClick={() => setNavOpen(false)}
+        />
+      )}
       <main className="flex-1 px-5 py-4 overflow-x-hidden">
         <Outlet />
       </main>
