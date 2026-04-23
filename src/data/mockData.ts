@@ -41,7 +41,7 @@ export const mockCases: CountryCase[] = [
     developmentRationale:
       'Catalytic capital matters because many clean-energy projects remain commercially difficult even when developmentally valuable. SDG Indonesia One was designed as a blended-finance platform to combine public and private capital and support sustainable infrastructure. Pandanduri is a strong example because it had a clear financing gap, identified catalytic support, named donors and lenders, and measurable implementation progress.',
     expectedResults:
-      'Support progress toward clean-energy expansion, including the 75 GW clean-energy ambition referenced in the worksheet.',
+      'Support progress toward clean-energy expansion. Pandanduri able to reach renewable energy capacity of 2 x 290 kW. Indonesia will be able to reach 75 GW of clean energy by 2040.',
     safeguards:
       'Quality considerations center on project bankability, donor and lender coordination, and disciplined use of catalytic support so concessional funding closes real viability gaps without over-subsidizing projects.',
     sources:
