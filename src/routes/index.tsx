@@ -1,16 +1,21 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import type { ComponentType, ReactNode } from 'react'
+import { useState } from 'react'
 import {
   ArrowRight,
   BadgeDollarSign,
   BarChart3,
   Building2,
+  CheckCircle2,
   CircleDollarSign,
   Globe2,
   Layers3,
   Network,
+  ShieldCheck,
   ShieldAlert,
+  Target,
   TrendingUp,
+  XCircle,
 } from 'lucide-react'
 
 export const Route = createFileRoute('/')({
@@ -31,6 +36,17 @@ const barrierDescriptions = [
   ['Impact evidence gap', 'Development outcomes are promising but measurement, attribution, or verification systems are not mature.'],
 ]
 
+const stageBarrierRows = projectStages.map(([stage, stageDescription], index) => {
+  const [barrierCategory, barrierDescription] = barrierDescriptions[index] ?? ['', '']
+
+  return {
+    stage,
+    stageDescription,
+    barrierCategory,
+    barrierDescription,
+  }
+})
+
 const formulas = [
   ['Funding Gap', 'Total Project Cost - Committed Capital'],
   ['Capital Mobilization Ratio', 'Private or third-party capital mobilized / concessional capital deployed'],
@@ -50,12 +66,126 @@ const blendedIndicators = [
 ]
 
 const instruments = [
-  ['Concessional Loan', 'Below-market debt that improves affordability, tenor, or repayment profile.'],
-  ['Guarantee / Risk-sharing', 'Credit support that reduces lender or investor downside risk.'],
-  ['First-loss / Junior Capital', 'Subordinated capital that absorbs early losses and improves senior investor confidence.'],
-  ['Technical Assistance / Grants', 'Non-repayable support for project preparation, capacity, studies, or early implementation gaps.'],
-  ['Hedging / Local-currency Facility', 'Currency or rate-risk mitigation for projects with mismatched revenues and liabilities.'],
-  ['Outcome-based Incentives', 'Payments, rewards, or subsidies tied to verified outputs or outcomes.'],
+  {
+    title: 'Technical Assistance / Grants',
+    shortDescription: 'Non-repayable support for project preparation, capacity, studies, or early implementation gaps.',
+    description:
+      'Technical assistance enhances investees’ capacity and reduces transaction costs. Grants can also support early-stage project preparation, feasibility studies, and project development capital where no repayment is expected.',
+    bestWhen:
+      'High upfront costs, limited project readiness, weak sponsor capacity, or a need for early-stage project preparation before private investors can enter.',
+    strengths: [
+      'Strong fit for early-stage opportunities',
+      'Improves project readiness and sponsor capacity',
+      'Flexible and adaptable across sectors',
+    ],
+    weaknesses: [
+      'Does not always mobilize capital quickly',
+      'Financial impact is indirect at first',
+      'Can be too soft if the real barrier is already beyond readiness',
+    ],
+    methodologies: ['Regulatory risk', 'Expected loss'],
+    accent: 'from-sky-600 to-cyan-500',
+  },
+  {
+    title: 'Guarantee / Risk-sharing',
+    shortDescription: 'Credit support that reduces lender or investor downside risk.',
+    description:
+      'Guarantees provide protection against forms of risk intended to prevent capital losses for investors. Risk-sharing arrangements can cover debt service, regulatory risk, off-taker risk, or losses across a portfolio of investments.',
+    bestWhen:
+      'Investor hesitation is driven by credit risk, off-taker risk, regulatory risk, currency risk, or other perceived risks that make the project less attractive.',
+    strengths: [
+      'Strong mobilization potential',
+      'Can crowd in lenders effectively',
+      'Targets risk perception directly',
+    ],
+    weaknesses: [
+      'Poor fit if the project is still immature',
+      'Can be over-engineered',
+      'Requires clear governance, pricing, and claims discipline',
+    ],
+    methodologies: ['Expected loss'],
+    accent: 'from-blue-600 to-sky-500',
+  },
+  {
+    title: 'First-loss / Junior Capital',
+    shortDescription: 'Subordinated capital that absorbs early losses and improves senior investor confidence.',
+    description:
+      'First-loss or junior capital absorbs initial losses or ranks lower in repayment than senior investors. It can take the form of first-loss guarantees, subordinated debt, mezzanine finance, or junior equity.',
+    bestWhen:
+      'Downside protection is needed in high-risk markets, new technologies, early-stage business models, or projects where crowding in senior capital is difficult.',
+    strengths: [
+      'Strong risk absorption',
+      'Can unlock more senior capital',
+      'Useful for difficult blended structures',
+    ],
+    weaknesses: [
+      'High risk for catalytic funders',
+      'Can over-subsidize if the barrier diagnosis is wrong',
+      'Structuring can be complex',
+    ],
+    methodologies: ['Expected loss', 'Value-at-risk'],
+    accent: 'from-indigo-600 to-blue-500',
+  },
+  {
+    title: 'Concessional Loans',
+    shortDescription: 'Below-market debt that improves affordability, tenor, or repayment profile.',
+    description:
+      'Concessional loans provide repayable money with favorable terms relative to market pricing. They may include below-market interest rates, longer tenors, grace periods, reduced collateral requirements, or deferrals.',
+    bestWhen:
+      'Projects require debt financing where market-rate capital is too expensive, available tenors are too short, or risk-adjusted returns fall below commercial thresholds.',
+    strengths: [
+      'Helps improve financial viability',
+      'Useful for affordability and tenor gaps',
+      'Can support scale-up once a project is ready',
+    ],
+    weaknesses: [
+      'Can distort markets if too concessional',
+      'Needs strong discipline on subsidy sizing',
+      'Not ideal if the real problem is still readiness',
+    ],
+    methodologies: ['Expected loss', 'Discounted cash flow', 'Public-private partnership risk allocation'],
+    accent: 'from-slate-700 to-blue-600',
+  },
+  {
+    title: 'FX Risk Mitigation / Local Currency Facility',
+    shortDescription: 'Currency or rate-risk mitigation for projects with mismatched revenues and liabilities.',
+    description:
+      'FX risk mitigation protects investors or borrowers against foreign exchange risk. Instruments such as hedging, local currency financing support, or FX liquidity facilities can reduce exchange-rate volatility and improve access to local or foreign currency.',
+    bestWhen:
+      'Borrowers earn revenue in local currency while financing is in hard currency, limited or costly hedging instruments exist, or exchange-rate volatility limits private investment.',
+    strengths: [
+      'Highly targeted to FX barriers',
+      'Protects borrowers and investors from volatility',
+      'Can make otherwise viable deals financeable',
+    ],
+    weaknesses: [
+      'Technical and potentially costly',
+      'Does not solve weak pipeline or poor governance',
+      'May be unavailable in some markets',
+    ],
+    methodologies: ['Political risk'],
+    accent: 'from-cyan-600 to-blue-500',
+  },
+  {
+    title: 'Outcome-based Incentives',
+    shortDescription: 'Payments, rewards, or subsidies tied to verified outputs or outcomes.',
+    description:
+      'Additional payments are made conditional on achieving key performance indicators. Incentives are paid during a pre-agreed, time-bound period to organizations that achieve predefined targets.',
+    bestWhen:
+      'Outcomes are clearly measurable and verifiable, especially where incentives are needed to pursue new business lines, reach underserved segments, or deliver social, environmental, or economic impact.',
+    strengths: [
+      'Strong accountability and measurement logic',
+      'Useful for social systems and public-good outcomes',
+      'Can align funding with verified results',
+    ],
+    weaknesses: [
+      'Complex to structure',
+      'Requires a credible evaluator and clear outcome payer',
+      'Often involves long time lags before outcomes are verified',
+    ],
+    methodologies: ['Rating agency methodologies'],
+    accent: 'from-blue-700 to-indigo-500',
+  },
 ]
 
 const expansionIndicators = [
@@ -111,10 +241,7 @@ function OverviewPage() {
         title="Project Stage and Barrier Description"
         copy="The first decision is not the instrument. It is the project’s maturity and the constraint that prevents capital or implementation from moving."
       >
-        <div className="grid gap-4 lg:grid-cols-2">
-          <InfoGroup icon={Building2} title="Project Stage" items={projectStages} />
-          <InfoGroup icon={ShieldAlert} title="Barrier Description" items={barrierDescriptions} />
-        </div>
+        <StageBarrierTable rows={stageBarrierRows} />
       </ReferenceSection>
 
       <ReferenceSection
@@ -146,11 +273,7 @@ function OverviewPage() {
         title="Blended Finance Instrument"
         copy="The tool set spans repayable capital, risk mitigation, grants, currency support, and performance-linked incentives."
       >
-        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-          {instruments.map(([title, description]) => (
-            <CompactTile key={title} icon={CircleDollarSign} title={title} description={description} />
-          ))}
-        </div>
+        <BlendedInstrumentExplorer instruments={instruments} />
       </ReferenceSection>
 
       <ReferenceSection
@@ -203,28 +326,40 @@ function ReferenceSection({
   )
 }
 
-function InfoGroup({
-  icon: Icon,
-  title,
-  items,
+function StageBarrierTable({
+  rows,
 }: {
-  icon: ComponentType<{ className?: string }>
-  title: string
-  items: string[][]
+  rows: {
+    stage: string
+    stageDescription: string
+    barrierCategory: string
+    barrierDescription: string
+  }[]
 }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <div className="mb-5 flex items-center gap-3">
-        <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-slate-950 text-white">
-          <Icon className="h-5 w-5" />
-        </span>
-        <h3 className="text-xl font-bold text-slate-950">{title}</h3>
+    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <div className="grid gap-4 bg-slate-950 px-5 py-4 text-sm font-bold uppercase tracking-[0.16em] text-white md:grid-cols-[1.15fr_0.85fr_1.45fr]">
+        <div className="flex items-center gap-2">
+          <Building2 className="h-4 w-4" />
+          Project Stage
+        </div>
+        <div className="flex items-center gap-2">
+          <ShieldAlert className="h-4 w-4" />
+          Barrier Category
+        </div>
+        <div>Description</div>
       </div>
-      <div className="space-y-3">
-        {items.map(([itemTitle, description]) => (
-          <div key={itemTitle} className="border-t border-slate-100 pt-3">
-            <p className="font-bold text-slate-900">{itemTitle}</p>
-            <p className="mt-1 text-sm leading-6 text-slate-600">{description}</p>
+      <div className="divide-y divide-slate-100">
+        {rows.map((row) => (
+          <div key={`${row.stage}-${row.barrierCategory}`} className="grid gap-4 px-5 py-5 md:grid-cols-[1.15fr_0.85fr_1.45fr]">
+            <div>
+              <p className="text-base font-bold text-slate-950">{row.stage}</p>
+              <p className="mt-1 text-sm leading-6 text-slate-600">{row.stageDescription}</p>
+            </div>
+            <div>
+              <p className="inline-flex rounded-full bg-blue-50 px-3 py-1 text-sm font-bold text-blue-800">{row.barrierCategory}</p>
+            </div>
+            <p className="text-sm leading-6 text-slate-600">{row.barrierDescription}</p>
           </div>
         ))}
       </div>
@@ -256,6 +391,149 @@ function CompactTile({
       <Icon className="h-5 w-5 text-blue-700" />
       <h3 className="mt-3 font-bold text-slate-950">{title}</h3>
       <p className="mt-2 text-sm leading-6 text-slate-600">{description}</p>
+    </div>
+  )
+}
+
+function BlendedInstrumentExplorer({
+  instruments,
+}: {
+  instruments: {
+    title: string
+    shortDescription: string
+    description: string
+    bestWhen: string
+    strengths: string[]
+    weaknesses: string[]
+    methodologies: string[]
+    accent: string
+  }[]
+}) {
+  const [selectedTitle, setSelectedTitle] = useState(instruments[0]?.title ?? '')
+  const selected = instruments.find((instrument) => instrument.title === selectedTitle) ?? instruments[0]
+
+  return (
+    <div className="grid gap-5 xl:grid-cols-[0.92fr_1.08fr]">
+      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-1">
+        {instruments.map((instrument) => {
+          const isSelected = instrument.title === selected.title
+
+          return (
+            <button
+              key={instrument.title}
+              type="button"
+              onClick={() => setSelectedTitle(instrument.title)}
+              aria-pressed={isSelected}
+              className={`group relative overflow-hidden rounded-2xl border p-5 text-left shadow-sm transition duration-200 ${
+                isSelected
+                  ? 'border-blue-950 bg-slate-950 text-white shadow-xl shadow-blue-100'
+                  : 'border-slate-200 bg-white text-slate-950 hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-100/60'
+              }`}
+            >
+              <div className={`absolute inset-y-0 left-0 w-1.5 bg-gradient-to-b ${instrument.accent}`} />
+              <div
+                className={`absolute -right-10 -top-14 h-32 w-32 rounded-full bg-gradient-to-br ${instrument.accent} opacity-10 transition group-hover:scale-125`}
+              />
+              <div className="relative flex items-start gap-4">
+                <span
+                  className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${instrument.accent} text-white shadow-lg`}
+                >
+                  <CircleDollarSign className="h-5 w-5" />
+                </span>
+                <span>
+                  <span className="block text-base font-bold">{instrument.title}</span>
+                  <span className={`mt-2 block text-sm leading-6 ${isSelected ? 'text-slate-200' : 'text-slate-600'}`}>
+                    {instrument.shortDescription}
+                  </span>
+                </span>
+              </div>
+            </button>
+          )
+        })}
+      </div>
+
+      <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-blue-100/70">
+        <div className={`h-2 bg-gradient-to-r ${selected.accent}`} />
+        <div className="absolute right-0 top-0 h-56 w-56 translate-x-16 -translate-y-20 rounded-full bg-slate-100" />
+        <div className={`absolute right-10 top-12 h-24 w-24 rounded-full bg-gradient-to-br ${selected.accent} opacity-12`} />
+        <div className="relative p-6 md:p-8">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div className="max-w-2xl">
+              <p className="text-sm font-bold uppercase tracking-[0.18em] text-slate-500">Selected Instrument</p>
+              <h3 className="mt-2 text-3xl font-bold tracking-normal text-slate-950">{selected.title}</h3>
+              <p className="mt-4 text-base leading-7 text-slate-600">{selected.description}</p>
+            </div>
+            <span className={`inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${selected.accent} text-white shadow-lg`}>
+              <ShieldCheck className="h-7 w-7" />
+            </span>
+          </div>
+
+          <div className="mt-7 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <div className="flex items-center gap-3">
+              <span className={`inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br ${selected.accent} text-white`}>
+                <Target className="h-4 w-4" />
+              </span>
+              <h4 className="text-sm font-bold uppercase tracking-[0.16em] text-slate-900">Best when</h4>
+            </div>
+            <p className="mt-3 text-sm leading-6 text-slate-600">{selected.bestWhen}</p>
+          </div>
+
+          <div className="mt-5 grid gap-4 lg:grid-cols-2">
+            <InsightList title="Strengths" icon={CheckCircle2} items={selected.strengths} tone="green" />
+            <InsightList title="Weaknesses" icon={XCircle} items={selected.weaknesses} tone="red" />
+          </div>
+
+          <div className="mt-5">
+            <h4 className="text-sm font-bold uppercase tracking-[0.16em] text-slate-900">Risk Assessment Methodologies</h4>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {selected.methodologies.map((methodology) => (
+                <span
+                  key={methodology}
+                  className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-bold text-slate-700 shadow-sm"
+                >
+                  {methodology}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function InsightList({
+  title,
+  icon: Icon,
+  items,
+  tone,
+}: {
+  title: string
+  icon: ComponentType<{ className?: string }>
+  items: string[]
+  tone: 'green' | 'red'
+}) {
+  const toneClasses =
+    tone === 'green'
+      ? 'border-emerald-100 bg-emerald-50 text-emerald-700'
+      : 'border-rose-100 bg-rose-50 text-rose-700'
+
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="flex items-center gap-3">
+        <span className={`inline-flex h-9 w-9 items-center justify-center rounded-full border ${toneClasses}`}>
+          <Icon className="h-4 w-4" />
+        </span>
+        <h4 className="text-sm font-bold uppercase tracking-[0.16em] text-slate-900">{title}</h4>
+      </div>
+      <div className="mt-4 space-y-3">
+        {items.map((item) => (
+          <div key={item} className="flex gap-3 text-sm leading-6 text-slate-600">
+            <span className={`mt-2 h-2 w-2 shrink-0 rounded-full ${tone === 'green' ? 'bg-emerald-500' : 'bg-rose-500'}`} />
+            <span>{item}</span>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
