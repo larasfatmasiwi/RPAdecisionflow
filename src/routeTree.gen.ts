@@ -11,7 +11,15 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ToolsRouteImport } from './routes/tools'
 import { Route as RecommendRouteImport } from './routes/recommend'
+import { Route as InputDataRouteImport } from './routes/input-data'
+import { Route as FinalReportRouteImport } from './routes/final-report'
 import { Route as ExpansionRouteImport } from './routes/expansion'
+import { Route as DecisionFlowRouteImport } from './routes/decision-flow'
+import { Route as DecisionFlowStep5RouteImport } from './routes/decision-flow.step-5'
+import { Route as DecisionFlowStep4RouteImport } from './routes/decision-flow.step-4'
+import { Route as DecisionFlowStep3RouteImport } from './routes/decision-flow.step-3'
+import { Route as DecisionFlowStep2RouteImport } from './routes/decision-flow.step-2'
+import { Route as DecisionFlowStep1RouteImport } from './routes/decision-flow.step-1'
 import { Route as CasesRouteImport } from './routes/cases'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -25,9 +33,49 @@ const RecommendRoute = RecommendRouteImport.update({
   path: '/recommend',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InputDataRoute = InputDataRouteImport.update({
+  id: '/input-data',
+  path: '/input-data',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FinalReportRoute = FinalReportRouteImport.update({
+  id: '/final-report',
+  path: '/final-report',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ExpansionRoute = ExpansionRouteImport.update({
   id: '/expansion',
   path: '/expansion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DecisionFlowRoute = DecisionFlowRouteImport.update({
+  id: '/decision-flow',
+  path: '/decision-flow',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DecisionFlowStep5Route = DecisionFlowStep5RouteImport.update({
+  id: '/decision-flow/step-5',
+  path: '/decision-flow/step-5',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DecisionFlowStep4Route = DecisionFlowStep4RouteImport.update({
+  id: '/decision-flow/step-4',
+  path: '/decision-flow/step-4',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DecisionFlowStep3Route = DecisionFlowStep3RouteImport.update({
+  id: '/decision-flow/step-3',
+  path: '/decision-flow/step-3',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DecisionFlowStep2Route = DecisionFlowStep2RouteImport.update({
+  id: '/decision-flow/step-2',
+  path: '/decision-flow/step-2',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DecisionFlowStep1Route = DecisionFlowStep1RouteImport.update({
+  id: '/decision-flow/step-1',
+  path: '/decision-flow/step-1',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CasesRoute = CasesRouteImport.update({
@@ -44,14 +92,30 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cases': typeof CasesRoute
+  '/decision-flow/step-1': typeof DecisionFlowStep1Route
+  '/decision-flow/step-2': typeof DecisionFlowStep2Route
+  '/decision-flow/step-3': typeof DecisionFlowStep3Route
+  '/decision-flow/step-4': typeof DecisionFlowStep4Route
+  '/decision-flow/step-5': typeof DecisionFlowStep5Route
+  '/decision-flow': typeof DecisionFlowRoute
   '/expansion': typeof ExpansionRoute
+  '/final-report': typeof FinalReportRoute
+  '/input-data': typeof InputDataRoute
   '/recommend': typeof RecommendRoute
   '/tools': typeof ToolsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cases': typeof CasesRoute
+  '/decision-flow/step-1': typeof DecisionFlowStep1Route
+  '/decision-flow/step-2': typeof DecisionFlowStep2Route
+  '/decision-flow/step-3': typeof DecisionFlowStep3Route
+  '/decision-flow/step-4': typeof DecisionFlowStep4Route
+  '/decision-flow/step-5': typeof DecisionFlowStep5Route
+  '/decision-flow': typeof DecisionFlowRoute
   '/expansion': typeof ExpansionRoute
+  '/final-report': typeof FinalReportRoute
+  '/input-data': typeof InputDataRoute
   '/recommend': typeof RecommendRoute
   '/tools': typeof ToolsRoute
 }
@@ -59,22 +123,78 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cases': typeof CasesRoute
+  '/decision-flow/step-1': typeof DecisionFlowStep1Route
+  '/decision-flow/step-2': typeof DecisionFlowStep2Route
+  '/decision-flow/step-3': typeof DecisionFlowStep3Route
+  '/decision-flow/step-4': typeof DecisionFlowStep4Route
+  '/decision-flow/step-5': typeof DecisionFlowStep5Route
+  '/decision-flow': typeof DecisionFlowRoute
   '/expansion': typeof ExpansionRoute
+  '/final-report': typeof FinalReportRoute
+  '/input-data': typeof InputDataRoute
   '/recommend': typeof RecommendRoute
   '/tools': typeof ToolsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cases' | '/expansion' | '/recommend' | '/tools'
+  fullPaths:
+    | '/'
+    | '/cases'
+    | '/decision-flow/step-1'
+    | '/decision-flow/step-2'
+    | '/decision-flow/step-3'
+    | '/decision-flow/step-4'
+    | '/decision-flow/step-5'
+    | '/decision-flow'
+    | '/expansion'
+    | '/final-report'
+    | '/input-data'
+    | '/recommend'
+    | '/tools'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cases' | '/expansion' | '/recommend' | '/tools'
-  id: '__root__' | '/' | '/cases' | '/expansion' | '/recommend' | '/tools'
+  to:
+    | '/'
+    | '/cases'
+    | '/decision-flow/step-1'
+    | '/decision-flow/step-2'
+    | '/decision-flow/step-3'
+    | '/decision-flow/step-4'
+    | '/decision-flow/step-5'
+    | '/decision-flow'
+    | '/expansion'
+    | '/final-report'
+    | '/input-data'
+    | '/recommend'
+    | '/tools'
+  id:
+    | '__root__'
+    | '/'
+    | '/cases'
+    | '/decision-flow/step-1'
+    | '/decision-flow/step-2'
+    | '/decision-flow/step-3'
+    | '/decision-flow/step-4'
+    | '/decision-flow/step-5'
+    | '/decision-flow'
+    | '/expansion'
+    | '/final-report'
+    | '/input-data'
+    | '/recommend'
+    | '/tools'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CasesRoute: typeof CasesRoute
+  DecisionFlowStep1Route: typeof DecisionFlowStep1Route
+  DecisionFlowStep2Route: typeof DecisionFlowStep2Route
+  DecisionFlowStep3Route: typeof DecisionFlowStep3Route
+  DecisionFlowStep4Route: typeof DecisionFlowStep4Route
+  DecisionFlowStep5Route: typeof DecisionFlowStep5Route
+  DecisionFlowRoute: typeof DecisionFlowRoute
   ExpansionRoute: typeof ExpansionRoute
+  FinalReportRoute: typeof FinalReportRoute
+  InputDataRoute: typeof InputDataRoute
   RecommendRoute: typeof RecommendRoute
   ToolsRoute: typeof ToolsRoute
 }
@@ -95,11 +215,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RecommendRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/input-data': {
+      id: '/input-data'
+      path: '/input-data'
+      fullPath: '/input-data'
+      preLoaderRoute: typeof InputDataRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/final-report': {
+      id: '/final-report'
+      path: '/final-report'
+      fullPath: '/final-report'
+      preLoaderRoute: typeof FinalReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/expansion': {
       id: '/expansion'
       path: '/expansion'
       fullPath: '/expansion'
       preLoaderRoute: typeof ExpansionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/decision-flow': {
+      id: '/decision-flow'
+      path: '/decision-flow'
+      fullPath: '/decision-flow'
+      preLoaderRoute: typeof DecisionFlowRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/decision-flow/step-5': {
+      id: '/decision-flow/step-5'
+      path: '/decision-flow/step-5'
+      fullPath: '/decision-flow/step-5'
+      preLoaderRoute: typeof DecisionFlowStep5RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/decision-flow/step-4': {
+      id: '/decision-flow/step-4'
+      path: '/decision-flow/step-4'
+      fullPath: '/decision-flow/step-4'
+      preLoaderRoute: typeof DecisionFlowStep4RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/decision-flow/step-3': {
+      id: '/decision-flow/step-3'
+      path: '/decision-flow/step-3'
+      fullPath: '/decision-flow/step-3'
+      preLoaderRoute: typeof DecisionFlowStep3RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/decision-flow/step-2': {
+      id: '/decision-flow/step-2'
+      path: '/decision-flow/step-2'
+      fullPath: '/decision-flow/step-2'
+      preLoaderRoute: typeof DecisionFlowStep2RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/decision-flow/step-1': {
+      id: '/decision-flow/step-1'
+      path: '/decision-flow/step-1'
+      fullPath: '/decision-flow/step-1'
+      preLoaderRoute: typeof DecisionFlowStep1RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cases': {
@@ -122,7 +298,15 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CasesRoute: CasesRoute,
+  DecisionFlowStep1Route: DecisionFlowStep1Route,
+  DecisionFlowStep2Route: DecisionFlowStep2Route,
+  DecisionFlowStep3Route: DecisionFlowStep3Route,
+  DecisionFlowStep4Route: DecisionFlowStep4Route,
+  DecisionFlowStep5Route: DecisionFlowStep5Route,
+  DecisionFlowRoute: DecisionFlowRoute,
   ExpansionRoute: ExpansionRoute,
+  FinalReportRoute: FinalReportRoute,
+  InputDataRoute: InputDataRoute,
   RecommendRoute: RecommendRoute,
   ToolsRoute: ToolsRoute,
 }
