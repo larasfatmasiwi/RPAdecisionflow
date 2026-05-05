@@ -1,6 +1,6 @@
 # Blended Finance Strategic Scorecard Dashboard
 
-An interactive decision-support platform for blended finance and global expansion analysis. Built on top of a multi-step Excel-based strategic scorecard framework, this dashboard transforms static spreadsheet data into a dynamic, searchable, and filterable web application.
+An interactive decision-support platform for blended finance and global expansion analysis. Built on top of a multi-step Excel-based strategic scorecard framework, this dashboard transforms static spreadsheet data into a dynamic, searchable, and filterable web application system.
 
 ## What It Does
 
