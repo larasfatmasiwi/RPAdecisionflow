@@ -1,6 +1,14 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { ExcelLinkedDecisionFlowLandingPage } from '@/components/ExcelLinkedPages'
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/decision-flow')({
-  component: ExcelLinkedDecisionFlowLandingPage,
+  beforeLoad: ({ location }) => {
+    if (location.pathname === '/decision-flow') {
+      throw redirect({ to: '/decision-flow/step-1' })
+    }
+  },
+  component: DecisionFlowLayout,
 })
+
+function DecisionFlowLayout() {
+  return <Outlet />
+}
