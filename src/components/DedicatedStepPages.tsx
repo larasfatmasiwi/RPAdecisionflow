@@ -10,6 +10,7 @@ import {
 type Cell = string | number | boolean | null
 type Rows = Cell[][]
 const STORAGE_KEY = 'rpaUploadedWorkbookSheets'
+const PROJECT_KEY = 'rpaSelectedProjectId'
 
 const scenario = projectScenarios[0]
 const profile = countryProfiles.find((item) => item.country === scenario.country)
@@ -49,6 +50,27 @@ function uploadedRows(sheet: string): Rows | null {
   }
 }
 
+
+function getSelectedCountry() {
+  if (typeof window === 'undefined') return scenario.country
+  const selectedProjectId = localStorage.getItem(PROJECT_KEY)
+  const selectedScenario = projectScenarios.find((item) => item.id === selectedProjectId)
+  return selectedScenario?.country ?? scenario.country
+}
+
+function filterRowsByCountry(rows: Rows, country: string): Rows {
+  if (!rows.length) return rows
+  const normalizedCountry = country.trim().toLowerCase()
+  const countryHeaderIndex = rows.findIndex((row) => String(row[0] ?? '').trim().toLowerCase() === 'country')
+  if (countryHeaderIndex === -1) return rows
+
+  const prefaceRows = rows.slice(0, countryHeaderIndex)
+  const headerRow = rows[countryHeaderIndex]
+  const dataRows = rows.slice(countryHeaderIndex + 1)
+  const filteredDataRows = dataRows.filter((row) => String(row[0] ?? '').trim().toLowerCase() === normalizedCountry)
+
+  return filteredDataRows.length ? [...prefaceRows, headerRow, ...filteredDataRows] : [...prefaceRows, headerRow]
+}
 function fallbackRows(step: number): Rows {
   if (step === 1) {
     return [
@@ -113,7 +135,10 @@ function StepProgress({ activeStep }: { activeStep: number }) {
 
 function DedicatedStepPage({ step }: { step: 1 | 2 | 3 | 4 | 5 }) {
   const meta = stepMeta[step - 1]
-  const rows = uploadedRows(meta.sheet) ?? fallbackRows(step)
+  const selectedCountry = getSelectedCountry()
+  const rows = uploadedRows(meta.sheet)
+    ? filterRowsByCountry(uploadedRows(meta.sheet) ?? [], selectedCountry)
+    : fallbackRows(step)
   return (
     <div className="space-y-5 pb-8">
       <header className="space-y-2">
