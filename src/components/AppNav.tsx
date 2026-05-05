@@ -3,7 +3,6 @@ import {
   Menu,
   X,
   LayoutDashboard,
-  Workflow,
   CircleDot,
   ClipboardList,
   FileText,
@@ -14,19 +13,21 @@ import {
   Globe2,
 } from 'lucide-react'
 
-const primaryItems = [
+const mainItems = [
   { to: '/', label: 'Overview', icon: LayoutDashboard, exact: true },
   { to: '/input-data', label: 'Input Data', icon: Database },
-  { to: '/final-report', label: 'Final Report', icon: FileText },
 ]
 
 const decisionFlowItems = [
-  { to: '/decision-flow', label: 'Decision Flow', icon: Workflow },
   { to: '/decision-flow/step-1', label: 'Step 1: Development Challenge', icon: ClipboardList },
   { to: '/decision-flow/step-2', label: 'Step 2: Intermediary Mapping', icon: Network },
   { to: '/decision-flow/step-3', label: 'Step 3: Barrier Diagnosis', icon: ShieldAlert },
   { to: '/decision-flow/step-4', label: 'Step 4: Finance Tool', icon: CircleDollarSign },
   { to: '/decision-flow/step-5', label: 'Step 5: Expansion Model', icon: Globe2 },
+]
+
+const reportItems = [
+  { to: '/final-report', label: 'Final Report', icon: FileText },
 ]
 
 type AppNavProps = {
@@ -76,42 +77,9 @@ export function AppNav({ isOpen, onToggle, onNavigate }: AppNavProps) {
       </div>
 
       <nav className={`flex-1 overflow-y-auto px-4 py-5 space-y-6 ${isDefault ? 'px-3 md:px-4' : isCollapsed ? 'px-3' : ''}`}>
-        <div>
-          <p className={`text-[11px] font-semibold tracking-[0.08em] text-blue-200/70 px-3 mb-2 ${labelVisibility}`}>MAIN MENU</p>
-          <div className="space-y-2">
-            {primaryItems.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                activeOptions={{ exact: item.exact }}
-                onClick={onNavigate}
-                title={item.label}
-                className={`flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-blue-100 hover:bg-white/10 transition-colors [&.active]:bg-[#0f4a88] ${collapsedLinkLayout}`}
-              >
-                <item.icon className="h-4 w-4 shrink-0" />
-                <span className={labelVisibility}>{item.label}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <p className={`text-[11px] font-semibold tracking-[0.08em] text-blue-200/70 px-3 mb-2 ${labelVisibility}`}>DECISION FLOW</p>
-          <div className="space-y-2">
-            {decisionFlowItems.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                onClick={onNavigate}
-                title={item.label}
-                className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-blue-100 hover:bg-white/10 transition-colors [&.active]:bg-white/15 ${collapsedLinkLayout}`}
-              >
-                <item.icon className="h-4 w-4 shrink-0" />
-                <span className={labelVisibility}>{item.label}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
+        <NavGroup title="MAIN MENU" items={mainItems} onNavigate={onNavigate} labelVisibility={labelVisibility} collapsedLinkLayout={collapsedLinkLayout} />
+        <NavGroup title="DECISION FLOW" items={decisionFlowItems} onNavigate={onNavigate} labelVisibility={labelVisibility} collapsedLinkLayout={collapsedLinkLayout} />
+        <NavGroup title="OUTPUT" items={reportItems} onNavigate={onNavigate} labelVisibility={labelVisibility} collapsedLinkLayout={collapsedLinkLayout} />
       </nav>
 
       <div className={`m-4 rounded-2xl border border-white/20 bg-white/5 p-4 space-y-2 ${labelVisibility}`}>
@@ -124,5 +92,40 @@ export function AppNav({ isOpen, onToggle, onNavigate }: AppNavProps) {
         <p className="text-xs text-blue-200">Columbia University</p>
       </div>
     </aside>
+  )
+}
+
+function NavGroup({
+  title,
+  items,
+  onNavigate,
+  labelVisibility,
+  collapsedLinkLayout,
+}: {
+  title: string
+  items: Array<{ to: string; label: string; icon: React.ComponentType<{ className?: string }>; exact?: boolean }>
+  onNavigate: () => void
+  labelVisibility: string
+  collapsedLinkLayout: string
+}) {
+  return (
+    <div>
+      <p className={`text-[11px] font-semibold tracking-[0.08em] text-blue-200/70 px-3 mb-2 ${labelVisibility}`}>{title}</p>
+      <div className="space-y-2">
+        {items.map((item) => (
+          <Link
+            key={item.to}
+            to={item.to}
+            activeOptions={{ exact: item.exact }}
+            onClick={onNavigate}
+            title={item.label}
+            className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-blue-100 hover:bg-white/10 transition-colors [&.active]:bg-[#0f4a88] ${collapsedLinkLayout}`}
+          >
+            <item.icon className="h-4 w-4 shrink-0" />
+            <span className={labelVisibility}>{item.label}</span>
+          </Link>
+        ))}
+      </div>
+    </div>
   )
 }
