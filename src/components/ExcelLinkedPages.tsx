@@ -262,8 +262,6 @@ export function ExcelLinkedInputDataPage() {
   const { projectId, setProjectId, scenario } = data
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const { workbook, saveWorkbook } = useUploadedWorkbook()
-  const [manualOpen, setManualOpen] = useState(false)
-  const [manualNote, setManualNote] = useState(localStorage.getItem('rpaManualInputNote') ?? '')
   const [status, setStatus] = useState(workbook ? `Loaded ${workbook.fileName}` : 'No workbook uploaded yet.')
 
   const handleWorkbookUpload = async (file: File | undefined) => {
@@ -280,11 +278,6 @@ export function ExcelLinkedInputDataPage() {
     setStatus(`${file.name} linked successfully: ${Object.keys(sheets).join(', ') || 'no Step sheets detected'}`)
   }
 
-  const saveManualInput = () => {
-    localStorage.setItem('rpaManualInputNote', manualNote)
-    setStatus('Manual input saved locally in this browser.')
-  }
-
   return (
     <div className="space-y-5 pb-8">
       <PageHeader badge="Master input layer" title="Input Data" subtitle="Upload Excel, type manual notes, or download the template. Uploaded Step sheets are now linked to the Step 1–5 dashboard pages through browser local storage." />
@@ -292,10 +285,8 @@ export function ExcelLinkedInputDataPage() {
       <input ref={fileInputRef} type="file" accept=".xlsx,.xls" className="hidden" onChange={(event) => handleWorkbookUpload(event.target.files?.[0])} />
       <section className="grid gap-4 xl:grid-cols-3">
         <InputMethodCard icon={Upload} title="Option A — Upload Excel Workbook" action="Upload Excel workbook" onClick={() => fileInputRef.current?.click()}>Upload either the full workbook or an individual Step workbook. The dashboard stores the uploaded Step sheet and updates the corresponding Step page.</InputMethodCard>
-        <InputMethodCard icon={PencilLine} title="Option B — Manual Input Form" action="Open manual form" onClick={() => setManualOpen((value) => !value)}>Open a manual input box for notes or data corrections. Prototype storage is local to the browser.</InputMethodCard>
         <InputMethodCard icon={Download} title="Option C — Download Excel Template" action="Download template" onClick={downloadExcelTemplate}>Download a workbook template with Step 1–5 sheets that match the dashboard pages.</InputMethodCard>
       </section>
-      {manualOpen ? <Card title="Manual Input Form"><textarea value={manualNote} onChange={(event) => setManualNote(event.target.value)} className="min-h-36 w-full rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm" placeholder="Type updates, missing data, or project notes here..." /><button onClick={saveManualInput} className="mt-3 rounded-xl bg-[#0b3566] px-4 py-2 text-sm font-bold text-white">Save manual input locally</button></Card> : null}
       <section className="grid gap-4 lg:grid-cols-[1fr_360px]"><Card title="Data Status"><div className="grid gap-3 md:grid-cols-4"><Field label="Selected project" value={scenario.projectName} /><Field label="Source type" value={workbook ? 'Uploaded workbook linked' : 'Static dataset'} /><Field label="Linked sheets" value={workbook ? Object.keys(workbook.sheets).join(', ') : 'None yet'} multiline /><Field label="Last action" value={status} multiline /></div></Card><Card title="Missing Data Warning" className="border-amber-200 bg-amber-50"><div className="flex gap-3 text-amber-900"><AlertTriangle className="mt-1 h-5 w-5 shrink-0" /><p>Uploaded sheets are stored locally in this browser. Production should connect this flow to a real backend database.</p></div></Card></section>
       <section className="grid gap-4 xl:grid-cols-2">{stepMeta.map((item) => <Card key={item.step} title={`${item.sheet} Preview — ${item.label}`}><MatrixTable rows={workbook?.sheets[item.sheet] ? filterRowsByCountry(workbook.sheets[item.sheet], scenario.country) : fallbackRowsForStep(item.step, data)} /></Card>)}</section>
     </div>
