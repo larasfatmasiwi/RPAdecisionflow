@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import type { ComponentType } from 'react'
 import {
   Menu,
   X,
@@ -103,7 +104,7 @@ function NavGroup({
   collapsedLinkLayout,
 }: {
   title: string
-  items: Array<{ to: string; label: string; icon: React.ComponentType<{ className?: string }>; exact?: boolean }>
+  items: Array<{ to: string; label: string; icon: ComponentType<{ className?: string }>; exact?: boolean }>
   onNavigate: () => void
   labelVisibility: string
   collapsedLinkLayout: string
