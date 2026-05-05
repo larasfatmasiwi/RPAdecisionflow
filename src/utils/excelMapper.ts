@@ -1,13 +1,12 @@
 /**
  * Excel ingestion utility layer.
- * TODO: Replace stub implementations with actual xlsx parsing logic.
- * Suggested library: xlsx (SheetJS) or exceljs
+ * TODO: Replace stub implementations with mapped ExcelJS workbook rows.
+ * Workbook parsing helpers live in src/utils/excelWorkbook.ts.
  *
  * Usage pattern:
- *   import * as XLSX from 'xlsx'
- *   const workbook = XLSX.read(buffer, { type: 'buffer' })
- *   const sheet = workbook.Sheets['Step 1']
- *   const rows = XLSX.utils.sheet_to_json(sheet)
+ *   import { readWorkbookSheets } from '@/utils/excelWorkbook'
+ *   const sheets = await readWorkbookSheets(buffer, ['Step 1'])
+ *   const rows = sheets['Step 1']
  *   const cases = mapStep1Rows(rows)
  */
 
