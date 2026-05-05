@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { FinalReportPage } from '@/components/FiveStepPages'
+import { ExcelLinkedFinalReportPage } from '@/components/ExcelLinkedPages'
 
 export const Route = createFileRoute('/final-report')({
-  component: FinalReportPage,
+  component: ExcelLinkedFinalReportPage,
 })
