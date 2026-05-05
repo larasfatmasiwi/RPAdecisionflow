@@ -13,11 +13,11 @@ import {
   FileText,
   Globe2,
   Network,
-  PencilLine,
-  ShieldAlert,
+    ShieldAlert,
   Sparkles,
   Upload,
 } from 'lucide-react'
+import { financialFeasibilityAssessment, regulatoryAssessmentColumns, regulatoryAssessmentRows } from '@/data/assessmentInputs'
 import {
   countryProfiles,
   expansionScoringByProject,
@@ -257,6 +257,10 @@ function InputMethodCard({ icon: Icon, title, children, action, onClick }: { ico
   )
 }
 
+
+function AssessmentPreview({ title, headers, rows }: { title: string; headers: readonly string[]; rows: readonly (readonly string[])[] }) {
+  return <Card title={title}><div className="overflow-x-auto"><table className="w-full min-w-[1000px] text-xs"><thead><tr className="bg-slate-100">{headers.map((h)=><th key={h} className="px-3 py-2 text-left font-bold">{h}</th>)}</tr></thead><tbody>{rows.map((r,i)=><tr key={i} className="border-t align-top">{r.map((c,j)=><td key={j} className="px-3 py-2 whitespace-pre-wrap">{c}</td>)}</tr>)}</tbody></table></div></Card>
+}
 export function ExcelLinkedInputDataPage() {
   const data = useProjectSelection()
   const { projectId, setProjectId, scenario } = data
@@ -284,11 +288,13 @@ export function ExcelLinkedInputDataPage() {
       <ProjectSelector projectId={projectId} setProjectId={setProjectId} />
       <input ref={fileInputRef} type="file" accept=".xlsx,.xls" className="hidden" onChange={(event) => handleWorkbookUpload(event.target.files?.[0])} />
       <section className="grid gap-4 xl:grid-cols-3">
-        <InputMethodCard icon={Upload} title="Option A — Upload Excel Workbook" action="Upload Excel workbook" onClick={() => fileInputRef.current?.click()}>Upload either the full workbook or an individual Step workbook. The dashboard stores the uploaded Step sheet and updates the corresponding Step page.</InputMethodCard>
-        <InputMethodCard icon={Download} title="Option C — Download Excel Template" action="Download template" onClick={downloadExcelTemplate}>Download a workbook template with Step 1–5 sheets that match the dashboard pages.</InputMethodCard>
+        <InputMethodCard icon={Upload} title="Upload Excel Workbook" action="Upload Excel Workbook" onClick={() => fileInputRef.current?.click()}>Upload either the full workbook or an individual Step workbook. The dashboard stores the uploaded Step sheet and updates the corresponding Step page.</InputMethodCard>
+        <InputMethodCard icon={Download} title="Download Excel Template" action="Download Excel Template" onClick={downloadExcelTemplate}>Download a workbook template with Step 1–5 sheets that match the dashboard pages.</InputMethodCard>
       </section>
       <section className="grid gap-4 lg:grid-cols-[1fr_360px]"><Card title="Data Status"><div className="grid gap-3 md:grid-cols-4"><Field label="Selected project" value={scenario.projectName} /><Field label="Source type" value={workbook ? 'Uploaded workbook linked' : 'Static dataset'} /><Field label="Linked sheets" value={workbook ? Object.keys(workbook.sheets).join(', ') : 'None yet'} multiline /><Field label="Last action" value={status} multiline /></div></Card><Card title="Missing Data Warning" className="border-amber-200 bg-amber-50"><div className="flex gap-3 text-amber-900"><AlertTriangle className="mt-1 h-5 w-5 shrink-0" /><p>Uploaded sheets are stored locally in this browser. Production should connect this flow to a real backend database.</p></div></Card></section>
       <section className="grid gap-4 xl:grid-cols-2">{stepMeta.map((item) => <Card key={item.step} title={`${item.sheet} Preview — ${item.label}`}><MatrixTable rows={workbook?.sheets[item.sheet] ? filterRowsByCountry(workbook.sheets[item.sheet], scenario.country) : fallbackRowsForStep(item.step, data)} /></Card>)}</section>
+      <AssessmentPreview title="Financial Feasibility Assessment" headers={financialFeasibilityAssessment.columns} rows={financialFeasibilityAssessment.rows} />
+      <AssessmentPreview title="Regulatory Assessment" headers={regulatoryAssessmentColumns} rows={regulatoryAssessmentRows} />
     </div>
   )
 }

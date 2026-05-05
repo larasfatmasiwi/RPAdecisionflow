@@ -4,6 +4,7 @@ import { ArrowRight, ClipboardList, Network, ShieldAlert, CircleDollarSign, Glob
 import { Radar } from 'react-chartjs-2'
 import { ArcElement, CategoryScale, Chart as ChartJS, Filler, Legend, LineElement, PointElement, RadialLinearScale, Tooltip } from 'chart.js'
 import { countryProfiles, expansionScoringByProject, projectScenarios, toolScoringByProject } from '@/data/decisionFlowDataset'
+import { financialFeasibilityAssessment, regulatoryAssessmentColumns, regulatoryAssessmentRows } from '@/data/assessmentInputs'
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend, ArcElement, CategoryScale)
 
@@ -35,17 +36,28 @@ function ScoreRadar({ step, scenarioId }: { step: 4 | 5; scenarioId: string }) {
   const rows = step === 4 ? toolScoringByProject[scenarioId] ?? [] : expansionScoringByProject[scenarioId] ?? []
   const labels = step === 4 ? ['Barrier fit', 'Mobilization', 'Financial add.', 'Development add.', 'Concessionality', 'Implementation', 'Impact'] : ['Speed', 'Cost', 'Local ownership', 'Scalability', 'Capacity', 'Regulatory']
   const names = rows.map((r) => step === 4 ? r.tool : r.model)
-  const [selected, setSelected] = useState<string[]>(names)
   const palettes = ['#2563eb', '#16a34a', '#f59e0b', '#ef4444', '#7c3aed']
-  const shown = rows.filter((r) => selected.includes(step === 4 ? r.tool : r.model))
-  const datasets = shown.map((r, idx) => {
+  const datasets = rows.map((r, idx) => {
     const data = step === 4
       ? [r.barrierFit, r.mobilizationPotential, r.financialAdditionality, r.developmentAdditionality, r.concessionalityDiscipline, r.implementationFeasibility, r.impactMeasurability]
       : [r.speed, r.cost, r.localOwnership, r.scalability, r.capacityBuilding, r.regulatoryFeasibility]
     const color = palettes[idx % palettes.length]
     return { label: step === 4 ? r.tool : r.model, data, borderColor: color, backgroundColor: `${color}33` }
   })
-  return <section className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-5"><h3 className="text-sm font-bold text-slate-900">{step === 4 ? 'Tool scoring radar' : 'Expansion model scoring radar'}</h3><div className="mt-2 flex flex-wrap gap-3">{names.map((name) => <label key={name} className="text-xs"><input type="checkbox" checked={selected.includes(name)} onChange={() => setSelected((prev) => prev.includes(name) ? prev.filter((x) => x !== name) : [...prev, name])} className="mr-1" />{name}</label>)}</div><div className="mt-4 h-[340px]"><Radar data={{ labels, datasets }} options={{ responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 5 } } }} /></div></section>
+  return <section className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-5"><h3 className="text-sm font-bold text-slate-900">{step === 4 ? 'Tool scoring radar (click legend once to hide/show)' : 'Expansion model scoring radar (click legend once to hide/show)'}</h3><div className="mt-4 h-[460px]"><Radar data={{ labels, datasets }} options={{ responsive: true, maintainAspectRatio: false, scales: { r: { min: 1, max: 10 } } }} /></div></section>
+}
+
+
+function HeatmapTable({ rows, step }: { rows: Array<Record<string, number | string>>; step: 4 | 5 }) {
+  const cols = step === 4 ? ['barrierFit','mobilizationPotential','financialAdditionality','developmentAdditionality','concessionalityDiscipline','implementationFeasibility','impactMeasurability'] : ['speed','cost','localOwnership','scalability','capacityBuilding','regulatoryFeasibility']
+  const nameKey = step === 4 ? 'tool' : 'model'
+  const label = step === 4 ? 'Tool' : 'Model'
+  const scoreClass = (v: number) => v >= 7 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
+  return <div className="overflow-x-auto rounded-xl border border-slate-200"><table className="w-full min-w-[900px] text-xs"><thead><tr className="bg-slate-100"><th className="px-2 py-2 text-left">{label}</th>{cols.map((c)=><th key={c} className="px-2 py-2 text-left">{c}</th>)}</tr></thead><tbody>{rows.map((r)=><tr key={String(r[nameKey])} className="border-t"><td className="px-2 py-2 font-semibold">{String(r[nameKey])}</td>{cols.map((c)=>{const v=Number(r[c] ?? 0);return <td key={c} className="px-2 py-2"><span className={`rounded px-2 py-1 ${scoreClass(v)}`}>{v}</span></td>})}</tr>)}</tbody></table></div>
+}
+
+function AssessmentTable({ title, headers, rows }: { title: string; headers: readonly string[]; rows: readonly (readonly string[])[] }) {
+ return <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h2 className="text-sm font-bold text-slate-900">{title}</h2><div className="mt-3 overflow-x-auto"><table className="w-full min-w-[1000px] text-xs"><thead><tr className="bg-slate-100">{headers.map((h)=><th key={h} className="px-3 py-2 text-left font-bold">{h}</th>)}</tr></thead><tbody>{rows.map((r,i)=><tr key={i} className="border-t align-top">{r.map((c,j)=><td key={j} className="px-3 py-2 whitespace-pre-wrap">{c}</td>)}</tr>)}</tbody></table></div></section>
 }
 
 function DedicatedStepPage({ step }: { step: 1 | 2 | 3 | 4 | 5 }) {
@@ -58,7 +70,7 @@ function DedicatedStepPage({ step }: { step: 1 | 2 | 3 | 4 | 5 }) {
   const uploaded = uploadedRows(meta.sheet)
   const rows = uploaded ? filterRowsByCountry(uploaded, selectedScenario.country) : fallback
 
-  return <div className="space-y-5 pb-8"><header className="rounded-2xl bg-gradient-to-r from-[#06264a] via-[#0b3566] to-[#0f766e] p-5 text-white"><span className="inline-flex rounded-full bg-white/20 px-3 py-1 text-xs font-bold uppercase">Excel {meta.sheet}</span><h1 className="mt-2 text-2xl font-bold">{meta.sheet} — {meta.label}</h1><p className="text-sm text-blue-100">Selected country: {selectedScenario.country}</p></header><section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h2 className="text-sm font-bold text-slate-900">Worksheet Content from {meta.sheet}</h2><div className="mt-3"><Table rows={rows} /></div></section>{step === 4 ? <ScoreRadar step={4} scenarioId={selectedScenario.id} /> : null}{step === 5 ? <ScoreRadar step={5} scenarioId={selectedScenario.id} /> : null}<div className="flex justify-between gap-3">{step > 1 ? <Link to={`/decision-flow/step-${step - 1}`} className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-700">Previous step</Link> : <span />}{step < 5 ? <Link to={`/decision-flow/step-${step + 1}`} className="inline-flex items-center gap-2 rounded-xl bg-[#0b3566] px-4 py-2 text-sm font-bold text-white">Continue to Step {step + 1}<ArrowRight className="h-4 w-4" /></Link> : <Link to="/final-report" className="inline-flex items-center gap-2 rounded-xl bg-[#0b3566] px-4 py-2 text-sm font-bold text-white">View Final Report<ArrowRight className="h-4 w-4" /></Link>}</div></div>
+  return <div className="space-y-5 pb-8"><header className="rounded-2xl bg-gradient-to-r from-[#06264a] via-[#0b3566] to-[#0f766e] p-5 text-white"><span className="inline-flex rounded-full bg-white/20 px-3 py-1 text-xs font-bold uppercase">Excel {meta.sheet}</span><h1 className="mt-2 text-2xl font-bold">{meta.sheet} — {meta.label}</h1><p className="text-sm text-blue-100">Selected country: {selectedScenario.country}</p></header>{step === 4 ? <AssessmentTable title="Financial Feasibility Assessment" headers={financialFeasibilityAssessment.columns} rows={financialFeasibilityAssessment.rows} /> : null}{step === 5 ? <AssessmentTable title="Regulatory Assessment" headers={regulatoryAssessmentColumns} rows={regulatoryAssessmentRows} /> : null}<section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h2 className="text-sm font-bold text-slate-900">Worksheet Content from {meta.sheet}</h2><div className="mt-3"><Table rows={rows} /></div></section>{step === 4 ? <ScoreRadar step={4} scenarioId={selectedScenario.id} /> : null}{step === 5 ? <ScoreRadar step={5} scenarioId={selectedScenario.id} /> : null}{step === 4 ? <HeatmapTable step={4} rows={toolRows as any} /> : null}{step === 5 ? <HeatmapTable step={5} rows={expansionRows as any} /> : null}<div className="flex justify-between gap-3">{step > 1 ? <Link to={`/decision-flow/step-${step - 1}`} className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-700">Previous step</Link> : <span />}{step < 5 ? <Link to={`/decision-flow/step-${step + 1}`} className="inline-flex items-center gap-2 rounded-xl bg-[#0b3566] px-4 py-2 text-sm font-bold text-white">Continue to Step {step + 1}<ArrowRight className="h-4 w-4" /></Link> : <Link to="/final-report" className="inline-flex items-center gap-2 rounded-xl bg-[#0b3566] px-4 py-2 text-sm font-bold text-white">View Final Report<ArrowRight className="h-4 w-4" /></Link>}</div></div>
 }
 
 export function DedicatedStep1Page() { return <DedicatedStepPage step={1} /> }
