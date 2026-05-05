@@ -34,6 +34,7 @@ type UploadedWorkbook = {
 }
 
 const STORAGE_KEY = 'rpaUploadedWorkbookSheets'
+const PROJECT_KEY = 'rpaSelectedProjectId'
 
 const stepMeta = [
   { step: 1, sheet: 'Step 1', label: 'Development Challenge', path: '/decision-flow/step-1', icon: ClipboardList },
@@ -89,12 +90,19 @@ function useUploadedWorkbook() {
 }
 
 function useProjectSelection() {
-  const [projectId, setProjectId] = useState(projectScenarios[0]?.id ?? '')
+  const [projectId, setProjectIdState] = useState(() => {
+    if (typeof window === 'undefined') return projectScenarios[0]?.id ?? ''
+    return localStorage.getItem(PROJECT_KEY) ?? projectScenarios[0]?.id ?? ''
+  })
   const scenario = useMemo(() => projectScenarios.find((item) => item.id === projectId) ?? projectScenarios[0], [projectId])
   const profile = useMemo(() => countryProfiles.find((item) => item.country === scenario.country), [scenario.country])
   const intermediaries = useMemo(() => intermediaryProfiles.filter((item) => item.country === scenario.country), [scenario.country])
   const toolRows = toolScoringByProject[scenario.id] ?? []
   const expansionRows = expansionScoringByProject[scenario.id] ?? []
+  const setProjectId = (value: string) => {
+    setProjectIdState(value)
+    if (typeof window !== 'undefined') localStorage.setItem(PROJECT_KEY, value)
+  }
   return { projectId, setProjectId, scenario, profile, intermediaries, toolRows, expansionRows }
 }
 
@@ -139,6 +147,20 @@ function ProjectSelector({ projectId, setProjectId }: { projectId: string; setPr
   )
 }
 
+
+function filterRowsByCountry(rows: SheetRows, country: string): SheetRows {
+  if (!rows.length) return rows
+  const normalizedCountry = country.trim().toLowerCase()
+  const countryHeaderIndex = rows.findIndex((row) => String(row[0] ?? '').trim().toLowerCase() === 'country')
+  if (countryHeaderIndex === -1) return rows
+
+  const prefaceRows = rows.slice(0, countryHeaderIndex)
+  const headerRow = rows[countryHeaderIndex]
+  const dataRows = rows.slice(countryHeaderIndex + 1)
+  const filteredDataRows = dataRows.filter((row) => String(row[0] ?? '').trim().toLowerCase() === normalizedCountry)
+
+  return filteredDataRows.length ? [...prefaceRows, headerRow, ...filteredDataRows] : [...prefaceRows, headerRow]
+}
 function MatrixTable({ rows, fallbackTitle }: { rows: SheetRows; fallbackTitle?: string }) {
   if (!rows.length) return <p className="text-sm text-slate-500">{fallbackTitle ?? 'No rows available yet.'}</p>
   return (
@@ -275,7 +297,7 @@ export function ExcelLinkedInputDataPage() {
       </section>
       {manualOpen ? <Card title="Manual Input Form"><textarea value={manualNote} onChange={(event) => setManualNote(event.target.value)} className="min-h-36 w-full rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm" placeholder="Type updates, missing data, or project notes here..." /><button onClick={saveManualInput} className="mt-3 rounded-xl bg-[#0b3566] px-4 py-2 text-sm font-bold text-white">Save manual input locally</button></Card> : null}
       <section className="grid gap-4 lg:grid-cols-[1fr_360px]"><Card title="Data Status"><div className="grid gap-3 md:grid-cols-4"><Field label="Selected project" value={scenario.projectName} /><Field label="Source type" value={workbook ? 'Uploaded workbook linked' : 'Static dataset'} /><Field label="Linked sheets" value={workbook ? Object.keys(workbook.sheets).join(', ') : 'None yet'} multiline /><Field label="Last action" value={status} multiline /></div></Card><Card title="Missing Data Warning" className="border-amber-200 bg-amber-50"><div className="flex gap-3 text-amber-900"><AlertTriangle className="mt-1 h-5 w-5 shrink-0" /><p>Uploaded sheets are stored locally in this browser. Production should connect this flow to a real backend database.</p></div></Card></section>
-      <section className="grid gap-4 xl:grid-cols-2">{stepMeta.map((item) => <Card key={item.step} title={`${item.sheet} Preview — ${item.label}`}><MatrixTable rows={workbook?.sheets[item.sheet] ?? fallbackRowsForStep(item.step, data)} /></Card>)}</section>
+      <section className="grid gap-4 xl:grid-cols-2">{stepMeta.map((item) => <Card key={item.step} title={`${item.sheet} Preview — ${item.label}`}><MatrixTable rows={workbook?.sheets[item.sheet] ? filterRowsByCountry(workbook.sheets[item.sheet], scenario.country) : fallbackRowsForStep(item.step, data)} /></Card>)}</section>
     </div>
   )
 }
@@ -285,7 +307,7 @@ export function ExcelLinkedDecisionStepPage({ step }: { step: 1 | 2 | 3 | 4 | 5 
   const { projectId, setProjectId } = data
   const { workbook } = useUploadedWorkbook()
   const meta = stepMeta[step - 1]
-  const rows = workbook?.sheets[meta.sheet] ?? fallbackRowsForStep(step, data)
+  const rows = workbook?.sheets[meta.sheet] ? filterRowsByCountry(workbook.sheets[meta.sheet], data.scenario.country) : fallbackRowsForStep(step, data)
   return (
     <div className="space-y-5 pb-8">
       <PageHeader badge={`Excel ${meta.sheet}`} title={`${meta.sheet} — ${meta.label}`} subtitle={workbook?.sheets[meta.sheet] ? `Showing uploaded data from ${workbook.fileName}.` : 'Showing default dashboard data. Upload the Excel workbook in Input Data to replace this with workbook content.'} />
