@@ -1,6 +1,5 @@
 import { useMemo, useRef, useState, type ComponentType, type ReactNode } from 'react'
 import { Link } from '@tanstack/react-router'
-import * as XLSX from 'xlsx'
 import {
   ArrowRight,
   CheckCircle2,
@@ -24,6 +23,7 @@ import {
   projectScenarios,
   toolScoringByProject,
 } from '@/data/decisionFlowDataset'
+import { readWorkbookSheets, writeWorkbookFile, type SheetRows } from '@/utils/excelWorkbook'
 
 const stepMeta = [
   { step: 1, label: 'Development Challenge', path: '/decision-flow/step-1', icon: ClipboardList, sheet: 'Step 1' },
@@ -173,17 +173,15 @@ function downloadBlob(filename: string, content: BlobPart, type: string) {
   URL.revokeObjectURL(url)
 }
 
-function downloadExcelTemplate() {
-  const wb = XLSX.utils.book_new()
-  const sheets = {
+async function downloadExcelTemplate() {
+  const sheets: Record<string, SheetRows> = {
     'Step 1': [['Country', 'SDG Goals/NDCs Target', 'Country Challenges', 'Background Information', 'Existing Project', 'Development Rationale', 'Expected Results', 'Quality / Safeguards', 'Sources']],
     'Step 2': [['Country', 'Project Context', 'Intermediary', 'Intermediary Description', 'Intermediary Role', 'Sources']],
     'Step 3': [['Country', 'Project Context', 'Progress Evidence', 'Project Stage', 'Project Barrier', 'Sources']],
     'Step 4': [['Project Name', 'Primary Barrier', 'Best-fitting Tool', 'Highest Average Score', 'Interpretation Note'], ['Tool', 'Barrier fit', 'Mobilization potential', 'Financial additionality', 'Development additionality', 'Concessionality discipline', 'Implementation feasibility', 'Impact measurability', 'Average score', 'Rank', 'Scoring notes']],
     'Step 5': [['Project Name', 'Primary Barrier', 'Best-fitting Model', 'Highest Average Score', 'Interpretation Note'], ['Model', 'Speed', 'Cost', 'Local Ownership', 'Scalability', 'Capacity Building', 'Regulatory Feasibility', 'Average score', 'Rank', 'Scoring notes']],
   }
-  Object.entries(sheets).forEach(([name, rows]) => XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), name))
-  XLSX.writeFile(wb, 'rpa-decision-flow-template.xlsx')
+  await writeWorkbookFile('rpa-decision-flow-template.xlsx', sheets)
 }
 
 function InputMethodCard({ icon: Icon, title, children, action, onClick }: { icon: ComponentType<{ className?: string }>; title: string; children: ReactNode; action: string; onClick: () => void }) {
@@ -205,11 +203,8 @@ export function InputDataPage() {
   const handleWorkbookUpload = async (file: File | undefined) => {
     if (!file) return
     const buffer = await file.arrayBuffer()
-    const workbook = XLSX.read(buffer, { type: 'array' })
-    const summary = workbook.SheetNames.filter((name) => name.startsWith('Step')).map((name) => {
-      const rows = XLSX.utils.sheet_to_json(workbook.Sheets[name], { header: 1 }) as unknown[][]
-      return `${name}: ${rows.filter((row) => row.length).length} rows detected`
-    })
+    const sheets = await readWorkbookSheets(buffer, stepMeta.map((item) => item.sheet))
+    const summary = Object.entries(sheets).map(([name, rows]) => `${name}: ${rows.length} rows detected`)
     localStorage.setItem('rpaUploadedWorkbookSummary', JSON.stringify({ fileName: file.name, summary, uploadedAt: new Date().toISOString() }))
     setUploadStatus(`${file.name} uploaded successfully. ${summary.join(' | ')}`)
   }

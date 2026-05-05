@@ -42,7 +42,8 @@ src/
 ├── data/mockData.ts        # Mock datasets for all 5 scorecard steps
 ├── utils/
 │   ├── recommendations.ts  # Rule-based recommendation logic
-│   └── excelMapper.ts      # Excel ingestion stubs (ready for xlsx parser)
+│   ├── excelWorkbook.ts    # ExcelJS workbook read/write helpers
+│   └── excelMapper.ts      # Excel row mapper stubs
 ├── components/
 │   ├── AppNav.tsx           # Top navigation bar
 │   └── ui/
@@ -86,10 +87,10 @@ netlify dev
 
 ## Excel Integration
 
-The `src/utils/excelMapper.ts` file contains stub mapper functions ready to connect a live Excel parser. To wire up real data:
+The `src/utils/excelWorkbook.ts` file contains ExcelJS helpers for reading uploaded workbooks and writing templates. The `src/utils/excelMapper.ts` file contains mapper functions for converting worksheet rows into app domain types.
 
-1. Install an xlsx parser: `npm install xlsx` or `npm install exceljs`
-2. In the mapper file, replace stub implementations with actual sheet parsing
-3. Pass parsed data to the same TypeScript interfaces used by the UI
+1. Read workbook sheets with `readWorkbookSheets(buffer, ['Step 1'])`
+2. Pass worksheet rows into the mapper functions
+3. Pass mapped data to the same TypeScript interfaces used by the UI
 
 The mock data in `src/data/mockData.ts` mirrors the exact field structure expected by the mapper functions.

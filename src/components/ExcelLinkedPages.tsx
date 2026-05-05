@@ -1,6 +1,5 @@
 import { useMemo, useRef, useState, type ComponentType, type ReactNode } from 'react'
 import { Link } from '@tanstack/react-router'
-import * as XLSX from 'xlsx'
 import { jsPDF } from 'jspdf'
 import {
   AlertTriangle,
@@ -25,8 +24,8 @@ import {
   projectScenarios,
   toolScoringByProject,
 } from '@/data/decisionFlowDataset'
+import { readWorkbookSheets, writeWorkbookFile, type SheetRows } from '@/utils/excelWorkbook'
 
-type SheetRows = Array<Array<string | number | boolean | null>>
 type UploadedWorkbook = {
   fileName: string
   uploadedAt: string
@@ -57,12 +56,6 @@ const defaultStep2Rows: SheetRows = [
   ['Indonesia', 'Pandanduri Mini Hydro Power Plant', 'MENTARI', 'UK-funded clean-energy support programme in Indonesia. Official materials state that MENTARI provided IDR 21 billion in grants to support three hydropower plants with 7 MW total capacity and IDR 210 billion total investment, specifically to improve financial viability and unlock PT SMI financing.', 'MENTARI functions as a catalytic grant/de-risking intermediary. Its role is not generic donor support; it is targeted at solving bankability barriers in small renewable-energy projects.', 'https://www.eeas.europa.eu/delegations/indonesia/sdg-indonesia-one_en\nhttps://mentari.info/2023/03/29/uk-government-to-provide-idr-21-billion-through-mentari-programme-for-a-blended-finance-vehicle-with-pt-smi-to-three-hydropower-plants-in-indonesia/'],
   ['Indonesia', 'Pandanduri Mini Hydro Power Plant', 'EU support to SDG Indonesia One', 'The EU Delegation states that its support to PT SMI under SDG Indonesia One included €2 million in grants to target project sponsors facing higher financial barriers and €3 million of technical assistance for project preparation and strategic capacity building at PT SMI, especially to increase the bankability of small renewable-energy projects.', 'The EU acts as a project-preparation and bankability intermediary, especially through grants plus TA. This is not the same as being the main lender; it is upstream support that helps projects become financeable.', 'https://www.eeas.europa.eu/delegations/indonesia/sdg-indonesia-one_en'],
 ]
-
-function normalizeRows(rows: unknown[][]): SheetRows {
-  return rows
-    .map((row) => row.map((cell) => (cell == null ? '' : typeof cell === 'object' ? String(cell) : (cell as string | number | boolean))))
-    .filter((row) => row.some((cell) => String(cell ?? '').trim() !== ''))
-}
 
 function getStoredWorkbook(): UploadedWorkbook | null {
   if (typeof window === 'undefined') return null
@@ -229,10 +222,12 @@ function fallbackRowsForStep(step: 1 | 2 | 3 | 4 | 5, data: ReturnType<typeof us
   ]
 }
 
-function downloadExcelTemplate() {
-  const wb = XLSX.utils.book_new()
-  stepMeta.forEach((item) => XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(fallbackRowsForStep(item.step, useProjectSelectionPlaceholder)), item.sheet))
-  XLSX.writeFile(wb, 'rpa-decision-flow-template.xlsx')
+async function downloadExcelTemplate() {
+  const sheets: Record<string, SheetRows> = {}
+  stepMeta.forEach((item) => {
+    sheets[item.sheet] = fallbackRowsForStep(item.step, useProjectSelectionPlaceholder)
+  })
+  await writeWorkbookFile('rpa-decision-flow-template.xlsx', sheets)
 }
 
 const useProjectSelectionPlaceholder = {
@@ -271,16 +266,11 @@ export function ExcelLinkedInputDataPage() {
   const handleWorkbookUpload = async (file: File | undefined) => {
     if (!file) return
     const buffer = await file.arrayBuffer()
-    const parsed = XLSX.read(buffer, { type: 'array' })
-    const sheets: Record<string, SheetRows> = {}
-    stepMeta.forEach((item) => {
-      const sheetName = parsed.SheetNames.find((name) => name.trim().toLowerCase() === item.sheet.toLowerCase())
-      if (sheetName) sheets[item.sheet] = normalizeRows(XLSX.utils.sheet_to_json(parsed.Sheets[sheetName], { header: 1, defval: '' }) as unknown[][])
-    })
-    ;['Financial Feasibility Assessment', 'Regulatory Assessment'].forEach((sheet) => {
-      const name = parsed.SheetNames.find((n) => n.trim().toLowerCase() === sheet.toLowerCase())
-      if (name) sheets[sheet] = normalizeRows(XLSX.utils.sheet_to_json(parsed.Sheets[name], { header: 1, defval: '' }) as unknown[][])
-    })
+    const sheets = await readWorkbookSheets(buffer, [
+      ...stepMeta.map((item) => item.sheet),
+      'Financial Feasibility Assessment',
+      'Regulatory Assessment',
+    ])
     const nextWorkbook = { fileName: file.name, uploadedAt: new Date().toISOString(), sheets }
     saveWorkbook(nextWorkbook)
     setStatus(`${file.name} linked successfully: ${Object.keys(sheets).join(', ') || 'no Step sheets detected'}`)

@@ -1,196 +1,275 @@
-import { createFileRoute } from '@tanstack/react-router'
-import type { ComponentType } from 'react'
-import { useMemo, useState } from 'react'
+import { createFileRoute, Link } from '@tanstack/react-router'
+import type { ComponentType, ReactNode } from 'react'
 import {
+  ArrowRight,
+  BadgeDollarSign,
+  BarChart3,
   Building2,
-  Leaf,
-  Landmark,
-  ShieldCheck,
   CircleDollarSign,
-  CircleAlert,
-  ChevronRight,
-  Star,
-  ArrowDownToLine,
+  Globe2,
+  Layers3,
+  Network,
+  ShieldAlert,
+  TrendingUp,
 } from 'lucide-react'
-import { mockBarriers, mockCases, mockExpansionRecommendations } from '@/data/mockData'
-import { worldCountries } from '@/data/countries'
 
 export const Route = createFileRoute('/')({
   component: OverviewPage,
 })
 
-const flowColumns = [
-  {
-    title: 'Identify the Problem',
-    tone: 'bg-emerald-50 text-emerald-900 border-emerald-100',
-    items: ['Challenge: Limited renewable electrification in rural areas', 'Alignment: SDG 7 and SDG 13', 'Problem: High upfront cost and infrastructure gaps'],
-  },
-  {
-    title: 'Assess the Project Opportunity',
-    tone: 'bg-blue-50 text-blue-900 border-blue-100',
-    items: ['Development idea: Mini hydro for rural electricity access', 'Existing project: Pandanduri Mini Hydro (97% complete)', 'Stakeholders: Local government and private developers'],
-  },
-  {
-    title: 'Diagnose Barrier and Stage',
-    tone: 'bg-amber-50 text-amber-900 border-amber-100',
-    items: ['Project stage: Construction / Near Completion', 'Main barrier: Financing structure', 'Risk level: Medium'],
-  },
-  {
-    title: 'Recommend Blended Finance Tool',
-    tone: 'bg-violet-50 text-violet-900 border-violet-100',
-    items: ['Recommended instrument: Conventional Loan', 'Alternative tools: Guarantee, Subordinated Debt', 'Additionality score: Moderate'],
-  },
-  {
-    title: 'Recommend Global Expansion Option',
-    tone: 'bg-cyan-50 text-cyan-900 border-cyan-100',
-    items: ['Expansion readiness: Medium', 'Market suitability: Good', 'Recommended model: Partnership-led Expansion'],
-  },
+const projectStages = [
+  ['Concept', 'Problem, beneficiaries, and early opportunity are identified but the project is not yet structured.'],
+  ['Preparation', 'Feasibility, partners, safeguards, and implementation pathway are being validated.'],
+  ['Structuring', 'Capital stack, risk allocation, intermediary role, and legal pathway are being designed.'],
+  ['Implementation', 'Project is active or nearing launch, with financing and delivery risks still monitored.'],
+]
+
+const barrierDescriptions = [
+  ['Commercial viability', 'Returns, revenue certainty, payback, or risk-adjusted economics are insufficient for fully commercial capital.'],
+  ['Project readiness', 'Permits, feasibility studies, sponsor capacity, procurement, or implementation evidence are incomplete.'],
+  ['Market or regulatory risk', 'Policy uncertainty, licensing, currency exposure, or legal constraints affect tool selection.'],
+  ['Impact evidence gap', 'Development outcomes are promising but measurement, attribution, or verification systems are not mature.'],
+]
+
+const formulas = [
+  ['Funding Gap', 'Total Project Cost - Committed Capital'],
+  ['Capital Mobilization Ratio', 'Private or third-party capital mobilized / concessional capital deployed'],
+  ['Net Present Value', 'Present value of benefits and cash flows - present value of costs'],
+  ['Debt Service Coverage Ratio', 'Cash flow available for debt service / required debt service'],
+  ['Payback Period', 'Years required for cumulative benefits or savings to recover upfront cost'],
+]
+
+const blendedIndicators = [
+  ['Barrier fit', 'How directly the instrument solves the diagnosed barrier.'],
+  ['Mobilization', 'Ability to attract additional public, private, or philanthropic capital.'],
+  ['Financial additionality', 'Whether concessionality changes project viability rather than replacing capital that would already come.'],
+  ['Development additionality', 'Strength of incremental SDG, climate, inclusion, or resilience outcomes.'],
+  ['Concessionality discipline', 'Whether subsidy is limited, justified, transparent, and not excessive.'],
+  ['Implementation feasibility', 'Practicality of deploying the instrument through available partners and legal routes.'],
+  ['Result/Impact measurability', 'Ability to verify outputs, outcomes, or performance triggers credibly.'],
+]
+
+const instruments = [
+  ['Concessional Loan', 'Below-market debt that improves affordability, tenor, or repayment profile.'],
+  ['Guarantee / Risk-sharing', 'Credit support that reduces lender or investor downside risk.'],
+  ['First-loss / Junior Capital', 'Subordinated capital that absorbs early losses and improves senior investor confidence.'],
+  ['Technical Assistance / Grants', 'Non-repayable support for project preparation, capacity, studies, or early implementation gaps.'],
+  ['Hedging / Local-currency Facility', 'Currency or rate-risk mitigation for projects with mismatched revenues and liabilities.'],
+  ['Outcome-based Incentives', 'Payments, rewards, or subsidies tied to verified outputs or outcomes.'],
+]
+
+const expansionIndicators = [
+  ['Speed', 'How quickly the model can enter or scale in a new market.'],
+  ['Cost', 'Relative setup, staffing, compliance, and operating cost.'],
+  ['Local Ownership', 'Degree of local partner control, legitimacy, and accountability.'],
+  ['Scalability', 'Ability to repeat the model across regions, sectors, or project types.'],
+  ['Capacity Building', 'Extent to which the model strengthens local institutions and delivery capability.'],
+  ['Regulatory Feasibility', 'Ease of operating within licensing, data, investment, and sector rules.'],
+]
+
+const expansionOptions = [
+  ['Hybrid', 'RPA retains central technical control while working through strong local implementation partners.'],
+  ['Local Hybrid', 'Local partner leads delivery with RPA providing methods, capital design, and selective oversight.'],
+  ['Deepen Local', 'RPA invests in a durable local platform or institutional partner for repeat projects.'],
+  ['Local Repurposing', 'An existing local entity adapts its mandate or operating model to carry the project approach.'],
+  ['New Build', 'A new local vehicle or delivery unit is established when no suitable platform exists.'],
 ]
 
 function OverviewPage() {
-  const [country, setCountry] = useState('Indonesia')
-
-  const selected = useMemo(() => {
-    const countryCase = mockCases.find((c) => c.country === country)
-    if (!countryCase) return null
-
-    const barrier = mockBarriers.find((b) => b.linkedCaseId === countryCase.id)
-    const expansion = mockExpansionRecommendations.find((e) => e.linkedCaseId === countryCase.id)
-
-    return {
-      countryCase,
-      barrier,
-      expansion,
-    }
-  }, [country])
-
   return (
-    <div className="space-y-4">
-      <section className="bg-white border border-slate-200 rounded-2xl p-4 flex flex-wrap gap-3 items-end">
-        <label className="flex flex-col gap-1 min-w-[220px] flex-1">
-          <span className="text-xs font-semibold text-slate-500">Country</span>
-          <select
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            className="h-10 rounded-xl border border-slate-200 px-3 text-sm text-slate-700 bg-slate-50"
-          >
-            {worldCountries.map((option) => (
-              <option key={option} value={option}>{option}</option>
-            ))}
-          </select>
-        </label>
-        <label className="flex flex-col gap-1 min-w-[180px] flex-1">
-          <span className="text-xs font-semibold text-slate-500">Project</span>
-          <input
-            readOnly
-            value={selected?.countryCase.existingProject ?? 'No project data for this country yet'}
-            className="h-10 rounded-xl border border-slate-200 px-3 text-sm text-slate-700 bg-slate-50"
-          />
-        </label>
-        <label className="flex flex-col gap-1 min-w-[180px] flex-1">
-          <span className="text-xs font-semibold text-slate-500">Primary Barrier</span>
-          <input
-            readOnly
-            value={selected?.barrier?.primaryBarrier ?? 'No barrier data'}
-            className="h-10 rounded-xl border border-slate-200 px-3 text-sm text-slate-700 bg-slate-50"
-          />
-        </label>
-        <label className="flex flex-col gap-1 min-w-[180px] flex-1">
-          <span className="text-xs font-semibold text-slate-500">Recommended Tool</span>
-          <input
-            readOnly
-            value={selected?.barrier?.recommendedTool ?? 'No recommendation data'}
-            className="h-10 rounded-xl border border-slate-200 px-3 text-sm text-slate-700 bg-slate-50"
-          />
-        </label>
-        <button className="h-10 px-5 rounded-xl bg-[#0b3566] text-white text-sm font-semibold inline-flex items-center gap-2">
-          <ArrowDownToLine className="w-4 h-4" />
-          Export Report
-        </button>
-      </section>
-
-      <section className="bg-white border border-slate-200 rounded-2xl p-4 flex flex-wrap items-center gap-5">
+    <div className="space-y-10 pb-12">
+      <section className="relative min-h-[620px] overflow-hidden rounded-[28px] bg-slate-950 text-white">
         <img
-          src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=500&auto=format&fit=crop"
-          alt="Project"
-          className="w-48 h-28 object-cover rounded-xl"
+          src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1800&auto=format&fit=crop"
+          alt="Infrastructure landscape"
+          className="absolute inset-0 h-full w-full object-cover opacity-65"
         />
-        <div className="flex-1 min-w-[260px]">
-          <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Country / Project Overview</p>
-          <h1 className="text-4xl font-bold text-slate-900">{country}</h1>
-          <p className="text-lg text-slate-700 mt-1">{selected?.countryCase.existingProject ?? 'No project data available.'}</p>
-        </div>
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 flex-[1.4] min-w-[320px]">
-          <Meta icon={Leaf} label="SDG Target" value={selected?.countryCase.sdgTarget ?? 'N/A'} />
-          <Meta icon={Building2} label="Project Stage" value={selected?.barrier?.projectStage ?? 'N/A'} />
-          <Meta icon={CircleDollarSign} label="Recommended Tool" value={selected?.barrier?.recommendedTool ?? 'N/A'} />
-          <Meta icon={Landmark} label="Primary Barrier" value={selected?.barrier?.primaryBarrier ?? 'N/A'} />
-          <Meta icon={ShieldCheck} label="Expansion Model" value={selected?.expansion?.recommendedModel ?? 'N/A'} />
-          <Meta icon={CircleAlert} label="Decision Status" value={selected ? 'Proceed with caution' : 'Awaiting data'} warning />
+        <div className="absolute inset-0 bg-slate-950/45" />
+        <div className="relative flex min-h-[620px] max-w-5xl flex-col justify-end px-6 pb-12 pt-20 md:px-12">
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-blue-100">RPA Decision Flow</p>
+          <h1 className="mt-4 max-w-4xl text-5xl font-bold leading-none md:text-7xl">
+            Structure better blended-finance decisions.
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-blue-50">
+            A five-step reference system for diagnosing development barriers, selecting finance instruments, and choosing global expansion pathways.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link to="/input-data" className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-bold text-slate-950">
+              Start input
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link to="/decision-flow/step-1" className="inline-flex items-center gap-2 rounded-full border border-white/40 px-5 py-3 text-sm font-bold text-white">
+              View flow
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {!selected ? (
-        <section className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
-          No case data is available for <span className="font-semibold">{country}</span> yet. Select another country to view country-specific decision data.
-        </section>
-      ) : null}
-
-      <section className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-3">
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
-            {flowColumns.map((column, i) => (
-              <div key={column.title} className={`rounded-xl border p-4 ${column.tone}`}>
-                <div className="flex items-center justify-between gap-2">
-                  <span className="inline-flex w-6 h-6 items-center justify-center rounded-full bg-white font-bold text-xs">{i + 1}</span>
-                  {i < flowColumns.length - 1 ? <ChevronRight className="w-4 h-4" /> : null}
-                </div>
-                <h3 className="font-bold mt-2 mb-3">{column.title}</h3>
-                <ul className="space-y-2 text-xs leading-relaxed">
-                  {column.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+      <ReferenceSection
+        eyebrow="Diagnosis"
+        title="Project Stage and Barrier Description"
+        copy="The first decision is not the instrument. It is the project’s maturity and the constraint that prevents capital or implementation from moving."
+      >
+        <div className="grid gap-4 lg:grid-cols-2">
+          <InfoGroup icon={Building2} title="Project Stage" items={projectStages} />
+          <InfoGroup icon={ShieldAlert} title="Barrier Description" items={barrierDescriptions} />
         </div>
+      </ReferenceSection>
 
-        <aside className="rounded-2xl border border-slate-200 bg-white p-6 text-center">
-          <p className="text-sm font-semibold text-slate-500">Final Recommendation</p>
-          <h3 className="text-3xl font-bold text-slate-900 mt-3 leading-tight">{selected?.barrier?.recommendedTool ?? 'No Tool Recommendation'}</h3>
-          <p className="text-base text-slate-600 mt-2">with {selected?.expansion?.recommendedModel ?? 'No expansion model'}</p>
-          <div className="flex justify-center gap-1 mt-5 text-amber-400">
-            {Array.from({ length: selected ? 4 : 2 }).map((_, i) => (
-              <Star key={i} className="w-5 h-5 fill-current" />
-            ))}
-            <Star className="w-5 h-5 text-slate-300" />
-          </div>
-          <button className="w-full mt-6 h-11 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold">Proceed</button>
-        </aside>
-      </section>
+      <ReferenceSection
+        eyebrow="Assessment"
+        title="Financial Formula"
+        copy="Financial feasibility translates project conditions into testable metrics for funding gap, viability, and concessional capital discipline."
+      >
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+          {formulas.map(([title, description]) => (
+            <FormulaTile key={title} title={title} description={description} />
+          ))}
+        </div>
+      </ReferenceSection>
+
+      <ReferenceSection
+        eyebrow="Instrument Selection"
+        title="Blended Finance Indicators"
+        copy="Each instrument is scored by its ability to solve the actual barrier without over-subsidizing or weakening accountability."
+      >
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {blendedIndicators.map(([title, description]) => (
+            <CompactTile key={title} icon={BarChart3} title={title} description={description} />
+          ))}
+        </div>
+      </ReferenceSection>
+
+      <ReferenceSection
+        eyebrow="Capital Tools"
+        title="Blended Finance Instrument"
+        copy="The tool set spans repayable capital, risk mitigation, grants, currency support, and performance-linked incentives."
+      >
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {instruments.map(([title, description]) => (
+            <CompactTile key={title} icon={CircleDollarSign} title={title} description={description} />
+          ))}
+        </div>
+      </ReferenceSection>
+
+      <ReferenceSection
+        eyebrow="Expansion"
+        title="Global Expansion Options Indicators"
+        copy="Expansion choices should balance speed and scalability with local ownership, compliance, and durable capability building."
+      >
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {expansionIndicators.map(([title, description]) => (
+            <CompactTile key={title} icon={TrendingUp} title={title} description={description} />
+          ))}
+        </div>
+      </ReferenceSection>
+
+      <ReferenceSection
+        eyebrow="Operating Models"
+        title="Global Expansion Option Description"
+        copy="The five models describe how RPA can enter, adapt, or deepen work in a country while managing control, cost, and local legitimacy."
+      >
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+          {expansionOptions.map(([title, description]) => (
+            <ModelTile key={title} title={title} description={description} />
+          ))}
+        </div>
+      </ReferenceSection>
     </div>
   )
 }
 
-function Meta({
-  icon: Icon,
-  label,
-  value,
-  warning = false,
+function ReferenceSection({
+  eyebrow,
+  title,
+  copy,
+  children,
 }: {
-  icon: ComponentType<{ className?: string }>
-  label: string
-  value: string
-  warning?: boolean
+  eyebrow: string
+  title: string
+  copy: string
+  children: ReactNode
 }) {
   return (
-    <div className="min-w-0">
-      <p className="text-xs font-semibold text-slate-500 leading-5">{label}</p>
-      <div className={`mt-1 min-h-10 w-full flex items-start gap-2 rounded-lg px-2 py-2 text-xs font-semibold leading-5 ${warning ? 'bg-amber-50 text-amber-700' : 'bg-emerald-50 text-emerald-700'}`}>
-        <Icon className="w-4 h-4" />
-        <span className="break-words">{value}</span>
+    <section className="mx-auto max-w-7xl space-y-6">
+      <div className="max-w-3xl">
+        <p className="text-sm font-bold uppercase tracking-[0.2em] text-blue-700">{eyebrow}</p>
+        <h2 className="mt-2 text-4xl font-bold tracking-normal text-slate-950 md:text-5xl">{title}</h2>
+        <p className="mt-4 text-base leading-7 text-slate-600">{copy}</p>
       </div>
+      {children}
+    </section>
+  )
+}
+
+function InfoGroup({
+  icon: Icon,
+  title,
+  items,
+}: {
+  icon: ComponentType<{ className?: string }>
+  title: string
+  items: string[][]
+}) {
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="mb-5 flex items-center gap-3">
+        <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-slate-950 text-white">
+          <Icon className="h-5 w-5" />
+        </span>
+        <h3 className="text-xl font-bold text-slate-950">{title}</h3>
+      </div>
+      <div className="space-y-3">
+        {items.map(([itemTitle, description]) => (
+          <div key={itemTitle} className="border-t border-slate-100 pt-3">
+            <p className="font-bold text-slate-900">{itemTitle}</p>
+            <p className="mt-1 text-sm leading-6 text-slate-600">{description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function FormulaTile({ title, description }: { title: string; description: string }) {
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <BadgeDollarSign className="h-5 w-5 text-blue-700" />
+      <h3 className="mt-4 text-lg font-bold text-slate-950">{title}</h3>
+      <p className="mt-2 text-sm leading-6 text-slate-600">{description}</p>
+    </div>
+  )
+}
+
+function CompactTile({
+  icon: Icon,
+  title,
+  description,
+}: {
+  icon: ComponentType<{ className?: string }>
+  title: string
+  description: string
+}) {
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <Icon className="h-5 w-5 text-blue-700" />
+      <h3 className="mt-3 font-bold text-slate-950">{title}</h3>
+      <p className="mt-2 text-sm leading-6 text-slate-600">{description}</p>
+    </div>
+  )
+}
+
+function ModelTile({ title, description }: { title: string; description: string }) {
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="flex items-center justify-between gap-3">
+        <Globe2 className="h-5 w-5 text-blue-700" />
+        <Network className="h-4 w-4 text-slate-400" />
+      </div>
+      <h3 className="mt-4 text-lg font-bold text-slate-950">{title}</h3>
+      <p className="mt-2 text-sm leading-6 text-slate-600">{description}</p>
+      <Layers3 className="mt-5 h-5 w-5 text-slate-300" />
     </div>
   )
 }
