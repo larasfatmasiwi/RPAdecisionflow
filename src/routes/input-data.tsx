@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { InputDataPage } from '@/components/FiveStepPages'
+import { ExcelLinkedInputDataPage } from '@/components/ExcelLinkedPages'
 
 export const Route = createFileRoute('/input-data')({
-  component: InputDataPage,
+  component: ExcelLinkedInputDataPage,
 })
