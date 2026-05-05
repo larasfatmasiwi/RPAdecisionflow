@@ -14,6 +14,7 @@
     "@tanstack/router-plugin": "^1.167.22",
     "@tanstack/store": "^0.10.0",
     "chart.js": "^4.5.1",
+    "jspdf": "^2.5.2",
     "lucide-react": "^0.576.0",
     "react": "^19.2.0",
     "react-chartjs-2": "^5.3.1",
