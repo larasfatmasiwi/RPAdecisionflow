@@ -1,6 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { ExcelLinkedDecisionStepPage } from '@/components/ExcelLinkedPages'
+import { DedicatedStep4Page } from '@/components/DedicatedStepPages'
 
-export const Route = createFileRoute('/decision-flow/step-4')({
-  component: () => <ExcelLinkedDecisionStepPage step={4} />,
-})
+export const Route = createFileRoute('/decision-flow/step-4')({ component: DedicatedStep4Page })
