@@ -4,21 +4,29 @@ import {
   X,
   LayoutDashboard,
   Workflow,
-  ShieldAlert,
-  Wrench,
-  MoveUpRight,
   CircleDot,
+  ClipboardList,
+  FileText,
+  Database,
+  Network,
+  ShieldAlert,
+  CircleDollarSign,
+  Globe2,
 } from 'lucide-react'
 
 const primaryItems = [
   { to: '/', label: 'Overview', icon: LayoutDashboard, exact: true },
+  { to: '/input-data', label: 'Input Data', icon: Database },
+  { to: '/final-report', label: 'Final Report', icon: FileText },
 ]
 
 const decisionFlowItems = [
-  { to: '/recommend', label: 'Decision Flow', icon: Workflow },
-  { to: '/cases', label: 'Barrier Assessment', icon: ShieldAlert },
-  { to: '/tools', label: 'Blended Finance Description', icon: Wrench },
-  { to: '/expansion', label: 'Global Expansion Description', icon: MoveUpRight },
+  { to: '/decision-flow', label: 'Decision Flow', icon: Workflow },
+  { to: '/decision-flow/step-1', label: 'Step 1: Development Challenge', icon: ClipboardList },
+  { to: '/decision-flow/step-2', label: 'Step 2: Intermediary Mapping', icon: Network },
+  { to: '/decision-flow/step-3', label: 'Step 3: Barrier Diagnosis', icon: ShieldAlert },
+  { to: '/decision-flow/step-4', label: 'Step 4: Finance Tool', icon: CircleDollarSign },
+  { to: '/decision-flow/step-5', label: 'Step 5: Expansion Model', icon: Globe2 },
 ]
 
 type AppNavProps = {
@@ -30,7 +38,7 @@ type AppNavProps = {
 export function AppNav({ isOpen, onToggle, onNavigate }: AppNavProps) {
   const isDefault = isOpen === null
   const isCollapsed = isOpen === false
-  const navWidth = isDefault ? 'w-[76px] md:w-[280px]' : isCollapsed ? 'w-[76px]' : 'w-[280px]'
+  const navWidth = isDefault ? 'w-[76px] md:w-[300px]' : isCollapsed ? 'w-[76px]' : 'w-[300px]'
   const navChrome = isDefault
     ? 'items-center px-3 md:items-start md:px-5'
     : isCollapsed
@@ -46,7 +54,7 @@ export function AppNav({ isOpen, onToggle, onNavigate }: AppNavProps) {
       <div className={`flex items-start justify-between gap-4 px-5 py-7 border-b border-white/10 ${navChrome}`}>
         <div className={labelVisibility}>
           <p className="text-xl font-bold leading-tight">RPA Project</p>
-          <p className="text-sm text-blue-100/80">Decision Flow</p>
+          <p className="text-sm text-blue-100/80">5-Step Decision Flow</p>
         </div>
         <button
           type="button"
@@ -68,20 +76,23 @@ export function AppNav({ isOpen, onToggle, onNavigate }: AppNavProps) {
       </div>
 
       <nav className={`flex-1 overflow-y-auto px-4 py-5 space-y-6 ${isDefault ? 'px-3 md:px-4' : isCollapsed ? 'px-3' : ''}`}>
-        <div className="space-y-2">
-          {primaryItems.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              activeOptions={{ exact: item.exact }}
-              onClick={onNavigate}
-              title={item.label}
-              className={`flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-blue-100 hover:bg-white/10 transition-colors [&.active]:bg-[#0f4a88] ${collapsedLinkLayout}`}
-            >
-              <item.icon className="h-4 w-4 shrink-0" />
-              <span className={labelVisibility}>{item.label}</span>
-            </Link>
-          ))}
+        <div>
+          <p className={`text-[11px] font-semibold tracking-[0.08em] text-blue-200/70 px-3 mb-2 ${labelVisibility}`}>MAIN MENU</p>
+          <div className="space-y-2">
+            {primaryItems.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                activeOptions={{ exact: item.exact }}
+                onClick={onNavigate}
+                title={item.label}
+                className={`flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-blue-100 hover:bg-white/10 transition-colors [&.active]:bg-[#0f4a88] ${collapsedLinkLayout}`}
+              >
+                <item.icon className="h-4 w-4 shrink-0" />
+                <span className={labelVisibility}>{item.label}</span>
+              </Link>
+            ))}
+          </div>
         </div>
 
         <div>
