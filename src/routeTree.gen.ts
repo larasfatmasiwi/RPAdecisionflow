@@ -15,13 +15,13 @@ import { Route as InputDataRouteImport } from './routes/input-data'
 import { Route as FinalReportRouteImport } from './routes/final-report'
 import { Route as ExpansionRouteImport } from './routes/expansion'
 import { Route as DecisionFlowRouteImport } from './routes/decision-flow'
+import { Route as CasesRouteImport } from './routes/cases'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as DecisionFlowStep5RouteImport } from './routes/decision-flow.step-5'
 import { Route as DecisionFlowStep4RouteImport } from './routes/decision-flow.step-4'
 import { Route as DecisionFlowStep3RouteImport } from './routes/decision-flow.step-3'
 import { Route as DecisionFlowStep2RouteImport } from './routes/decision-flow.step-2'
 import { Route as DecisionFlowStep1RouteImport } from './routes/decision-flow.step-1'
-import { Route as CasesRouteImport } from './routes/cases'
-import { Route as IndexRouteImport } from './routes/index'
 
 const ToolsRoute = ToolsRouteImport.update({
   id: '/tools',
@@ -53,31 +53,6 @@ const DecisionFlowRoute = DecisionFlowRouteImport.update({
   path: '/decision-flow',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DecisionFlowStep5Route = DecisionFlowStep5RouteImport.update({
-  id: '/decision-flow/step-5',
-  path: '/decision-flow/step-5',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DecisionFlowStep4Route = DecisionFlowStep4RouteImport.update({
-  id: '/decision-flow/step-4',
-  path: '/decision-flow/step-4',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DecisionFlowStep3Route = DecisionFlowStep3RouteImport.update({
-  id: '/decision-flow/step-3',
-  path: '/decision-flow/step-3',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DecisionFlowStep2Route = DecisionFlowStep2RouteImport.update({
-  id: '/decision-flow/step-2',
-  path: '/decision-flow/step-2',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DecisionFlowStep1Route = DecisionFlowStep1RouteImport.update({
-  id: '/decision-flow/step-1',
-  path: '/decision-flow/step-1',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const CasesRoute = CasesRouteImport.update({
   id: '/cases',
   path: '/cases',
@@ -88,110 +63,130 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DecisionFlowStep5Route = DecisionFlowStep5RouteImport.update({
+  id: '/step-5',
+  path: '/step-5',
+  getParentRoute: () => DecisionFlowRoute,
+} as any)
+const DecisionFlowStep4Route = DecisionFlowStep4RouteImport.update({
+  id: '/step-4',
+  path: '/step-4',
+  getParentRoute: () => DecisionFlowRoute,
+} as any)
+const DecisionFlowStep3Route = DecisionFlowStep3RouteImport.update({
+  id: '/step-3',
+  path: '/step-3',
+  getParentRoute: () => DecisionFlowRoute,
+} as any)
+const DecisionFlowStep2Route = DecisionFlowStep2RouteImport.update({
+  id: '/step-2',
+  path: '/step-2',
+  getParentRoute: () => DecisionFlowRoute,
+} as any)
+const DecisionFlowStep1Route = DecisionFlowStep1RouteImport.update({
+  id: '/step-1',
+  path: '/step-1',
+  getParentRoute: () => DecisionFlowRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cases': typeof CasesRoute
-  '/decision-flow/step-1': typeof DecisionFlowStep1Route
-  '/decision-flow/step-2': typeof DecisionFlowStep2Route
-  '/decision-flow/step-3': typeof DecisionFlowStep3Route
-  '/decision-flow/step-4': typeof DecisionFlowStep4Route
-  '/decision-flow/step-5': typeof DecisionFlowStep5Route
-  '/decision-flow': typeof DecisionFlowRoute
+  '/decision-flow': typeof DecisionFlowRouteWithChildren
   '/expansion': typeof ExpansionRoute
   '/final-report': typeof FinalReportRoute
   '/input-data': typeof InputDataRoute
   '/recommend': typeof RecommendRoute
   '/tools': typeof ToolsRoute
+  '/decision-flow/step-1': typeof DecisionFlowStep1Route
+  '/decision-flow/step-2': typeof DecisionFlowStep2Route
+  '/decision-flow/step-3': typeof DecisionFlowStep3Route
+  '/decision-flow/step-4': typeof DecisionFlowStep4Route
+  '/decision-flow/step-5': typeof DecisionFlowStep5Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cases': typeof CasesRoute
-  '/decision-flow/step-1': typeof DecisionFlowStep1Route
-  '/decision-flow/step-2': typeof DecisionFlowStep2Route
-  '/decision-flow/step-3': typeof DecisionFlowStep3Route
-  '/decision-flow/step-4': typeof DecisionFlowStep4Route
-  '/decision-flow/step-5': typeof DecisionFlowStep5Route
-  '/decision-flow': typeof DecisionFlowRoute
+  '/decision-flow': typeof DecisionFlowRouteWithChildren
   '/expansion': typeof ExpansionRoute
   '/final-report': typeof FinalReportRoute
   '/input-data': typeof InputDataRoute
   '/recommend': typeof RecommendRoute
   '/tools': typeof ToolsRoute
+  '/decision-flow/step-1': typeof DecisionFlowStep1Route
+  '/decision-flow/step-2': typeof DecisionFlowStep2Route
+  '/decision-flow/step-3': typeof DecisionFlowStep3Route
+  '/decision-flow/step-4': typeof DecisionFlowStep4Route
+  '/decision-flow/step-5': typeof DecisionFlowStep5Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cases': typeof CasesRoute
-  '/decision-flow/step-1': typeof DecisionFlowStep1Route
-  '/decision-flow/step-2': typeof DecisionFlowStep2Route
-  '/decision-flow/step-3': typeof DecisionFlowStep3Route
-  '/decision-flow/step-4': typeof DecisionFlowStep4Route
-  '/decision-flow/step-5': typeof DecisionFlowStep5Route
-  '/decision-flow': typeof DecisionFlowRoute
+  '/decision-flow': typeof DecisionFlowRouteWithChildren
   '/expansion': typeof ExpansionRoute
   '/final-report': typeof FinalReportRoute
   '/input-data': typeof InputDataRoute
   '/recommend': typeof RecommendRoute
   '/tools': typeof ToolsRoute
+  '/decision-flow/step-1': typeof DecisionFlowStep1Route
+  '/decision-flow/step-2': typeof DecisionFlowStep2Route
+  '/decision-flow/step-3': typeof DecisionFlowStep3Route
+  '/decision-flow/step-4': typeof DecisionFlowStep4Route
+  '/decision-flow/step-5': typeof DecisionFlowStep5Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/cases'
-    | '/decision-flow/step-1'
-    | '/decision-flow/step-2'
-    | '/decision-flow/step-3'
-    | '/decision-flow/step-4'
-    | '/decision-flow/step-5'
     | '/decision-flow'
     | '/expansion'
     | '/final-report'
     | '/input-data'
     | '/recommend'
     | '/tools'
+    | '/decision-flow/step-1'
+    | '/decision-flow/step-2'
+    | '/decision-flow/step-3'
+    | '/decision-flow/step-4'
+    | '/decision-flow/step-5'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/cases'
-    | '/decision-flow/step-1'
-    | '/decision-flow/step-2'
-    | '/decision-flow/step-3'
-    | '/decision-flow/step-4'
-    | '/decision-flow/step-5'
     | '/decision-flow'
     | '/expansion'
     | '/final-report'
     | '/input-data'
     | '/recommend'
     | '/tools'
+    | '/decision-flow/step-1'
+    | '/decision-flow/step-2'
+    | '/decision-flow/step-3'
+    | '/decision-flow/step-4'
+    | '/decision-flow/step-5'
   id:
     | '__root__'
     | '/'
     | '/cases'
-    | '/decision-flow/step-1'
-    | '/decision-flow/step-2'
-    | '/decision-flow/step-3'
-    | '/decision-flow/step-4'
-    | '/decision-flow/step-5'
     | '/decision-flow'
     | '/expansion'
     | '/final-report'
     | '/input-data'
     | '/recommend'
     | '/tools'
+    | '/decision-flow/step-1'
+    | '/decision-flow/step-2'
+    | '/decision-flow/step-3'
+    | '/decision-flow/step-4'
+    | '/decision-flow/step-5'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CasesRoute: typeof CasesRoute
-  DecisionFlowStep1Route: typeof DecisionFlowStep1Route
-  DecisionFlowStep2Route: typeof DecisionFlowStep2Route
-  DecisionFlowStep3Route: typeof DecisionFlowStep3Route
-  DecisionFlowStep4Route: typeof DecisionFlowStep4Route
-  DecisionFlowStep5Route: typeof DecisionFlowStep5Route
-  DecisionFlowRoute: typeof DecisionFlowRoute
+  DecisionFlowRoute: typeof DecisionFlowRouteWithChildren
   ExpansionRoute: typeof ExpansionRoute
   FinalReportRoute: typeof FinalReportRoute
   InputDataRoute: typeof InputDataRoute
@@ -243,41 +238,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DecisionFlowRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/decision-flow/step-5': {
-      id: '/decision-flow/step-5'
-      path: '/decision-flow/step-5'
-      fullPath: '/decision-flow/step-5'
-      preLoaderRoute: typeof DecisionFlowStep5RouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/decision-flow/step-4': {
-      id: '/decision-flow/step-4'
-      path: '/decision-flow/step-4'
-      fullPath: '/decision-flow/step-4'
-      preLoaderRoute: typeof DecisionFlowStep4RouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/decision-flow/step-3': {
-      id: '/decision-flow/step-3'
-      path: '/decision-flow/step-3'
-      fullPath: '/decision-flow/step-3'
-      preLoaderRoute: typeof DecisionFlowStep3RouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/decision-flow/step-2': {
-      id: '/decision-flow/step-2'
-      path: '/decision-flow/step-2'
-      fullPath: '/decision-flow/step-2'
-      preLoaderRoute: typeof DecisionFlowStep2RouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/decision-flow/step-1': {
-      id: '/decision-flow/step-1'
-      path: '/decision-flow/step-1'
-      fullPath: '/decision-flow/step-1'
-      preLoaderRoute: typeof DecisionFlowStep1RouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/cases': {
       id: '/cases'
       path: '/cases'
@@ -292,18 +252,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/decision-flow/step-5': {
+      id: '/decision-flow/step-5'
+      path: '/step-5'
+      fullPath: '/decision-flow/step-5'
+      preLoaderRoute: typeof DecisionFlowStep5RouteImport
+      parentRoute: typeof DecisionFlowRoute
+    }
+    '/decision-flow/step-4': {
+      id: '/decision-flow/step-4'
+      path: '/step-4'
+      fullPath: '/decision-flow/step-4'
+      preLoaderRoute: typeof DecisionFlowStep4RouteImport
+      parentRoute: typeof DecisionFlowRoute
+    }
+    '/decision-flow/step-3': {
+      id: '/decision-flow/step-3'
+      path: '/step-3'
+      fullPath: '/decision-flow/step-3'
+      preLoaderRoute: typeof DecisionFlowStep3RouteImport
+      parentRoute: typeof DecisionFlowRoute
+    }
+    '/decision-flow/step-2': {
+      id: '/decision-flow/step-2'
+      path: '/step-2'
+      fullPath: '/decision-flow/step-2'
+      preLoaderRoute: typeof DecisionFlowStep2RouteImport
+      parentRoute: typeof DecisionFlowRoute
+    }
+    '/decision-flow/step-1': {
+      id: '/decision-flow/step-1'
+      path: '/step-1'
+      fullPath: '/decision-flow/step-1'
+      preLoaderRoute: typeof DecisionFlowStep1RouteImport
+      parentRoute: typeof DecisionFlowRoute
+    }
   }
 }
 
-const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  CasesRoute: CasesRoute,
+interface DecisionFlowRouteChildren {
+  DecisionFlowStep1Route: typeof DecisionFlowStep1Route
+  DecisionFlowStep2Route: typeof DecisionFlowStep2Route
+  DecisionFlowStep3Route: typeof DecisionFlowStep3Route
+  DecisionFlowStep4Route: typeof DecisionFlowStep4Route
+  DecisionFlowStep5Route: typeof DecisionFlowStep5Route
+}
+
+const DecisionFlowRouteChildren: DecisionFlowRouteChildren = {
   DecisionFlowStep1Route: DecisionFlowStep1Route,
   DecisionFlowStep2Route: DecisionFlowStep2Route,
   DecisionFlowStep3Route: DecisionFlowStep3Route,
   DecisionFlowStep4Route: DecisionFlowStep4Route,
   DecisionFlowStep5Route: DecisionFlowStep5Route,
-  DecisionFlowRoute: DecisionFlowRoute,
+}
+
+const DecisionFlowRouteWithChildren = DecisionFlowRoute._addFileChildren(
+  DecisionFlowRouteChildren,
+)
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  CasesRoute: CasesRoute,
+  DecisionFlowRoute: DecisionFlowRouteWithChildren,
   ExpansionRoute: ExpansionRoute,
   FinalReportRoute: FinalReportRoute,
   InputDataRoute: InputDataRoute,
