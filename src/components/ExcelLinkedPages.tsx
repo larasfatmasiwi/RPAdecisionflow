@@ -43,6 +43,20 @@ const stepMeta = [
   { step: 5, sheet: 'Step 5', label: 'Global Expansion Model', path: '/decision-flow/step-5', icon: Globe2 },
 ] as const
 
+const defaultStep2Rows: SheetRows = [
+  ['Identify the organizations, institutions, and actors already working on the challenge in the target country. This step helps clarify the existing ecosystem, understand who is doing what, and assess which intermediaries may be relevant for partnership, learning, or future engagement by RPA.'],
+  [''],
+  ['Worksheet for Step 2'],
+  ['Country', 'Project Context', 'Intermediary', 'Intermediary Description', 'Intermediary Role', 'Sources'],
+  ['Enter the country as in Step 1', 'List any current project, policy, or initiative already responding to the issue referring to Step 1', 'Name the organization, institution, or actor already involved', 'Briefly describe the intermediary and its type, such as NGO, foundation, investor, government agency, incubator, DFI, or service provider', 'Explain what the intermediary is currently doing in relation to the project', 'Provide credible references for all key data, claims, and examples used in the row'],
+  ['Japan', 'Toyota City’s “Zutto Genki! Project”', 'Dream Incubator (DI)', 'Japanese strategy and business-investment firm that has actively promoted Social Impact Bonds in Japan. DI states that it has been promoting SIBs as a mechanism to address social challenges and worked with Toyota City on the care-prevention SIB initiative.', 'DI helped structure the Toyota City SIB model. Its materials explain that the Toyota City project aimed to reduce the number of seniors requiring nursing care and to reduce future care costs through social-participation services.', 'https://www.dreamincubator.co.jp/wp/wp-content/uploads/2022/05/DIREPORT_SIB_EN.pdf\nhttps://www.dreamincubator.co.jp/wp-content/uploads/2021/01/210105_SIB_DI_Toyotacity_EN01.pdf'],
+  ['Japan', 'Toyota City’s “Zutto Genki! Project”', 'Next Rise Social Impact Action LLC (NRS)', 'The operating entity in the Toyota City case. DI’s SIB materials state that Next Rise Social Impact Action LLC was contracted by Toyota City to operate and promote the social services under the project from July 1, 2021 to June 30, 2026.', 'NRS functions as the implementation intermediary. DI’s materials say Toyota City contracted NRS to run and promote the social-participation services and that service providers were selected by NRS.', 'https://www.dreamincubator.co.jp/wp/wp-content/uploads/2022/05/DIREPORT_SIB_EN.pdf'],
+  ['Japan', 'Toyota City’s “Zutto Genki! Project”', 'JAGES (Japan Gerontological Evaluation Study)', 'A research and evaluation body used in the Toyota City case as part of the evidence and impact-measurement system. Toyota City’s materials link the project to academic evaluation and impact assessment.', 'JAGES serves as an evidence and evaluation intermediary. In practice, this kind of actor makes preventive-care projects more credible by helping measure whether participation actually changes care-risk and cost outcomes. Toyota City’s public materials explicitly present the project as a privately led preventive-care initiative using the SIB mechanism.', 'https://www.city.toyota.aichi.jp/_res/projects/default_project/_page_/001/054/238/r0710/01.pdf'],
+  ['Indonesia', 'Pandanduri Mini Hydro Power Plant', 'PT Sarana Multi Infrastruktur (PT SMI)', 'Indonesian state-owned development financing institution and the anchor of SDG Indonesia One. PT SMI describes SDG Indonesia One as a blended-finance platform launched in 2018 that combines philanthropic, donor, bilateral, multilateral, banking, insurance, and other investor funds through development, de-risking, financing, and equity facilities. The Pandanduri Micro Hydro Power Plant (PLTMH Pandanduri) in East Lombok, West Nusa Tenggara, is a small-scale renewable energy project supported through a blended finance structure. Official PT SMI disclosures state that financing disbursed for Pandanduri amounted to IDR 9.6 billion, alongside a Viability Gap Fund (VGF) grant of IDR 2.6 billion. PT SMI’s case-study presentation further indicates a project cost of around IDR 17.3 billion, structured approximately as 55% PT SMI financing, 15% UK MENTARI grant, and 30% project sponsor contribution.', 'PT SMI is the primary platform intermediary in Indonesia. It does not just lend; it structures blended-finance transactions, supports project development, and manages different facilities under SDG Indonesia One. Pandanduri serves as a project-level demonstration of how catalytic grant funding can unlock debt financing for small renewable energy projects that face commercial feasibility constraints. PT SMI states that the project had been delayed for several years due to commercial feasibility issues, and that the VGF grant helped the project reach financial close and obtain a PT SMI loan. As of March 2025, construction progress had reached 97%, and the project was expected to generate 0.58 MW when operational. This makes Pandanduri a late-construction / near-operation example of SDG Indonesia One-style blended finance in practice.', 'https://www.ptsmi.co.id/cfind/source/files/annual-report/annual-report-pt-smi-2024.pdf\nhttps://www.ptsmi.co.id/uk-climate-minister-reviews-pandanduri-micro-hydroelectric-power-plant-appreciates-collaboration-with-pt-smi\nhttps://mentari.info/2023/03/29/uk-government-to-provide-idr-21-billion-through-mentari-programme-for-a-blended-finance-vehicle-with-pt-smi-to-three-hydropower-plants-in-indonesia/\nhttps://www.thkforum.org/wp-content/uploads/2025/07/Delano-Delo-250620-Tri-Hita-Kirana-GBFA-PT-SMI_s-Role-in-Supporting-the-Energy-Transition-in-Indonesia-CLEAN.pdf'],
+  ['Indonesia', 'Pandanduri Mini Hydro Power Plant', 'MENTARI', 'UK-funded clean-energy support programme in Indonesia. Official materials state that MENTARI provided IDR 21 billion in grants to support three hydropower plants with 7 MW total capacity and IDR 210 billion total investment, specifically to improve financial viability and unlock PT SMI financing.', 'MENTARI functions as a catalytic grant/de-risking intermediary. Its role is not generic donor support; it is targeted at solving bankability barriers in small renewable-energy projects.', 'https://www.eeas.europa.eu/delegations/indonesia/sdg-indonesia-one_en\nhttps://mentari.info/2023/03/29/uk-government-to-provide-idr-21-billion-through-mentari-programme-for-a-blended-finance-vehicle-with-pt-smi-to-three-hydropower-plants-in-indonesia/'],
+  ['Indonesia', 'Pandanduri Mini Hydro Power Plant', 'EU support to SDG Indonesia One', 'The EU Delegation states that its support to PT SMI under SDG Indonesia One included €2 million in grants to target project sponsors facing higher financial barriers and €3 million of technical assistance for project preparation and strategic capacity building at PT SMI, especially to increase the bankability of small renewable-energy projects.', 'The EU acts as a project-preparation and bankability intermediary, especially through grants plus TA. This is not the same as being the main lender; it is upstream support that helps projects become financeable.', 'https://www.eeas.europa.eu/delegations/indonesia/sdg-indonesia-one_en'],
+]
+
 function normalizeRows(rows: unknown[][]): SheetRows {
   return rows
     .map((row) => row.map((cell) => (cell == null ? '' : typeof cell === 'object' ? String(cell) : (cell as string | number | boolean))))
@@ -132,7 +146,7 @@ function MatrixTable({ rows, fallbackTitle }: { rows: SheetRows; fallbackTitle?:
       <table className="w-full min-w-[900px] border-collapse text-xs">
         <tbody>
           {rows.map((row, rowIndex) => (
-            <tr key={rowIndex} className={rowIndex === 0 ? 'bg-slate-100 font-bold text-slate-700' : 'border-t border-slate-200 bg-white align-top'}>
+            <tr key={rowIndex} className={rowIndex === 0 || row[0] === 'Country' ? 'bg-slate-100 font-bold text-slate-700' : 'border-t border-slate-200 bg-white align-top'}>
               {row.map((cell, cellIndex) => <td key={`${rowIndex}-${cellIndex}`} className="px-3 py-2 text-slate-700 whitespace-pre-line">{String(cell ?? '')}</td>)}
             </tr>
           ))}
@@ -167,16 +181,14 @@ function StepProgress({ activeStep }: { activeStep: number }) {
 }
 
 function fallbackRowsForStep(step: 1 | 2 | 3 | 4 | 5, data: ReturnType<typeof useProjectSelection>): SheetRows {
-  const { scenario, profile, intermediaries, toolRows, expansionRows } = data
+  const { scenario, profile, toolRows, expansionRows } = data
   if (step === 1) {
     return [
       ['Country', 'SDG Goals/NDCs Target', 'Country Challenges', 'Background Information', 'Existing Project', 'Development Rationale', 'Expected Results', 'Quality / Safeguards', 'Sources'],
       [scenario.country, profile?.sdgTarget ?? '', profile?.challenge ?? '', profile?.background.join('\n') ?? '', scenario.projectName, profile?.developmentRationale.join('\n') ?? '', profile?.expectedResults.join('\n') ?? '', profile?.safeguards.join('\n') ?? '', profile?.sources.join('\n') ?? ''],
     ]
   }
-  if (step === 2) {
-    return [['Country', 'Project Context', 'Intermediary', 'Intermediary Description', 'Intermediary Role', 'Sources'], ...intermediaries.map((item) => [item.country, item.projectContext, item.intermediary, item.description, item.role, item.sources.join('\n')])]
-  }
+  if (step === 2) return defaultStep2Rows
   if (step === 3) {
     return [
       ['Project Stage', 'Barrier category', 'Description / Progress Evidence', 'Recommended Solutions / Diagnosis', 'Sources'],
