@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { CheckCircle2, ChevronRight, FilePlus2, Plus, Save, Trash2 } from 'lucide-react'
 import { worldCountries } from '@/data/countries'
+import { firstIdInitialMockProject } from '@/data/first_id_initial_mock_data'
 
 type ManualRow = Record<string, string>
 type StepId = 1 | 2 | 3 | 4 | 5
@@ -252,9 +253,38 @@ function stateFromProject(project: ManualProject): ManualInputState {
   }
 }
 
+function initialMockProject(): ManualProject {
+  return {
+    ...firstIdInitialMockProject,
+    savedSteps: firstIdInitialMockProject.savedSteps.filter(isStepId),
+  }
+}
+
+function seededProjectStore(): ManualProjectStore {
+  const seedProject = initialMockProject()
+  const draft = stateFromProject(seedProject)
+  return {
+    currentProjectId: seedProject.id,
+    projects: [seedProject],
+    draft,
+  }
+}
+
+function withSeedProject(store: ManualProjectStore): ManualProjectStore {
+  const seedProject = initialMockProject()
+  const hasSeedProject = store.projects.some(
+    (project) => project.id === seedProject.id || (project.country === seedProject.country && project.name === seedProject.name),
+  )
+  if (hasSeedProject) return store
+  return {
+    ...store,
+    projects: [seedProject, ...store.projects],
+  }
+}
+
 function normalizeStore(rawStore: Partial<ManualProjectStore>): ManualProjectStore {
   const base = createStoreFromState(initialState())
-  return {
+  return withSeedProject({
     currentProjectId: rawStore.currentProjectId ?? null,
     projects: rawStore.projects ?? [],
     draft: {
@@ -262,24 +292,34 @@ function normalizeStore(rawStore: Partial<ManualProjectStore>): ManualProjectSto
       ...(rawStore.draft ?? {}),
       tables: { ...initialState().tables, ...(rawStore.draft?.tables ?? {}) },
     },
-  }
+  })
 }
 
 function getStoredStore() {
-  if (typeof window === 'undefined') return createStoreFromState(initialState())
+  if (typeof window === 'undefined') return seededProjectStore()
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY)
-    if (!raw) return createStoreFromState(initialState())
+    if (!raw) {
+      const seededStore = seededProjectStore()
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(seededStore))
+      return seededStore
+    }
     const parsed = JSON.parse(raw) as Partial<ManualProjectStore> & Partial<ManualInputState>
-    if ('projects' in parsed || 'draft' in parsed) return normalizeStore(parsed)
+    if ('projects' in parsed || 'draft' in parsed) {
+      const normalizedStore = normalizeStore(parsed)
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(normalizedStore))
+      return normalizedStore
+    }
     const migratedState: ManualInputState = {
       ...initialState(),
       ...parsed,
       tables: { ...initialState().tables, ...(parsed.tables ?? {}) },
     }
-    return createStoreFromState(migratedState)
+    const migratedStore = withSeedProject(createStoreFromState(migratedState))
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(migratedStore))
+    return migratedStore
   } catch {
-    return createStoreFromState(initialState())
+    return seededProjectStore()
   }
 }
 
